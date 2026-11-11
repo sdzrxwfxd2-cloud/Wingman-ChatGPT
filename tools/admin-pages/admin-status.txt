@@ -1,0 +1,28 @@
+
+@@title
+Status
+@@foot
+The original /admin-status checks, rebuilt on Cloudflare. Live on every load; nothing is written.
+@@body
+  <div id="alert" class="alert" hidden></div>
+  <main>
+    <section class="card glass wide" id="c-chk"><h2><i class="dot"></i>Checks</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-snap"><h2><i class="dot"></i>Weather snapshot</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-up"><h2><i class="dot"></i>Uptime</h2><div class="b m">Checking…</div></section>
+  </main>
+@@script
+(function(){var A=AX;
+function row(name,ok,detail){return'<tr><td>'+A.esc(name)+'</td><td class="'+(ok?'ok-t':'bad-t')+'">'+(ok?'OK':'PROBLEM')+'</td><td>'+detail+'</td></tr>'}
+function wx(h){return h?'last upstream fetch '+A.esc(A.sast(h.t))+', HTTP '+A.esc(h.status)+(h.error?', error: '+A.esc(h.error):'')+(h.lastOk?'; last good '+A.esc(A.sast(h.lastOk)):''):'no fetch recorded yet'}
+async function load(){A.$('#sub').textContent='Checking live…';var t0=performance.now(),d=await A.get('/api/admin/health'),p=d.probes,bad=[];
+  var rows=[['Site up',d.up,'HTTP '+p.site.s+' in '+p.site.ms+' ms'],['METAR function /api/metar',p.metar.s===200,'HTTP '+p.metar.s+' in '+p.metar.ms+' ms'+(p.metar.src?' · from '+A.esc(p.metar.src):'')+'. '+wx(d.health.metar)],
+    ['TAF function /api/taf',p.taf.s===200,'HTTP '+p.taf.s+' in '+p.taf.ms+' ms'+(p.taf.src?' · from '+A.esc(p.taf.src):'')+'. '+wx(d.health.taf)],['Flights function',p.flights.s===200,'HTTP '+p.flights.s+' in '+p.flights.ms+' ms (FAOR test)'],
+    ['Weather model /api/model-weather',p.model.s===200,'HTTP '+p.model.s+' in '+p.model.ms+' ms'],['Admin functions',true,'serving this page']];
+  rows.forEach(function(r){if(!r[1])bad.push(r[0])});
+  A.set('#c-chk',bad.length?'bad':'ok','<table><thead><tr><th>Check</th><th>State</th><th>Detail</th></tr></thead><tbody>'+rows.map(function(r){return row(r[0],r[1],r[2])}).join('')+'</tbody></table><p class="m">Checked '+A.esc(A.sast(d.now,1))+'. Reload to re-check. Deploy '+A.esc(d.deploy.id||'—')+'.</p>');
+  var s=d.snapshot||{},age=s.composedAt?Date.now()-Date.parse(s.composedAt):NaN;
+  A.set('#c-snap',age<30*6e4?'ok':'warn','<div class="kpis"><div class="kpi"><b>'+A.dur(age)+'</b><span>snapshot age</span></div><div class="kpi"><b>'+d.wx.metar.siteN+'</b><span>METAR stations</span></div><div class="kpi"><b>'+d.wx.taf.siteN+'</b><span>TAF stations</span></div></div><p class="m">Composed '+A.esc(A.sast(s.composedAt))+' by the go-around-weather Worker (every 10 min).</p>');
+  var u=d.uptime;A.set('#c-up',u.downs.length?'warn':'ok','<div class="kpis"><div class="kpi"><b>'+(u.all?Math.round(u.allOk*1000/u.all)/10+'%':'—')+'</b><span>up, all checks</span></div><div class="kpi"><b>'+A.n(u.all)+'</b><span>checks</span></div><div class="kpi"><b>'+A.n(u.downs.length)+'</b><span>recent downs</span></div></div><p class="m">'+(u.all?'Since '+A.esc(A.sast(u.allFirst))+', last '+A.esc(A.sast(u.last))+'.':'No checks recorded yet.')+'</p>');
+  var al=A.$('#alert');al.hidden=false;al.className='alert '+(bad.length?'bad':'ok');al.innerHTML=bad.length?'Needs attention<ul>'+bad.map(function(b){return'<li>'+A.esc(b)+'</li>'}).join('')+'</ul>':'All checks passed.';
+  A.$('#sub').textContent='Live · checked '+A.sast(Date.now())+' · '+Math.round(performance.now()-t0)+' ms'}
+A.start(load)})();

@@ -53,7 +53,7 @@ body{margin:0;min-height:100dvh;font:500 15px/1.4 var(--fs);color:var(--tx);back
 .fld span{font:600 11px/1.15 var(--fs);color:var(--tx3);letter-spacing:.01em}
 .fld input,.fld select{width:100%;min-width:0;border:0;padding:0;background:none;color:var(--tx);font:600 17px/1.2 var(--fs);font-variant-numeric:tabular-nums;outline:none;-webkit-appearance:none;appearance:none}
 .fld select{cursor:pointer}.fld select option{color:#111;background:#fff}
-.fld:focus-within{box-shadow:inset 0 0 0 1.5px #22C55E}
+.fld:focus-within,.fld.is-res{box-shadow:inset 0 0 0 1.5px #22C55E}
 /* number inputs: outer .fld ring only — never recolour the inner fill/text/caret */
 .fld input:focus,.fld input:focus-visible,.fld select:focus,.fld select:focus-visible{outline:none;box-shadow:none;background:transparent;caret-color:var(--tx);accent-color:var(--tx)}
 .fld input::selection,.fld select::selection{background:color-mix(in srgb,#22C55E 22%,transparent);color:var(--tx)}

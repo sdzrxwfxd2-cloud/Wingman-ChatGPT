@@ -129,6 +129,10 @@ html[data-theme=night][data-pal=purple] body section#ato .grid>.c .id,html[data-
 html[data-theme=night] .card .wq-nn{color:#B9C3F2;background:rgba(169,184,232,.10)}
 html[data-theme=night][data-pal=purple] .card .wq-nn{color:#D7C4FA;background:rgba(201,180,236,.12)}
 html[data-pal=beige] .card .wq-nn{color:#7A6440;background:rgba(122,100,64,.08)}
+.card .wq-nn-cau{color:#B45309;background:rgba(245,158,11,.16)}
+html[data-theme=night] .card .wq-nn-cau{color:#FBBF24;background:rgba(251,191,36,.16)}
+html[data-theme=night][data-pal=purple] .card .wq-nn-cau{color:#FBBF24;background:rgba(251,191,36,.16)}
+html[data-pal=beige] .card .wq-nn-cau{color:#7A6440;background:rgba(180,130,40,.16)}
 
 
 /* Night icons in the logo palette (logo cobalt #0020C0 sampled from logo_src.png; lifted tints for AA ≥4.5:1 on night surfaces, glow in the exact logo blue). Day themes unchanged. */

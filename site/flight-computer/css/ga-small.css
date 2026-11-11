@@ -1,0 +1,1222 @@
+/* Compact centred CX-3 / E6-B shell. dvh, no new position:fixed. */
+/* Uses dvh, a centred max-width shell, no new position:fixed. */
+
+:root {
+  --ga-small-max: 390px;
+  --ga-small-pad: 12px;
+}
+
+/* ---------- shared chrome ---------- */
+html.ga-small,
+html[data-cx3-size="small"] {
+  --cx3-switcher-height: 48px;
+}
+
+html.ga-small body,
+html[data-cx3-size="small"] body {
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--bg, #0B0716);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Existing theme switcher was position:fixed. In the small mock it
+   sits in document flow at the top so it does not cover the computer. */
+html.ga-small #ga-theme-switcher,
+html[data-cx3-size="small"] #ga-theme-switcher {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  width: min(var(--ga-small-max), calc(100% - 16px));
+  margin: 8px auto 0;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  z-index: 2;
+  order: -3;
+  flex: 0 0 auto;
+}
+
+html.ga-small #ga-small-chrome {
+  order: -2;
+  flex: 0 0 auto;
+}
+
+html.ga-small #window,
+html[data-cx3-size="small"] #content {
+  order: 0;
+  flex: 0 0 auto;
+}
+
+html.ga-small .ga-disclaimer,
+html[data-cx3-size="small"] .ga-disclaimer {
+  order: 2;
+  flex: 0 0 auto;
+}
+
+/* Bootstrap .container / .row can add a 15px horizontal overflow. */
+html.ga-small #window.container,
+html.ga-small .row,
+html.ga-small .col-md-12 {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ga-disclaimer {
+  width: min(var(--ga-small-max), calc(100% - 16px));
+  margin: 10px auto 20px;
+  text-align: center;
+  font: 500 11px/1.4 'Satoshi', 'General Sans', sans-serif;
+  letter-spacing: .04em;
+  color: var(--tx2, rgba(236,228,255,.64));
+}
+
+/* ---------- CX-3 ---------- */
+html[data-cx3-size="small"] {
+  --cx3-width: 390px;
+  --cx3-height: min(740px, calc(100dvh - var(--cx3-switcher-height) - 36px));
+  --cx3-scale: 1;
+  --cx3-screen-ratio: 0.36;
+  --cx3-keypad-ratio: 0.64;
+}
+
+/* In a Calculator card iframe, 100dvh is the iframe itself — keep a
+   natural 740px shell and let the iframe grow to fit. */
+html.ga-embed[data-cx3-size="small"] {
+  --cx3-switcher-height: 0px;
+  --cx3-height: 740px;
+}
+
+html[data-cx3-size="small"] #content {
+  width: min(var(--cx3-width), 100%);
+  max-width: var(--ga-small-max);
+  margin: 8px auto 0;
+  transform: none;
+  transform-origin: top center;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(5,0,20,.55);
+  box-sizing: border-box;
+}
+
+html[data-cx3-size="small"] #cx3-window {
+  height: calc(var(--cx3-height) * var(--cx3-screen-ratio, 0.30));
+}
+
+html[data-cx3-size="small"] .flight-calculator-buttons {
+  height: calc(var(--cx3-height) * var(--cx3-keypad-ratio, 0.70));
+}
+
+html[data-cx3-size="small"] .flight-calculator-button {
+  max-height: calc(var(--cx3-height) * var(--cx3-keypad-ratio, 0.70) * var(--cx3-button-max-ratio, 0.132642));
+}
+
+@media (max-width: 390px) {
+  html[data-cx3-size="small"] {
+    --cx3-width: 100%;
+    --cx3-height: calc(100dvh - var(--cx3-switcher-height) - 44px);
+  }
+  html.ga-embed[data-cx3-size="small"] {
+    --cx3-height: 740px;
+  }
+  html[data-cx3-size="small"] #content {
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  html[data-cx3-size="small"] #ga-theme-switcher,
+  html[data-cx3-size="small"] .ga-disclaimer {
+    width: calc(100% - 16px);
+  }
+}
+
+/* ---------- E6-B ---------- */
+html.ga-small #ga-small-chrome {
+  position: relative;
+  z-index: 3;
+  width: min(var(--ga-small-max), calc(100% - 16px));
+  margin: 8px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+html.ga-small #ga-small-chrome #mode-display {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  font-family: 'Clash Display', 'Satoshi', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--tx, #F7F4FF);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html.ga-small #ga-small-chrome .flipside-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Take existing position:fixed chrome out of the overlay so the
+   wheel is not covered. Not a new fixed element. */
+html.ga-small #main-menu-btn,
+html.ga-small #main-menu-btn .gg-menu,
+html.ga-small #ga-small-chrome,
+html.ga-small #ga-small-chrome > div {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+html.ga-small #main-menu-btn {
+  width: 28px !important;
+  height: 28px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+html.ga-small #main-menu-btn .gg-menu {
+  position: relative !important;
+}
+
+html.ga-small #outer-outer,
+html.ga-small #outer,
+html.ga-small #pan-layer {
+  margin-top: 8px;
+  min-height: 0 !important;
+  width: min(var(--ga-small-max), 100%) !important;
+  max-width: var(--ga-small-max);
+  margin: 0 auto;
+  overflow: hidden;
+  background: transparent !important;
+  position: relative;
+}
+
+html.ga-small #wrap {
+  float: none !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  position: relative !important;
+  margin: 0 auto !important;
+  transform-origin: top center;
+}
+
+html.ga-small #flight-computer {
+  right: auto !important;
+  display: block;
+  margin: 0 auto;
+  transform-origin: top center;
+}
+
+
+/* ---------- site chrome: back button in flow, embed mode ---------- */
+.ga-disclaimer{display:none!important}
+
+html.ga-embed,
+html.ga-embed body,
+html.ga-embed[data-theme][data-pal],
+html.ga-embed[data-theme][data-pal] body{
+  /* Opaque: a transparent iframe composites on white. */
+  background: var(--bg, #0B0716) !important;
+  background-color: var(--bg, #0B0716) !important;
+  min-height: 0 !important;
+  margin: 0;
+  padding: 0;
+}
+html.ga-embed #ga-theme-switcher,
+html.ga-embed .ga-fc-bar,
+html[data-cx3-size="small"].ga-embed #ga-theme-switcher{
+  display: none !important;
+}
+
+html.ga-small #ga-theme-switcher,
+html[data-cx3-size="small"] #ga-theme-switcher{
+  display: none !important;
+}
+
+.ga-fc-bar{
+  order: -4;
+  flex: 0 0 auto;
+  width: min(var(--ga-small-max), calc(100% - 16px));
+  margin: 10px auto 0;
+  box-sizing: border-box;
+  position: static;
+}
+.ga-fc-back{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  border: 0;
+  text-decoration: none;
+  color: var(--tx, #F5F5F7);
+  background: var(--gl, rgba(28,28,30,.55));
+  box-shadow: inset 0 1px 0 var(--hl, rgba(255,255,255,.16)), inset 0 0 0 .5px var(--ln, rgba(255,255,255,.10));
+  font: 600 13px/1 "General Sans","Satoshi",-apple-system,sans-serif;
+  letter-spacing: .01em;
+  -webkit-tap-highlight-color: transparent;
+}
+.ga-fc-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ga-fc-back:active{transform:scale(.96)}
+
+html.ga-embed #content,
+html.ga-embed #window{
+  margin-top: 0;
+}
+
+/* E6-B: keep a 20px inset on each side of the wheel at 390. */
+html.ga-small #wrap,
+html.ga-small #flight-computer{
+  max-width: 100%;
+}
+
+/* tight embed / no 100vh void on the wheel */
+html.ga-embed,
+html.ga-embed body{
+  min-height: 0 !important;
+  height: auto !important;
+}
+html.ga-small #outer-outer,
+html.ga-small #outer,
+html.ga-small #pan-layer,
+html.ga-small #wrap{
+  min-height: 0 !important;
+}
+
+html.ga-small #window,
+html.ga-small #window.container,
+html.ga-small #large-img{
+  min-height: 0 !important;
+  height: auto !important;
+}
+html.ga-small #ga-small-chrome{margin-top:10px;margin-bottom:8px}
+
+/* ---------- E6-B glass control bar (MT t2539) ----------
+   One glass layer (Go Around "status box" glass: --gl, blur 30px,
+   saturate 160%, inset highlight + hairline) holding the menu button,
+   the mode and the side switch. The side switch uses the pill-standard
+   look (--gl2, inset rim) without a second blur (no blur in blur).
+   Long labels truncate; nothing changes size on hover. */
+html.ga-e6b{--e6b-max:390px}
+@media (min-width:700px){html.ga-e6b:not(.ga-embed){--e6b-max:560px}}
+html.ga-e6b.ga-embed{--e6b-max:520px}
+
+html.ga-e6b #ga-small-chrome{
+  width: min(var(--e6b-max), calc(100% - 24px));
+  min-height: 0;
+  margin: 10px auto 12px;
+  padding: 6px;
+  gap: 8px;
+  border-radius: 22px;
+  background: var(--gl, rgba(40,26,74,.48));
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: inset 0 1px 0 var(--hl, rgba(230,215,255,.2)), inset 0 0 0 .5px var(--ln, rgba(210,190,255,.13)), 0 10px 28px -16px var(--sh2, rgba(5,0,20,.7));
+  overflow: hidden;
+}
+html.ga-e6b .ga-fc-bar{width:min(var(--e6b-max), calc(100% - 24px))}
+
+/* menu button: round glass key, theme text colour lines */
+html.ga-e6b #ga-small-chrome #main-menu-btn{
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  background: var(--gl2, rgba(200,170,255,.07));
+  box-shadow: inset 0 1px 0 var(--hl, rgba(230,215,255,.2)), inset 0 0 0 1px var(--hair, rgba(220,200,255,.12));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .25s cubic-bezier(.32,.72,0,1);
+}
+html.ga-e6b #ga-small-chrome #main-menu-btn:active{transform:scale(.94)}
+html.ga-e6b #ga-small-chrome #main-menu-btn .gg-menu{transform:scale(.8)}
+html[data-theme][data-pal].ga-e6b #main-menu-btn .gg-menu,
+html[data-theme][data-pal].ga-e6b #main-menu-btn .gg-menu::before,
+html[data-theme][data-pal].ga-e6b #main-menu-btn .gg-menu::after{background:var(--tx)}
+
+/* mode: small caption + one truncating line */
+html.ga-e6b #ga-small-chrome #mode-display{
+  flex: 1 1 auto;
+  min-width: 0;
+  display: block;
+  font: 600 15px/1.15 'Clash Display','Satoshi',sans-serif;
+  letter-spacing: .01em;
+  color: var(--tx);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  padding: 0 2px;
+}
+html.ga-e6b #ga-small-chrome #mode-display::before{
+  content: "Mode";
+  display: block;
+  font: 600 10px/1.2 'General Sans','Satoshi',sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--tx2);
+  margin-bottom: 2px;
+}
+
+/* side switch: glass pill, fixed size (no hover growth) */
+html.ga-e6b #ga-small-chrome .flipside-btn,
+html.ga-e6b #ga-small-chrome .flipside-btn:hover{
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 62%;
+  height: 40px;
+  padding: 0 16px 0 14px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px !important;
+  background: var(--gl2, rgba(200,170,255,.07)) !important;
+  color: var(--tx) !important;
+  box-shadow: inset 0 1px 0 var(--hl, rgba(230,215,255,.2)), inset 0 0 0 1px var(--hair, rgba(220,200,255,.12)), 0 8px 24px -14px rgba(0,0,0,.35) !important;
+  font: 600 14px/1 'General Sans','Satoshi',-apple-system,sans-serif;
+  letter-spacing: .01em;
+  text-decoration: none !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), background .3s, box-shadow .3s;
+}
+html.ga-e6b #ga-small-chrome .flipside-btn:active{transform:scale(.94)}
+html.ga-e6b #ga-small-chrome .flipside-btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html.ga-e6b #ga-small-chrome .flipside-btn::after{content:none}
+html.ga-e6b #ga-small-chrome .flipside-btn::before{
+  content: "\f2f1";
+  font-family: "Font Awesome 6 Free","FontAwesome";
+  font-weight: 900;
+  font-size: 12px;
+  opacity: .8;
+  flex: 0 0 auto;
+}
+@media (prefers-reduced-motion:reduce){
+  html.ga-e6b #ga-small-chrome .flipside-btn,
+  html.ga-e6b #ga-small-chrome #main-menu-btn{transition:none}
+}
+
+/* the face: sized by the fit script from the SVG viewBox */
+@media (max-width:360px){
+  html.ga-e6b #ga-small-chrome{gap:6px}
+  html.ga-e6b #ga-small-chrome .flipside-btn,
+  html.ga-e6b #ga-small-chrome .flipside-btn:hover{padding:0 12px 0 11px !important;gap:6px;font-size:13px}
+  html.ga-e6b #ga-small-chrome .flipside-btn::before{font-size:11px}
+  html.ga-e6b #ga-small-chrome #mode-display{font-size:14px}
+}
+
+html.ga-e6b #outer-outer{width:100% !important;max-width:100%;overflow:hidden}
+html.ga-e6b #outer,
+html.ga-e6b #pan-layer,
+html.ga-e6b #wrap{overflow:visible}
+html.ga-e6b #flight-computer{max-width:none;overflow:visible}
+html.ga-e6b #ga-small-chrome .flipside-btn:focus{outline:none}
+html.ga-e6b #ga-small-chrome .flipside-btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+/* full page: centre the face + bar in the space under the back button (no empty block under the wheel) */
+html.ga-e6b:not(.ga-embed) #window{margin-top:auto !important;margin-bottom:auto !important;padding-bottom:12px}
+
+/* ---------- E6-B background = runway 2D diagram theme background (MT t2549) ----------
+   body carries .wmr/.night/data-theme (see e6b/index.html), so --wmr-bg comes
+   from rwy/rwy.css per theme. Only the background is taken from .wmr. */
+html.ga-e6b[data-theme][data-pal] body#main-body.wmr{
+  background: var(--wmr-bg) !important;
+  background-color: transparent !important;
+  position: static;
+  max-width: none;
+}
+html.ga-e6b[data-theme][data-pal] body#main-body.wmr #window,
+html.ga-e6b[data-theme][data-pal] body#main-body.wmr #outer-outer,
+html.ga-e6b[data-theme][data-pal] body#main-body.wmr #outer,
+html.ga-e6b[data-theme][data-pal] body#main-body.wmr #pan-layer{
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* ======================================================================
+   E6-B v3 (MT t2559)
+   1. the glass bar floats over the face instead of sitting under it
+   2. zoom keys (glass, top right of the face) — gestures in js/ga-e6b-zoom.js
+   3. the menu on the left redesigned as a Go Around glass sheet
+      (Menu sheet glass, General Sans labels, theme tokens). Same items,
+      ids, classes and app logic; only the look changes.
+   No new position:fixed; the bar uses a negative margin, the keys and
+   the sheet are absolute inside the face column.
+   ====================================================================== */
+
+/* ---------- 1. floating glass bar ---------- */
+html.ga-e6b #outer-outer{touch-action:none}
+html.ga-e6b #ga-small-chrome{
+  position: relative !important;
+  z-index: 1001;
+  width: calc(var(--e6b-face-w, 350px) - 20px);
+  max-width: calc(100% - 24px);
+  margin: calc(-1 * (var(--e6b-bar-h, 52px) + 10px)) auto 10px;
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--hl, rgba(230,215,255,.2)), inset 0 0 0 .5px var(--ln, rgba(210,190,255,.13)), 0 14px 34px -14px var(--sh2, rgba(5,0,20,.7));
+}
+html.ga-e6b[data-theme=day] #ga-small-chrome{
+  background: color-mix(in srgb, var(--gl) 82%, transparent);
+}
+html.ga-e6b #window{padding-bottom:0}
+html.ga-e6b.ga-embed #ga-small-chrome{margin-bottom:10px}
+
+/* ---------- 2. zoom keys ---------- */
+html.ga-e6b .col-md-12{position:relative}
+html.ga-e6b #e6b-zoom{
+  position: absolute;
+  z-index: 1001;
+  top: 10px;
+  right: calc(var(--e6b-face-x, 20px) + 10px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--gl, rgba(40,26,74,.48));
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 .5px var(--ln), 0 10px 26px -14px var(--sh2, rgba(5,0,20,.7));
+  touch-action: manipulation;
+}
+html.ga-e6b #e6b-zoom .e6b-zk{
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  padding: 0; margin: 0;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--tx);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), background .3s, opacity .3s;
+}
+html.ga-e6b #e6b-zoom .e6b-zk svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html.ga-e6b #e6b-zoom .e6b-zk-reset svg{width:15px;height:15px}
+html.ga-e6b #e6b-zoom .e6b-zk:active{transform:scale(.94);background:var(--gl2)}
+html.ga-e6b #e6b-zoom .e6b-zk:focus{outline:none}
+html.ga-e6b #e6b-zoom .e6b-zk:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+html.ga-e6b #e6b-zoom .e6b-zk:disabled{opacity:.34;cursor:default}
+html.ga-e6b #e6b-zoom .e6b-zk-reset{display:none}
+html.ga-e6b #e6b-zoom.is-zoomed .e6b-zk-reset{display:grid}
+html.ga-e6b #e6b-zoom.is-zoomed{box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 1px color-mix(in srgb, var(--acc) 38%, transparent), 0 10px 26px -14px var(--sh2, rgba(5,0,20,.7))}
+@media (hover:hover){html.ga-e6b #e6b-zoom .e6b-zk:not(:disabled):hover{background:var(--gl2)}}
+@media (prefers-reduced-motion:reduce){html.ga-e6b #e6b-zoom .e6b-zk{transition:none}}
+
+/* ---------- 3. menu sheet ---------- */
+html.ga-e6b[data-theme][data-pal] .sidebar{
+  top: 10px;
+  left: calc(var(--e6b-face-x, 20px) + 10px);
+  width: min(300px, calc(100% - 24px));
+  height: auto;
+  max-height: calc(var(--e6b-face-h, 405px) - var(--e6b-bar-h, 52px) - 30px);
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,0) 38%), var(--sheet, rgba(46,26,84,.4016));
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: var(--rimT) 0 .5px 0 0 inset, var(--hair) 0 0 0 .5px inset, var(--sh1) 0 2px 6px 0, var(--sh2) 0 28px 56px -18px;
+  color: var(--tx);
+  font-family: 'General Sans','Satoshi',-apple-system,sans-serif;
+  transition: none;
+  transform-origin: 22px 0;
+  animation: e6bSheetIn .32s cubic-bezier(.32,.72,0,1);
+  scrollbar-width: none;
+}
+html.ga-e6b[data-theme][data-pal] .sidebar::-webkit-scrollbar{display:none}
+html.ga-e6b[data-theme=night][data-pal] .sidebar{
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,0) 38%), color-mix(in srgb, var(--solid) 62%, transparent);
+}
+html.ga-e6b[data-theme=day][data-pal] .sidebar{
+  background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(255,255,255,0) 40%), color-mix(in srgb, var(--solid) 74%, transparent);
+}
+@keyframes e6bSheetIn{
+  from{opacity:0;transform:translateY(-6px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){html.ga-e6b[data-theme][data-pal] .sidebar{animation:none}}
+
+/* the old spacer rows */
+html.ga-e6b .sidebar #leftside-navigation > div,
+html.ga-e6b .sidebar #leftside-navigation > ul > div{display:none}
+html.ga-e6b .sidebar #leftside-navigation{margin:0;padding:0;height:auto}
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content{
+  margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+html.ga-e6b .sidebar #leftside-navigation ul li{
+  list-style: none;
+  border: 0 !important;
+  margin: 0; padding: 0;
+  font-size: 15px !important;
+}
+
+/* every row: icon chip, label, chevron */
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul.nano-content > li > a{
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  padding: 0 12px 0 8px !important;
+  border-radius: 18px;
+  font: 600 15px/1.15 'General Sans','Satoshi',-apple-system,sans-serif;
+  letter-spacing: .01em;
+  color: var(--tx) !important;
+  background: transparent !important;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .3s, box-shadow .3s, transform .25s cubic-bezier(.32,.72,0,1);
+}
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul.nano-content > li > a:active{transform:scale(.98)}
+@media (hover:hover){
+  html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul.nano-content > li > a:hover{background:var(--gl2) !important;color:var(--tx) !important}
+}
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > span{display:flex;align-items:center;gap:12px;color:inherit !important}
+
+/* icon chip (Go Around chip glass) */
+html.ga-e6b .sidebar #leftside-navigation .sim-icon::before,
+html.ga-e6b .sidebar #leftside-navigation .practice-icon::before,
+html.ga-e6b .sidebar #leftside-navigation .quiz-icon::before,
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > i.fa:first-child{
+  flex: 0 0 auto;
+  width: 32px !important; height: 32px;
+  display: inline-grid; place-items: center;
+  border-radius: 50%;
+  background: var(--gl2);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 .5px var(--hair);
+  color: var(--tx);
+  font-size: 13px;
+  line-height: 1;
+  opacity: 1;
+}
+html.ga-e6b .sidebar #leftside-navigation .sim-icon::before{content:"\e163";font-weight:900}
+html.ga-e6b .sidebar #leftside-navigation .practice-icon::before{content:"\f19d";font-weight:900}
+html.ga-e6b .sidebar #leftside-navigation .quiz-icon::before{content:"\f044";font-weight:400}
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > i.fa:first-child{font-size:13px;padding:0 !important}
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > span#menu-tutorial,
+html.ga-e6b .sidebar #leftside-navigation #list-options-a > span{margin-left:-4px}
+
+/* chevron: right end, turns when the list is open */
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > i.arrow{
+  float: none !important;
+  margin-left: auto;
+  width: 18px !important;
+  font-size: 15px;
+  text-align: center;
+  color: var(--tx2);
+  transform: rotate(90deg);
+  transition: transform .32s cubic-bezier(.32,.72,0,1);
+}
+html.ga-e6b .sidebar #leftside-navigation li.sub-menu:has(> ul[style*="block"]) > a > i.arrow{transform:rotate(-90deg)}
+
+/* selected mode: neutral glass thumb, like the site's selected toggles.
+   The trainer marks it by colour (inline #FF671F), so match on that. */
+html.ga-e6b[data-theme=night][data-pal] .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"]{
+  background: rgba(255,255,255,.13) !important;
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 .5px var(--hair), 0 8px 20px -14px rgba(0,0,0,.6);
+}
+html.ga-e6b[data-theme=day][data-pal=white] .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"]{
+  background: color-mix(in srgb, var(--acc) 12%, #fff) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acc) 18%, transparent), 0 8px 20px -14px var(--sh2);
+}
+html.ga-e6b[data-theme=day][data-pal=beige] .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"]{
+  background: color-mix(in srgb, var(--bg2) 55%, #fff) !important;
+  box-shadow: inset 0 0 0 1px var(--hair), 0 8px 20px -14px var(--sh2);
+}
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"] .sim-icon::before,
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"] .practice-icon::before,
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"] .quiz-icon::before,
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a[style*="255, 103, 31"] > i.fa:first-child{
+  background: var(--acc);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 6px 14px -8px var(--acc);
+}
+
+/* open lists (Tutorial, Options): an inset glass well */
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > ul{
+  margin: 4px 2px 6px !important;
+  padding: 6px !important;
+  border-radius: 20px;
+  background: var(--gl2);
+  box-shadow: inset 0 0 0 .5px var(--hair);
+  list-style: none;
+}
+html.ga-e6b .sidebar #leftside-navigation ul ul li{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px !important;
+  border-radius: 14px;
+  font-size: 14px !important;
+}
+html.ga-e6b .sidebar #leftside-navigation ul ul li[style*="none"]{display:none}
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul ul li a,
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul ul > a{
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 0 !important;
+  font: 500 14px/1.25 'General Sans','Satoshi',-apple-system,sans-serif;
+  letter-spacing: .01em;
+  color: var(--tx) !important;
+  background: transparent !important;
+  text-decoration: none;
+}
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul ul li a[style*="255, 103, 31"]{color:var(--acc) !important;font-weight:600}
+html.ga-e6b[data-theme=night][data-pal] .sidebar #leftside-navigation ul ul li a[style*="255, 103, 31"]{color:#fff !important}
+html.ga-e6b[data-theme=night][data-pal] .sidebar #leftside-navigation ul ul li:has(> a[style*="255, 103, 31"]){background:rgba(255,255,255,.10)}
+html.ga-e6b[data-theme=day][data-pal] .sidebar #leftside-navigation ul ul li:has(> a[style*="255, 103, 31"]){background:color-mix(in srgb, var(--acc) 9%, #fff)}
+@media (hover:hover){
+  html.ga-e6b .sidebar #leftside-navigation ul ul li:hover{background:var(--gl2)}
+}
+
+/* Resume: a small accent pill */
+html.ga-e6b[data-theme][data-pal] .sidebar #leftside-navigation ul ul > a#resume-tutorial{
+  flex: 0 0 auto;
+  display: inline-flex !important;
+  align-items: center;
+  height: 32px;
+  margin: 2px 4px 6px;
+  padding: 0 14px !important;
+  border-radius: 999px;
+  background: var(--acc) !important;
+  color: #fff !important;
+  font: 600 13px/1 'General Sans','Satoshi',sans-serif;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 8px 18px -10px var(--acc);
+}
+html.ga-e6b .sidebar #leftside-navigation ul ul > a#resume-tutorial[style*="none"]{display:none !important}
+
+/* tutorial ticks: round glass, accent when done */
+html.ga-e6b .sidebar .fake-checkbox,
+html.ga-e6b .sidebar .fake-checkbox-checked{
+  flex: 0 0 auto;
+  width: 20px; height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--tx2);
+  position: relative;
+  vertical-align: middle;
+}
+html.ga-e6b .sidebar .fake-checkbox .checkmark{visibility:hidden}
+html.ga-e6b .sidebar .fake-checkbox-checked{
+  background: var(--acc);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
+}
+html.ga-e6b .sidebar .fake-checkbox-checked .checkmark{visibility:visible}
+html.ga-e6b .sidebar .checkmark{position:absolute;left:0;top:0;width:20px;height:20px;transform:rotate(45deg)}
+html.ga-e6b .sidebar .checkmark_stem{background:#fff;width:2px;height:10px;left:10px;top:4px}
+html.ga-e6b .sidebar .checkmark_kick{background:#fff;width:4px;height:2px;left:7px;top:12px}
+html.ga-e6b .sidebar .disable-tutorial-item{opacity:.42}
+
+/* tutorial progress */
+html.ga-e6b .sidebar #walk-thru-progress{
+  width: auto;
+  margin: 8px 8px 2px;
+  height: 22px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--gl2);
+  box-shadow: inset 0 0 0 .5px var(--hair);
+}
+html.ga-e6b .sidebar #walk-thru-bar{
+  height: 22px;
+  min-width: 64px;
+  border-radius: 999px;
+  background: var(--acc);
+  color: #fff;
+  font: 600 11px/22px 'General Sans','Satoshi',sans-serif;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+/* copyright line */
+html.ga-e6b[data-theme][data-pal] .sidebar #about-info{
+  margin: 8px 8px 2px;
+  padding: 10px 6px 4px;
+  border-top: .5px solid var(--hair);
+  font: 500 11px/1.45 'Satoshi','General Sans',sans-serif;
+  letter-spacing: .02em;
+  color: var(--tx2);
+}
+/* old menu offsets/sizes that fight the sheet */
+html.ga-e6b .sidebar #leftside-navigation li.sliderule-side,
+html.ga-e6b .sidebar #leftside-navigation li.wind-side,
+html.ga-e6b .sidebar #leftside-navigation li.full-screen{margin-left:0 !important;font-size:14px !important}
+html.ga-e6b .sidebar #leftside-navigation li > a > span,
+html.ga-e6b .sidebar #leftside-navigation li > a > span.sub-menu{font-size:inherit !important}
+/* one sheet at a time: the zoom keys step aside while the menu is open */
+html.ga-e6b #e6b-zoom{transition:opacity .2s}
+html.ga-e6b .col-md-12:has(> aside.sidebar[style*="block"]) #e6b-zoom{opacity:0;pointer-events:none}
+/* narrow faces (Calculator card wind side): the bar may reach past the face so the mode never truncates */
+html.ga-e6b #ga-small-chrome{width:min(calc(100% - 24px), max(calc(var(--e6b-face-w, 350px) - 20px), 318px))}
+/* day themes: a firmer glass so the keys read over the light dial */
+html.ga-e6b[data-theme=day] #e6b-zoom{background:color-mix(in srgb, var(--solid) 78%, transparent)}
+html.ga-e6b[data-theme=night] #e6b-zoom{background:color-mix(in srgb, var(--solid) 58%, transparent)}
+
+/* ======================================================================
+   E6-B v4 (MT t2568)
+   Smooth dials, draggable glass bars, silent lessons, glass popups
+   in every theme, clearer menu names, glass X / expand keys.
+   No new position:fixed. All rules scoped to html.ga-e6b.
+   ====================================================================== */
+
+/* will-change only while a dial or bar is moving (class set from JS) */
+html.ga-e6b.e6b-dialing #tas-dial,
+html.ga-e6b.e6b-dialing #plot-group,
+html.ga-e6b.e6b-dialing #true-index{transform-box:view-box}
+
+/* ---------- draggable glass bars (chrome + zoom keys) ---------- */
+html.ga-e6b #ga-small-chrome.e6b-draggable,
+html.ga-e6b #e6b-zoom.e6b-draggable{
+  cursor: grab;
+  touch-action: none;
+}
+html.ga-e6b #ga-small-chrome.e6b-draggable.is-dragging,
+html.ga-e6b #e6b-zoom.e6b-draggable.is-dragging,
+html.ga-e6b .modal.e6b-draggable.is-dragging,
+html.ga-e6b .form-popup.e6b-draggable.is-dragging{cursor:grabbing}
+html.ga-e6b #ga-small-chrome.e6b-draggable #main-menu-btn,
+html.ga-e6b #ga-small-chrome.e6b-draggable .flipside-btn,
+html.ga-e6b #e6b-zoom.e6b-draggable .e6b-zk{cursor:pointer}
+/* a small grab ridge on the bar, so it's clear the bar itself can move */
+html.ga-e6b #ga-small-chrome.e6b-draggable::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:5px;
+  width:28px;height:3px;
+  margin-left:-14px;
+  border-radius:999px;
+  background:var(--tx2);
+  opacity:.35;
+  pointer-events:none;
+}
+html.ga-e6b #ga-small-chrome{position:relative !important}
+
+/* ---------- hide all voice / audio controls ---------- */
+html.ga-e6b .button3.audio,
+html.ga-e6b #sound_icon,
+html.ga-e6b .modal-footer .audio{display:none !important}
+
+/* the old drag-icon graphic is replaced by a grab cursor + header handle */
+html.ga-e6b .mobile-drag-icon,
+html.ga-e6b #modal-drag-icon,
+html.ga-e6b #practice-modal-drag-icon,
+html.ga-e6b #score-modal-drag-icon,
+html.ga-e6b #quiz-drag-icon,
+html.ga-e6b #custom-modal-drag-icon{display:none !important}
+
+/* ---------- glass popups (tutorial, practice, quiz, score) ---------- */
+html.ga-e6b[data-theme][data-pal] .modal,
+html.ga-e6b[data-theme][data-pal] .custom-modal,
+html.ga-e6b[data-theme][data-pal] .walkthrough-modal{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-family: 'General Sans','Satoshi',-apple-system,sans-serif;
+  touch-action: none;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-dialog{
+  width: min(360px, calc(100% - 28px)) !important;
+  max-width: calc(100% - 28px);
+  margin: 72px auto 24px !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-content,
+html.ga-e6b[data-theme][data-pal] .custom-modal-content{
+  position: relative;
+  background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,0) 38%), var(--sheet, rgba(46,26,84,.92)) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border: 0 !important;
+  border-radius: 28px !important;
+  box-shadow: var(--rimT, rgba(255,255,255,.14)) 0 .5px 0 0 inset, var(--hair) 0 0 0 .5px inset, var(--sh1) 0 2px 6px 0, var(--sh2) 0 28px 56px -18px !important;
+  color: var(--tx);
+  overflow: hidden;
+  padding: 0 0 12px;
+}
+html.ga-e6b[data-theme=night][data-pal] .modal .modal-content{
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,0) 38%), color-mix(in srgb, var(--solid) 78%, transparent) !important;
+}
+html.ga-e6b[data-theme=day][data-pal] .modal .modal-content{
+  background: linear-gradient(160deg, rgba(255,255,255,.62), rgba(255,255,255,0) 40%), color-mix(in srgb, var(--solid) 86%, transparent) !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-header{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 22px 48px 6px 20px !important;
+  color: var(--tx) !important;
+  text-align: left;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-header-msg,
+html.ga-e6b[data-theme][data-pal] .modal h4{
+  margin: 0;
+  font: 600 18px/1.25 'Clash Display','Satoshi',sans-serif;
+  letter-spacing: .01em;
+  color: var(--tx) !important;
+  text-align: left;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-body,
+html.ga-e6b[data-theme][data-pal] .modal .modal-dialog > .modal-body-msg,
+html.ga-e6b[data-theme][data-pal] .modal .modal-body-msg,
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer{
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--tx);
+  font: 500 15px/1.45 'General Sans','Satoshi',sans-serif;
+  text-align: left;
+  padding: 8px 20px !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 16px !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal li,
+html.ga-e6b[data-theme][data-pal] .modal label,
+html.ga-e6b[data-theme][data-pal] .modal p,
+html.ga-e6b[data-theme][data-pal] .modal .bolded{
+  color: var(--tx);
+  font-family: 'General Sans','Satoshi',sans-serif;
+  list-style: none;
+}
+html.ga-e6b[data-theme][data-pal] .modal select{
+  appearance: none;
+  -webkit-appearance: none;
+  height: 36px;
+  padding: 0 28px 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--gl2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23888' stroke-width='2'><path d='M5 8l5 5 5-5'/></svg>") no-repeat right 10px center / 12px;
+  box-shadow: inset 0 0 0 .5px var(--hair);
+  color: var(--tx);
+  font: 600 14px/36px 'General Sans','Satoshi',sans-serif;
+}
+html.ga-e6b[data-theme][data-pal] .modal input[type=checkbox]{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  margin: 0 8px 0 0;
+  vertical-align: middle;
+  border-radius: 6px;
+  background: var(--gl2);
+  box-shadow: inset 0 0 0 1.5px var(--tx2);
+  cursor: pointer;
+}
+html.ga-e6b[data-theme][data-pal] .modal input[type=checkbox]:checked{
+  background: var(--acc);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='white' stroke-width='2' d='M3.5 8.5l3 3 6-7'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px;
+}
+
+/* action pills */
+html.ga-e6b[data-theme][data-pal] .modal .button3,
+html.ga-e6b[data-theme][data-pal] .modal .btn{
+  float: none !important;
+  height: 40px;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--gl2) !important;
+  color: var(--tx) !important;
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 1px var(--hair);
+  font: 600 14px/40px 'General Sans','Satoshi',sans-serif;
+  letter-spacing: .01em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), background .3s;
+}
+html.ga-e6b[data-theme][data-pal] .modal .practice-resume,
+html.ga-e6b[data-theme][data-pal] .modal .quiz-resume,
+html.ga-e6b[data-theme][data-pal] .modal .p-form,
+html.ga-e6b[data-theme][data-pal] .modal .next{
+  background: var(--acc) !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 8px 18px -10px var(--acc);
+}
+html.ga-e6b[data-theme][data-pal] .modal .button3:active{transform:scale(.96)}
+
+/* Close / X: a round glass key in the header, never the old red pill */
+html.ga-e6b[data-theme][data-pal] .modal .e6b-x,
+html.ga-e6b[data-theme][data-pal] .modal .btn-close,
+html.ga-e6b[data-theme][data-pal] .modal .practice-close,
+html.ga-e6b[data-theme][data-pal] .modal .quiz-close,
+html.ga-e6b[data-theme][data-pal] .modal .score-close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  float: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  border-radius: 50% !important;
+  background: var(--gl2) !important;
+  color: var(--tx) !important;
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 1px var(--hair);
+  font: 500 22px/1 'General Sans',sans-serif;
+  z-index: 2;
+}
+html.ga-e6b[data-theme][data-pal] .modal .e6b-x span{display:block;line-height:1;transform:translateY(-1px)}
+
+/* expand / fold arrow on the practice and quiz sheets */
+html.ga-e6b[data-theme][data-pal] .form-popup{
+  background: color-mix(in srgb, var(--solid) 82%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border-radius: 22px 22px 0 0;
+  box-shadow: var(--rimT) 0 .5px 0 0 inset, var(--hair) 0 0 0 .5px inset, var(--sh2) 0 -16px 40px -18px;
+  color: var(--tx);
+  font-family: 'General Sans','Satoshi',sans-serif;
+  overflow: hidden;
+}
+html.ga-e6b[data-theme][data-pal] .form-popup .e6b-expand,
+html.ga-e6b[data-theme][data-pal] .form-popup .arrow-icon{
+  float: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: 8px auto 4px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--gl2);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 1px var(--hair);
+  padding: 0;
+  cursor: grab;
+}
+html.ga-e6b[data-theme][data-pal] .form-popup .arrow-icon.down-arrow-icon,
+html.ga-e6b[data-theme][data-pal] .form-popup .arrow-icon.up-arrow-icon{
+  border: 0;
+  /* chevron drawn with a mask so the old CSS triangle doesn't show */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+  border-width: 0;
+  transform: none;
+  -webkit-transform: none;
+}
+html.ga-e6b[data-theme][data-pal] .form-popup .arrow-icon.up-arrow-icon{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 15l6-6 6 6'/></svg>");
+}
+
+/* menu expand chevron: same glass language as the X / fold keys */
+html.ga-e6b .sidebar #leftside-navigation ul.nano-content > li > a > i.arrow{
+  width: 28px !important;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gl2);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 .5px var(--hair);
+  display: inline-grid !important;
+  place-items: center;
+}
+
+/* Free use (was Simulation): a quieter selected row, same logic */
+html.ga-e6b[data-theme][data-pal] #display > a[style*="255, 103, 31"]{
+  background: var(--gl2) !important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.ga-e6b .modal .button3,
+  html.ga-e6b .modal .e6b-x{transition:none}
+}
+
+
+/* v4 fixes: practice/quiz form lives in .modal-footer, so don't flex the
+   whole footer; keep the sheet above the glass bar; stop label clipping. */
+html.ga-e6b[data-theme][data-pal] .modal{
+  z-index: 1100 !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-content{
+  max-height: min(560px, calc(100dvh - 80px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer{
+  display: block !important;
+  padding: 8px 20px 18px !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer > div,
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer > li,
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer > br{
+  display: block;
+  width: 100%;
+  float: none;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer > li{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer > li > div,
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer .quiz-modal-p{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 4px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer label{
+  flex: 1 1 auto;
+  min-width: 0;
+  font: 500 14px/1.35 'General Sans','Satoshi',sans-serif;
+  color: var(--tx);
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer select{
+  display: inline-block;
+  margin: 6px 0 12px;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer .button3,
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer .btn{
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 8px 0 0;
+  width: auto !important;
+}
+/* keep the X out of the scrolling body */
+html.ga-e6b[data-theme][data-pal] .modal .e6b-x,
+html.ga-e6b[data-theme][data-pal] .modal .practice-close,
+html.ga-e6b[data-theme][data-pal] .modal .quiz-close,
+html.ga-e6b[data-theme][data-pal] .modal .score-close,
+html.ga-e6b[data-theme][data-pal] .modal .btn-close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+/* room for the grab ridge on the glass bar */
+html.ga-e6b #ga-small-chrome{padding-top: 12px;}
+
+/* checkboxes: force the custom box to render even if the trainer inlines styles */
+html.ga-e6b[data-theme][data-pal] .modal input[type=checkbox]{
+  flex: 0 0 auto;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  margin: 1px 0 0 !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* The trainer's .modal is a 285px min-width box at left:5% with padding.
+   Override that so the glass sheet can be a proper 360px card, and so
+   checkboxes aren't painted in the padding and clipped. Existing
+   position:fixed is kept; this does not add a new one. */
+html.ga-e6b[data-theme][data-pal] .modal,
+html.ga-e6b[data-theme][data-pal] .custom-modal,
+html.ga-e6b[data-theme][data-pal] .walkthrough-modal{
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  max-height: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal > .modal-dialog{
+  width: min(360px, calc(100% - 28px)) !important;
+  max-width: calc(100% - 28px);
+  margin: 56px auto 24px !important;
+  min-width: 0 !important;
+  height: auto !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-content > .modal-dialog{
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  position: static !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-content{
+  padding: 0 0 16px !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal .modal-footer{
+  padding: 8px 20px 16px !important;
+  box-sizing: border-box;
+}
+html.ga-e6b[data-theme][data-pal] .modal input[type=checkbox]{
+  display: inline-block !important;
+  position: relative !important;
+  left: auto !important;
+  margin: 1px 0 0 0 !important;
+}
+html.ga-e6b[data-theme][data-pal] .modal-footer .button3.audio,
+html.ga-e6b[data-theme][data-pal] .modal-footer #sound_icon{display:none !important}
+
+/* dragging the glass bar must not select the mode text */
+html.ga-e6b #ga-small-chrome,
+html.ga-e6b #ga-small-chrome #mode-display,
+html.ga-e6b #e6b-zoom,
+html.ga-e6b .modal .modal-header,
+html.ga-e6b .e6b-draggable{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+html.ga-e6b[data-theme][data-pal] .modal li.sliderule-side,
+html.ga-e6b[data-theme][data-pal] .modal li.wind-side,
+html.ga-e6b[data-theme][data-pal] .modal li{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* don't un-hide trainer-hidden footer buttons (e.g. Reset practice) */
+html.ga-e6b[data-theme][data-pal] .modal .button3[style*="none"],
+html.ga-e6b[data-theme][data-pal] .modal .btn[style*="none"]{display:none !important}

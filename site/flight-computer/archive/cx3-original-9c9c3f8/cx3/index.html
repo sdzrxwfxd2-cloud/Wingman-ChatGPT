@@ -1,0 +1,453 @@
+<!doctype html>
+<html data-cx3 data-cx3-size="default">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta
+      name="viewport"
+      content="user-scalable=no, minimum-scale=1, width=device-width, height=device-height"
+    />
+    <link rel="stylesheet" type="text/css" href="css/cx3.css" />
+    <link rel="stylesheet" type="text/css" href="css/widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/themes/standard.css" />
+    <link rel="stylesheet" type="text/css" href="css/themes/night.css" />
+    <link rel="stylesheet" type="text/css" href="css/themes/daylight.css" />
+    <link rel="stylesheet" type="text/css" href="css/misc.css" />
+    <link rel="stylesheet" type="text/css" href="../fonts/ga-fonts.css" />
+    <link rel="stylesheet" type="text/css" href="css/ga-sizing.css" />
+    <link rel="stylesheet" type="text/css" href="css/ga-themes.css" />
+    <script>
+      /* Apply the last-chosen (or ?theme=) Go Around page theme before paint. */
+      (function () {
+        var key = "ga-cx3-theme";
+        var map = {
+          midnight: ["night", "black"],
+          amethyst: ["night", "purple"],
+          pearl: ["day", "white"],
+          champagne: ["day", "beige"]
+        };
+        var id = "midnight";
+        try {
+          var q = new URLSearchParams(location.search).get("theme");
+          if (q && map[q]) id = q;
+          else {
+            var s = localStorage.getItem(key);
+            if (s && map[s]) id = s;
+          }
+        } catch (e) {}
+        document.documentElement.setAttribute("data-theme", map[id][0]);
+        document.documentElement.setAttribute("data-pal", map[id][1]);
+      })();
+    </script>
+    <title>Go Around :: CX-3 Trainer</title>
+    <script type="text/javascript">
+      var DEBUG = false;
+      var DEBUG_EVENTS = false;
+    </script>
+    <script type="text/javascript" src="js/backend/calculator.js"></script>
+    <script type="text/javascript" src="js/backend/formatHmsDms.js"></script>
+    <script type="text/javascript" src="js/backend/units.js"></script>
+    <script type="text/javascript" src="js/backend/StopWatch.js"></script>
+    <script type="text/javascript" src="js/model/definedUnits.js"></script>
+    <script type="text/javascript" src="js/model/defaultUnits.js"></script>
+    <script type="text/javascript" src="js/backend/observable.js"></script>
+    <script type="text/javascript" src="js/backend/variables.js"></script>
+    <script type="text/javascript" src="js/backend/equations.js"></script>
+    <script type="text/javascript" src="js/model/CX3Settings.js"></script>
+    <script type="text/javascript" src="js/model/definedVariables.js"></script>
+    <script type="text/javascript" src="js/model/LinearEquations.js"></script>
+    <script
+      type="text/javascript"
+      src="js/model/GroundSpeedEquations.js"
+    ></script>
+    <script type="text/javascript" src="js/model/AltitudeEquations.js"></script>
+    <script type="text/javascript" src="js/model/AirSpeedEquations.js"></script>
+    <script
+      type="text/javascript"
+      src="js/model/CloudBaseEquations.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/model/StdAtmosphereEquations.js"
+    ></script>
+    <script type="text/javascript" src="js/model/FuelEquations.js"></script>
+    <script type="text/javascript" src="js/model/GlideEquations.js"></script>
+    <script
+      type="text/javascript"
+      src="js/model/WindCorrectionEquations.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/model/CompassHeadingEquations.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/model/TripPlannerEquations.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/model/RhumbLineEquations.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/model/WeightAndBalanceEquations.js"
+    ></script>
+    <script type="text/javascript" src="js/model/CX3Equations.js"></script>
+    <script
+      type="text/javascript"
+      src="js/model/CX3EquationsByUnits.js"
+    ></script>
+    <script type="text/javascript" src="js/model/timezones.js"></script>
+    <script type="text/javascript" src="js/model/CX3UserData.js"></script>
+    <script
+      type="text/javascript"
+      src="js/controller/CX3Calculator.js"
+    ></script>
+    <script type="text/javascript" src="js/view/misc.js"></script>
+    <script type="text/javascript" src="js/controller/EventHandler.js"></script>
+    <script type="text/javascript" src="js/view/BoundUI.js"></script>
+    <script type="text/javascript" src="js/view/Panel.js"></script>
+    <script type="text/javascript" src="js/controller/System.js"></script>
+    <script type="text/javascript" src="js/controller/FileOps.js"></script>
+    <script type="text/javascript" src="js/controller/widgetIDs.js"></script>
+    <script type="text/javascript" src="js/controller/Widget.js"></script>
+    <script
+      type="text/javascript"
+      src="js/controller/CX3MenuItemWidget.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/CalculatorFieldWidget.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/CX3TripItemWidget.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/CX3CalculatorWidget.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/TimerDisplayWidget.js"
+    ></script>
+    <script type="text/javascript" src="js/controller/ListScreen.js"></script>
+    <script type="text/javascript" src="js/controller/TimerScreen.js"></script>
+    <script type="text/javascript" src="js/controller/keypad.js"></script>
+    <script type="text/javascript" src="js/controller/keyboard.js"></script>
+    <script type="text/javascript" src="js/view/screen.js"></script>
+    <script type="text/javascript" src="js/controller/MemoryScreen.js"></script>
+    <script
+      type="text/javascript"
+      src="js/controller/equationScreen.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/tripPlannerScreen.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="js/controller/calculatorScreen.js"
+    ></script>
+    <script type="text/javascript" src="js/controller/application.js"></script>
+    <script type="text/javascript" src="js/view/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/view/keyboard-effects.js"></script>
+
+    <script type="text/javascript">
+      //app.initialize();
+    </script>
+    <script type="text/javascript" src="js/backend/test.js"></script>
+
+    <script>
+      //jQuery events (view/keyboard-effects.js)
+      jQuery(document).ready(function () {
+        InitializeEvents();
+      });
+    </script>
+  </head>
+  <body>
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script type="text/javascript">
+      function PreloadImages() {
+        var preload_images = [
+          // "img/calculator_keypad.png",
+          "img/logo.png",
+          "img/status_check_black.png",
+          "img/status_check_white.png",
+          "img/status_equals_black.png",
+          "img/status_equals_white.png",
+          "img/status_global_black.png",
+          "img/status_global_white.png",
+          "img/status_question_black.png",
+          "img/status_question_white.png",
+        ];
+        var preload_image = new Image();
+        for (i in preload_images) {
+          preload_image.src = preload_images[i];
+        }
+      }
+      PreloadImages();
+    </script>
+
+    <div id="templates" class="hidden">
+      <div class="widget">
+        <var class="fieldname"></var>
+        <var class="value"></var>
+        <var class="unit"></var>
+      </div>
+      <!-- Can't have white space in this next part otherwise it messes up the pseudo-fixed spacing -->
+      <div class="widget cx3-timer">
+        <span class="sign"></span><span class="hours"></span
+        ><span class="hours"></span><span class="filler">:</span
+        ><span class="minutes"></span><span class="minutes"></span
+        ><span class="filler">:</span><span class="seconds"></span
+        ><span class="seconds"></span><span class="sign"></span>
+      </div>
+      <div class="widget timer-labels">
+        <div class="hours">Hours</div>
+        <div class="seconds">Secs</div>
+        <div class="minutes">Mins</div>
+      </div>
+    </div>
+    <div id="content" class="theme-standard">
+      <div id="window-wrapper">
+        <div id="cx3-window">
+          <div id="status-bar">
+            <div id="status-bar-title">E6-B</div>
+            <div id="status-bar-battery">BATT</div>
+            <div id="status-bar-clock">12:00</div>
+          </div>
+          <div id="subtitle">subtitle</div>
+          <div id="screen"></div>
+        </div>
+      </div>
+      <div id="keypad">
+        <div
+          id="flight-calculator-button-wrapper"
+          class="flight-calculator-buttons"
+        >
+          <div
+            data-row="6"
+            data-col="0"
+            id="btn-flt"
+            class="flight-calculator-button flight-calculator-button-flt flight-calculator-button-row-1 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="6"
+            data-col="1"
+            id="btn-plan"
+            class="flight-calculator-button flight-calculator-button-plan flight-calculator-button-row-1 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="6"
+            data-col="2"
+            id="btn-up"
+            class="flight-calculator-button flight-calculator-button-up flight-calculator-button-row-1 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="6"
+            data-col="3"
+            id="btn-timer"
+            class="flight-calculator-button flight-calculator-button-timer flight-calculator-button-row-1 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="6"
+            data-col="4"
+            id="btn-calc"
+            class="flight-calculator-button flight-calculator-button-calc flight-calculator-button-row-1 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="5"
+            data-col="0"
+            id="btn-back"
+            class="flight-calculator-button flight-calculator-button-back flight-calculator-button-row-2 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="5"
+            data-col="1"
+            id="btn-star"
+            class="flight-calculator-button flight-calculator-button-star flight-calculator-button-row-2 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="5"
+            data-col="2"
+            id="btn-square"
+            class="flight-calculator-button flight-calculator-button-square flight-calculator-button-row-2 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="5"
+            data-col="3"
+            id="btn-wb"
+            class="flight-calculator-button flight-calculator-button-wb flight-calculator-button-row-2 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="5"
+            data-col="4"
+            id="btn-set"
+            class="flight-calculator-button flight-calculator-button-set flight-calculator-button-row-2 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="4"
+            data-col="0"
+            id="btn-m"
+            class="flight-calculator-button flight-calculator-button-m flight-calculator-button-row-3 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="4"
+            data-col="1"
+            id="btn-setunit"
+            class="flight-calculator-button flight-calculator-button-setunit flight-calculator-button-row-3 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="4"
+            data-col="2"
+            id="btn-down"
+            class="flight-calculator-button flight-calculator-button-down flight-calculator-button-row-3 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="4"
+            data-col="3"
+            id="btn-convunit"
+            class="flight-calculator-button flight-calculator-button-convunit flight-calculator-button-row-3 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="4"
+            data-col="4"
+            id="btn-divide"
+            class="flight-calculator-button flight-calculator-button-divide flight-calculator-button-row-3 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="3"
+            data-col="0"
+            id="btn-c"
+            class="flight-calculator-button flight-calculator-button-c flight-calculator-button-row-4 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="3"
+            data-col="1"
+            id="btn-7"
+            class="flight-calculator-button flight-calculator-button-7 flight-calculator-button-row-4 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="3"
+            data-col="2"
+            id="btn-8"
+            class="flight-calculator-button flight-calculator-button-8 flight-calculator-button-row-4 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="3"
+            data-col="3"
+            id="btn-9"
+            class="flight-calculator-button flight-calculator-button-9 flight-calculator-button-row-4 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="3"
+            data-col="4"
+            id="btn-x"
+            class="flight-calculator-button flight-calculator-button-x flight-calculator-button-row-4 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="2"
+            data-col="0"
+            id="btn-bksp"
+            class="flight-calculator-button flight-calculator-button-bksp flight-calculator-button-row-5 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="2"
+            data-col="1"
+            id="btn-4"
+            class="flight-calculator-button flight-calculator-button-4 flight-calculator-button-row-5 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="2"
+            data-col="2"
+            id="btn-5"
+            class="flight-calculator-button flight-calculator-button-5 flight-calculator-button-row-5 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="2"
+            data-col="3"
+            id="btn-6"
+            class="flight-calculator-button flight-calculator-button-6 flight-calculator-button-row-5 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="2"
+            data-col="4"
+            id="btn-minus"
+            class="flight-calculator-button flight-calculator-button-minus flight-calculator-button-row-5 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="1"
+            data-col="0"
+            id="btn-colon"
+            class="flight-calculator-button flight-calculator-button-colon flight-calculator-button-row-6 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="1"
+            data-col="1"
+            id="btn-1"
+            class="flight-calculator-button flight-calculator-button-1 flight-calculator-button-row-6 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="1"
+            data-col="2"
+            id="btn-2"
+            class="flight-calculator-button flight-calculator-button-2 flight-calculator-button-row-6 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="1"
+            data-col="3"
+            id="btn-3"
+            class="flight-calculator-button flight-calculator-button-3 flight-calculator-button-row-6 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="1"
+            data-col="4"
+            id="btn-plus"
+            class="flight-calculator-button flight-calculator-button-plus flight-calculator-button-row-6 flight-calculator-button-column-5"
+          ></div>
+
+          <div
+            data-row="0"
+            data-col="0"
+            id="btn-plusminus"
+            class="flight-calculator-button flight-calculator-button-plusminus flight-calculator-button-row-7 flight-calculator-button-column-1"
+          ></div>
+          <div
+            data-row="0"
+            data-col="1"
+            id="btn-decimal"
+            class="flight-calculator-button flight-calculator-button-decimal flight-calculator-button-row-7 flight-calculator-button-column-2"
+          ></div>
+          <div
+            data-row="0"
+            data-col="2"
+            id="btn-0"
+            class="flight-calculator-button flight-calculator-button-0 flight-calculator-button-row-7 flight-calculator-button-column-3"
+          ></div>
+          <div
+            data-row="0"
+            data-col="3"
+            id="btn-root"
+            class="flight-calculator-button flight-calculator-button-root flight-calculator-button-row-7 flight-calculator-button-column-4"
+          ></div>
+          <div
+            data-row="0"
+            data-col="4"
+            id="btn-equals"
+            class="flight-calculator-button flight-calculator-button-equals flight-calculator-button-row-7 flight-calculator-button-column-5"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <script>window.GA_THEME_STORAGE_KEY = "ga-cx3-theme";</script>
+    <script src="../shared/ga-themes.js"></script>
+  </body>
+</html>

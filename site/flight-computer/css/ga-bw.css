@@ -1,0 +1,468 @@
+/* CX-3 black-and-white theme.
+   Night (Midnight / Amethyst, or prefers-color-scheme: dark):
+     black body, white key faces, black labels.
+   Day (Pearl / Champagne, or prefers-color-scheme: light):
+     white body, black key faces, white labels.
+   Function keys use a grey shade of the same face. Shift (square) and
+   Equals use a deeper orange accent (#D9541C), kept clearly orange, with
+   a white mark, grey bezel and soft shadow. The unknown-field "?" is a
+   miniature black-and-white key (dark face, white mark, subtle bezel,
+   General Sans), not orange. LCD is a neutral monochrome well in both
+   modes. dvh only, no new position:fixed. Hooked via data-cx3-bw on
+   <html>, set from the Go Around theme (data-theme=night|day) and the
+   Night/Day toggle. */
+
+/* ---------- tokens ---------- */
+html[data-cx3-bw="night"] {
+  --cx3-body: #0A0A0A;
+  --cx3-body-rim: rgba(255, 255, 255, 0.10);
+  --cx3-body-sh: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --cx3-lcd: #161616;
+  --cx3-lcd-ink: #F1F1EC;
+  --cx3-lcd-muted: #BDBDB8;
+  --cx3-lcd-line: #2C2C2C;
+  --cx3-lcd-hi: #F1F1EC;
+  --cx3-lcd-hi-ink: #111111;
+  --cx3-lcd-status: #1C1C1C;
+  --cx3-lcd-well: inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 8px 18px rgba(0, 0, 0, 0.45);
+  --cx3-key-face: #F5F5F5;
+  --cx3-key-ink: #111111;
+  --cx3-key-hi: rgba(255, 255, 255, 0.95);
+  --cx3-key-lo: rgba(0, 0, 0, 0.08);
+  --cx3-key-sh: inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 1px 1px rgba(0, 0, 0, 0.25),
+    0 3px 7px rgba(0, 0, 0, 0.28);
+  --cx3-key-fn-face: #D6D6D6;
+  --cx3-key-fn-ink: #111111;
+  --cx3-key-acc-face: #D9541C;
+  --cx3-key-acc-ink: #FFFFFF;
+  --cx3-key-acc-hi: rgba(255, 245, 240, 0.32);
+  --cx3-key-acc-lo: rgba(100, 28, 6, 0.42);
+  --cx3-key-acc-sh: inset 0 1px 0 rgba(255, 245, 240, 0.32),
+    inset 0 -1px 0 rgba(110, 30, 8, 0.38),
+    0 0 0 2px rgba(40, 44, 48, 0.95),
+    0 2px 8px rgba(217, 84, 28, 0.50),
+    0 6px 16px rgba(217, 84, 28, 0.26);
+  --cx3-key-help-face: #141414;
+  --cx3-key-help-ink: #FFFFFF;
+  --cx3-key-help-sh: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(220, 220, 220, 0.28),
+    0 1px 2px rgba(0, 0, 0, 0.45);
+  --cx3-key-help-sh-active: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(40, 44, 48, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+html[data-cx3-bw="day"] {
+  --cx3-body: #F7F7F5;
+  --cx3-body-rim: rgba(0, 0, 0, 0.10);
+  --cx3-body-sh: 0 18px 40px rgba(20, 20, 20, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --cx3-lcd: #D8D8D2;
+  --cx3-lcd-ink: #161616;
+  --cx3-lcd-muted: #4A4A46;
+  --cx3-lcd-line: #B3B3AD;
+  --cx3-lcd-hi: #161616;
+  --cx3-lcd-hi-ink: #F4F4F2;
+  --cx3-lcd-status: #C6C6C0;
+  --cx3-lcd-well: inset 0 1px 2px rgba(0, 0, 0, 0.14), inset 0 8px 14px rgba(0, 0, 0, 0.05);
+  --cx3-key-face: #161616;
+  --cx3-key-ink: #F5F5F5;
+  --cx3-key-hi: rgba(255, 255, 255, 0.14);
+  --cx3-key-lo: rgba(0, 0, 0, 0.55);
+  --cx3-key-sh: inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 1px 1px rgba(0, 0, 0, 0.20),
+    0 3px 7px rgba(0, 0, 0, 0.18);
+  --cx3-key-fn-face: #2C2C2C;
+  --cx3-key-fn-ink: #F5F5F5;
+  --cx3-key-acc-face: #D9541C;
+  --cx3-key-acc-ink: #FFFFFF;
+  --cx3-key-acc-hi: rgba(255, 245, 240, 0.28);
+  --cx3-key-acc-lo: rgba(100, 28, 6, 0.30);
+  --cx3-key-acc-sh: inset 0 1px 0 rgba(255, 245, 240, 0.28),
+    inset 0 -1px 0 rgba(110, 30, 8, 0.24),
+    0 0 0 2px rgba(59, 64, 67, 0.88),
+    0 2px 8px rgba(217, 84, 28, 0.32),
+    0 5px 14px rgba(217, 84, 28, 0.16);
+  --cx3-key-help-face: #141414;
+  --cx3-key-help-ink: #FFFFFF;
+  --cx3-key-help-sh: inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(40, 44, 48, 0.70),
+    0 1px 2px rgba(0, 0, 0, 0.22);
+  --cx3-key-help-sh-active: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- body / bezel ---------- */
+html[data-theme][data-pal][data-cx3-bw][data-cx3-size="small"] #content {
+  background: var(--cx3-body);
+  box-shadow: var(--cx3-body-sh);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #window-wrapper,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window,
+html[data-theme][data-pal][data-cx3-bw] #keypad,
+html[data-theme][data-pal][data-cx3-bw] .flight-calculator-buttons {
+  background: var(--cx3-body);
+  background-color: var(--cx3-body);
+}
+
+/* ---------- LCD (neutral, monochrome) ---------- */
+html[data-theme][data-pal][data-cx3-bw] #cx3-window {
+  color: var(--cx3-lcd-ink);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #status-bar {
+  background-color: var(--cx3-lcd-status);
+  color: var(--cx3-lcd-ink);
+  border-radius: 8px 8px 0 0;
+  padding: 2px 8px 0;
+  height: 18px;
+  line-height: 16px;
+  box-shadow: inset 0 1px 0 var(--cx3-body-rim);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #subtitle {
+  background-color: var(--cx3-lcd);
+  color: var(--cx3-lcd-muted);
+  border-bottom: 1px solid var(--cx3-lcd-line);
+  padding: 0 8px;
+}
+
+html[data-theme][data-pal][data-cx3-bw] #screen {
+  background: var(--cx3-lcd);
+  border-bottom: 0;
+  border-radius: 0 0 8px 8px;
+  box-shadow: var(--cx3-lcd-well);
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget:first-child,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget:last-child,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.active + .widget,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .cx3-calculator.widget {
+  background-color: transparent;
+  color: var(--cx3-lcd-ink);
+  border: 1px solid transparent;
+  border-top: 1px solid var(--cx3-lcd-line);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget:first-child,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.active + .widget {
+  border-top-color: transparent;
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.active,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .cx3-calculator.widget.active {
+  background-color: var(--cx3-lcd-hi);
+  color: var(--cx3-lcd-hi-ink);
+  border: 1px solid var(--cx3-lcd-hi);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.active > var.value,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.active > .value {
+  color: var(--cx3-lcd-hi-ink);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget > .value,
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget > var.value {
+  color: var(--cx3-lcd-ink);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.non-selectable {
+  color: var(--cx3-lcd-muted);
+}
+
+html[data-theme][data-pal][data-cx3-bw] #cx3-window .widget.cx3-timer {
+  color: var(--cx3-lcd-ink);
+}
+
+/* Status icons follow the LCD ink (black on pale, white on dark; flip when selected). */
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.check { background-image: url("../cx3/img/status_check_white.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.check.active { background-image: url("../cx3/img/status_check_black.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.equals { background-image: url("../cx3/img/status_equals_white.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.equals.active { background-image: url("../cx3/img/status_equals_black.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.global { background-image: url("../cx3/img/status_global_white.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.global.active { background-image: url("../cx3/img/status_global_black.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.question { background-image: url("../cx3/img/status_question_white.png"); }
+html[data-cx3-bw="night"] #cx3-window .calculator-field.widget.question.active { background-image: url("../cx3/img/status_question_black.png"); }
+
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.check { background-image: url("../cx3/img/status_check_black.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.check.active { background-image: url("../cx3/img/status_check_white.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.equals { background-image: url("../cx3/img/status_equals_black.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.equals.active { background-image: url("../cx3/img/status_equals_white.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.global { background-image: url("../cx3/img/status_global_black.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.global.active { background-image: url("../cx3/img/status_global_white.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.question { background-image: url("../cx3/img/status_question_black.png"); }
+html[data-cx3-bw="day"] #cx3-window .calculator-field.widget.question.active { background-image: url("../cx3/img/status_question_white.png"); }
+
+/* Unknown-field "?" — a miniature of the black-and-white keys: dark
+   face, white mark, subtle grey bezel, General Sans. Not orange. */
+html[data-cx3-bw] #cx3-window .calculator-field.widget.question {
+  background-image: none !important;
+  position: relative;
+  padding-left: 26px;
+}
+html[data-cx3-bw] #cx3-window .calculator-field.widget.question.indent-left {
+  padding-left: 36px;
+}
+html[data-cx3-bw] #cx3-window .calculator-field.widget.question::before {
+  content: "?";
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--cx3-key-help-face);
+  color: var(--cx3-key-help-ink);
+  box-shadow: var(--cx3-key-help-sh);
+  font-family: "General Sans", "Satoshi", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: center;
+  pointer-events: none;
+  -webkit-font-smoothing: antialiased;
+}
+html[data-cx3-bw] #cx3-window .calculator-field.widget.question.indent-left::before {
+  left: 15px;
+}
+html[data-cx3-bw] #cx3-window .calculator-field.widget.question.active::before {
+  box-shadow: var(--cx3-key-help-sh-active);
+}
+
+/* ---------- keys: CSS faces, no colour PNGs ---------- */
+html[data-cx3-bw] .flight-calculator-buttons {
+  padding: 8px 6px 12px;
+}
+
+html[data-cx3-bw] .flight-calculator-button {
+  background-image: none !important;
+  background-color: transparent !important;
+  position: relative;
+  /* Reset leftover row/column offsets from cx3.css so they do not
+     shift flex-placed keys once position:relative is set for ::before. */
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html[data-cx3-bw] .flight-calculator-button::before {
+  content: "";
+  position: absolute;
+  inset: 5px 6px;
+  border-radius: 13px;
+  background: var(--cx3-key-face);
+  box-shadow: var(--cx3-key-sh);
+  pointer-events: none;
+}
+
+html[data-cx3-bw] .flight-calculator-button::after {
+  position: relative;
+  z-index: 1;
+  color: var(--cx3-key-ink);
+  font-family: "General Sans", "Satoshi", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Function keys — grey shade of the same face. */
+html[data-cx3-bw] #btn-flt,
+html[data-cx3-bw] #btn-plan,
+html[data-cx3-bw] #btn-timer,
+html[data-cx3-bw] #btn-calc,
+html[data-cx3-bw] #btn-back,
+html[data-cx3-bw] #btn-star,
+html[data-cx3-bw] #btn-wb,
+html[data-cx3-bw] #btn-set,
+html[data-cx3-bw] #btn-m,
+html[data-cx3-bw] #btn-setunit,
+html[data-cx3-bw] #btn-convunit,
+html[data-cx3-bw] #btn-up,
+html[data-cx3-bw] #btn-down {
+  --cx3-key-face: var(--cx3-key-fn-face);
+  --cx3-key-ink: var(--cx3-key-fn-ink);
+}
+
+/* Shift (square) and Equals — deeper CX-3 orange accent keys. */
+html[data-cx3-bw] #btn-square,
+html[data-cx3-bw] #btn-equals {
+  --cx3-key-face: var(--cx3-key-acc-face);
+  --cx3-key-ink: var(--cx3-key-acc-ink);
+  --cx3-key-sh: var(--cx3-key-acc-sh);
+}
+
+html[data-cx3-bw] #btn-flt::after { content: "FLT"; }
+html[data-cx3-bw] #btn-plan::after { content: "PLAN"; }
+html[data-cx3-bw] #btn-timer::after { content: "TIMER"; }
+html[data-cx3-bw] #btn-calc::after { content: "CALC"; }
+html[data-cx3-bw] #btn-back::after { content: "BACK"; }
+html[data-cx3-bw] #btn-star::after { content: "★"; font-size: 18px; letter-spacing: 0; font-weight: 400; }
+html[data-cx3-bw] #btn-wb::after { content: "W/B"; }
+html[data-cx3-bw] #btn-set::after { content: "SET"; }
+html[data-cx3-bw] #btn-m::after { content: "M"; font-size: 16px; }
+html[data-cx3-bw] #btn-setunit::after { content: "SET\AUNIT"; white-space: pre; font-size: 9.5px; letter-spacing: 0.03em; }
+html[data-cx3-bw] #btn-convunit::after { content: "CONV\AUNIT"; white-space: pre; font-size: 9.5px; letter-spacing: 0.03em; }
+html[data-cx3-bw] #btn-c::after { content: "C"; font-size: 16px; }
+html[data-cx3-bw] #btn-bksp::after { content: "BKSP"; font-size: 10.5px; }
+html[data-cx3-bw] #btn-colon::after { content: ":"; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-plusminus::after { content: "±"; font-size: 20px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-decimal::after { content: "."; font-size: 28px; font-weight: 600; letter-spacing: 0; line-height: 0.4; margin-top: -6px; }
+html[data-cx3-bw] #btn-0::after,
+html[data-cx3-bw] #btn-1::after,
+html[data-cx3-bw] #btn-2::after,
+html[data-cx3-bw] #btn-3::after,
+html[data-cx3-bw] #btn-4::after,
+html[data-cx3-bw] #btn-5::after,
+html[data-cx3-bw] #btn-6::after,
+html[data-cx3-bw] #btn-7::after,
+html[data-cx3-bw] #btn-8::after,
+html[data-cx3-bw] #btn-9::after {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+html[data-cx3-bw] #btn-0::after { content: "0"; }
+html[data-cx3-bw] #btn-1::after { content: "1"; }
+html[data-cx3-bw] #btn-2::after { content: "2"; }
+html[data-cx3-bw] #btn-3::after { content: "3"; }
+html[data-cx3-bw] #btn-4::after { content: "4"; }
+html[data-cx3-bw] #btn-5::after { content: "5"; }
+html[data-cx3-bw] #btn-6::after { content: "6"; }
+html[data-cx3-bw] #btn-7::after { content: "7"; }
+html[data-cx3-bw] #btn-8::after { content: "8"; }
+html[data-cx3-bw] #btn-9::after { content: "9"; }
+html[data-cx3-bw] #btn-divide::after { content: "÷"; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-x::after { content: "×"; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-minus::after { content: "−"; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-plus::after { content: "+"; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-root::after { content: "√"; font-size: 20px; font-weight: 600; letter-spacing: 0; }
+html[data-cx3-bw] #btn-equals::after { content: "="; font-size: 22px; font-weight: 600; letter-spacing: 0; }
+
+/* Chevron up / down and the Shift square, drawn not typed. */
+html[data-cx3-bw] #btn-up::after,
+html[data-cx3-bw] #btn-down::after,
+html[data-cx3-bw] #btn-square::after {
+  content: "";
+  font-size: 0;
+  letter-spacing: 0;
+  width: 10px;
+  height: 10px;
+}
+
+html[data-cx3-bw] #btn-up::after {
+  border-left: 2.2px solid currentColor;
+  border-top: 2.2px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: 5px;
+}
+
+html[data-cx3-bw] #btn-down::after {
+  border-left: 2.2px solid currentColor;
+  border-bottom: 2.2px solid currentColor;
+  transform: rotate(-45deg);
+  margin-bottom: 5px;
+}
+
+html[data-cx3-bw] #btn-square::after {
+  width: 15px;
+  height: 15px;
+  border: 2.2px solid currentColor;
+  border-radius: 4px;
+}
+
+html[data-cx3-bw] .flight-calculator-button-over {
+  opacity: 1;
+}
+
+html[data-cx3-bw] .flight-calculator-button-over::before {
+  filter: brightness(0.96);
+}
+
+html[data-cx3-bw="day"] .flight-calculator-button-over::before {
+  filter: brightness(1.16);
+}
+
+html[data-cx3-bw] .flight-calculator-button-click::before,
+html[data-cx3-bw] .flight-calculator-button:active::before {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.28);
+  filter: none;
+}
+
+/* ---------- Night / Day review toggle (in flow, not fixed) ---------- */
+html[data-cx3-size="small"] #ga-theme-switcher {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+#ga-bw-toggle {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  z-index: auto;
+}
+
+#ga-bw-toggle button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  height: 32px;
+  padding: 0 9px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--tx2);
+  font: 600 12px/1 "General Sans", "Satoshi", sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#ga-bw-toggle button[aria-pressed="true"] {
+  background: var(--gl);
+  color: var(--tx);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 0.5px var(--ln), 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+html[data-theme="day"] #ga-bw-toggle button[aria-pressed="true"] {
+  background: #fff;
+}
+
+@media (max-width: 390px) {
+  html[data-cx3-size="small"] #ga-theme-switcher button,
+  #ga-bw-toggle button {
+    padding: 0 6px;
+    font-size: 11px;
+  }
+}

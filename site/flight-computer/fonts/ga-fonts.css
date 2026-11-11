@@ -1,0 +1,19 @@
+/* Go Around typography, self-hosted for offline use.
+   Source: go-around-design/DESIGN.md §2 and §6.5
+   (Clash Display headings, General Sans labels, Satoshi body,
+    JetBrains Mono numbers, Nippo calculator numbers).
+   Font files copied from Go-Around-Cloudflare/site/fonts/ (and nippo-*.woff2
+   at the site root). Fontshare fonts use the ITF Free Font License (see
+   Fontshare-FFL.txt). JetBrains Mono uses the SIL Open Font License
+   (see JetBrainsMono-OFL.txt). No CDN links. */
+@font-face{font-family:'Clash Display';src:url('clash-display-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'General Sans';src:url('general-sans-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'General Sans';src:url('general-sans-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'General Sans';src:url('general-sans-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('satoshi-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('satoshi-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('satoshi-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('jetbrains-mono-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('jetbrains-mono-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Nippo';src:url('nippo-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Nippo';src:url('nippo-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}

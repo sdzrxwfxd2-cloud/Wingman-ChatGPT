@@ -1,0 +1,120 @@
+/* Copyright (c) 2026 Go Around, South Africa. All rights reserved. */
+/* ============================================================================
+   DESIGN-NOTES — E6-B page themes
+   ----------------------------------------------------------------------------
+   Imports the four Go Around theme tokens from
+   shared/ga-theme-tokens.css (go-around-design/DESIGN.md §2).
+
+   These tokens paint the PAGE around the flight computer (background,
+   sidebar, menus, flip button, modals) and typography. The painted
+   E6-B SVG face itself is left alone so scales stay readable.
+
+   The main wind plot marker (#plot-dot) is filled in script.min.js
+   with --ga-blue (#0019C9), the design's brand / day accent.
+   ============================================================================ */
+
+@import url("../../../shared/ga-theme-tokens.css");
+
+html[data-theme][data-pal],
+html[data-theme][data-pal] body#main-body,
+html[data-theme][data-pal] #window,
+html[data-theme][data-pal] #outer-outer,
+html[data-theme][data-pal] #outer,
+html[data-theme][data-pal] .sliderule #outer,
+html[data-theme][data-pal] .wind #outer,
+html[data-theme][data-pal] #pan-layer {
+  background: var(--bg) !important;
+  background-color: var(--bg) !important;
+  color: var(--tx);
+}
+
+/* Override compiled Bootstrap/normalize body typography without editing
+   the vendor stylesheet. Keep Font Awesome icon fonts untouched. */
+html[data-theme][data-pal] body#main-body,
+html[data-theme][data-pal] body#main-body button:not(.fa):not([class*="fa-"]),
+html[data-theme][data-pal] body#main-body input,
+html[data-theme][data-pal] body#main-body select,
+html[data-theme][data-pal] body#main-body textarea,
+html[data-theme][data-pal] .sidebar,
+html[data-theme][data-pal] .navbar,
+html[data-theme][data-pal] .modal,
+html[data-theme][data-pal] .form-style-9 {
+  font-family: 'Satoshi', 'General Sans', sans-serif;
+}
+
+html[data-theme][data-pal] #mode-display {
+  color: var(--tx);
+  font-family: 'Clash Display', 'Satoshi', sans-serif;
+  font-weight: 600;
+}
+
+html[data-theme][data-pal] .sidebar {
+  background: var(--solid);
+}
+
+html[data-theme][data-pal] #about-info,
+html[data-theme][data-pal] #about-info a {
+  color: var(--tx2);
+  font-family: 'Satoshi', sans-serif;
+}
+
+html[data-theme][data-pal] .flipside-btn {
+  background: var(--acc);
+  color: #fff;
+  font-family: 'General Sans', 'Satoshi', sans-serif;
+  font-weight: 600;
+  border-radius: var(--ga-r, 14px);
+}
+
+html[data-theme][data-pal] .flipside-btn:hover {
+  background: var(--acc);
+  box-shadow: 0 8px 18px -8px var(--sh2);
+  border-radius: var(--ga-r, 14px);
+}
+
+html[data-theme][data-pal] #main-menu-btn,
+html[data-theme][data-pal] #main-menu-btn .gg-menu {
+  color: var(--tx);
+}
+
+html[data-theme][data-pal] .gg-menu,
+html[data-theme][data-pal] .gg-menu::after,
+html[data-theme][data-pal] .gg-menu::before {
+  background: var(--acc);
+}
+
+/* Sidebar + top-nav chrome: UND green -> design accent. */
+html[data-theme][data-pal] .sidebar #leftside-navigation ul li.active > a,
+html[data-theme][data-pal] .sidebar #leftside-navigation ul li a:hover,
+html[data-theme][data-pal] #nav li:hover,
+html[data-theme][data-pal] .mode a:hover,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .active > a,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .active > a:hover,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .active > a:focus,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .open > a,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .open > a:hover,
+html[data-theme][data-pal] .navbar-default .navbar-nav > .open > a:focus,
+html[data-theme][data-pal] .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+html[data-theme][data-pal] .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+html[data-theme][data-pal] .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+  background-color: var(--acc) !important;
+  color: #fff !important;
+}
+
+html[data-theme][data-pal] .button3 {
+  background-color: var(--acc);
+  font-family: 'General Sans', 'Satoshi', sans-serif;
+  font-weight: 500;
+  border-radius: 2em;
+}
+
+html[data-theme][data-pal] .modal-header {
+  background-color: var(--acc);
+}
+
+html[data-theme][data-pal] .modal,
+html[data-theme][data-pal] .center-modal,
+html[data-theme][data-pal] .custom-modal {
+  border-color: var(--acc);
+  border-radius: var(--ga-r-lg, 30px);
+}

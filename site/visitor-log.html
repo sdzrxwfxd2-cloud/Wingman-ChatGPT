@@ -58,7 +58,7 @@ h3{font:600 12px Inter,system-ui,sans-serif;color:var(--tx2);margin:12px 0 4px;t
 .list{max-width:1360px;margin:0 auto}
 @media(max-width:759px){.lt table{min-width:0}.lt thead{display:none}.lt tr{display:block;padding:10px 2px;border-bottom:.5px solid var(--ln)}.lt td{display:inline;border:0;padding:0 8px 0 0;white-space:normal}.lt td:before{content:attr(data-k)": ";color:var(--tx2);font-size:11px}.lt td.t{display:block;font-weight:700}.lt td.t:before{content:none}}
 </style>
-<link rel="stylesheet" href="wm-glass.css?v=8150980665">
+<link rel="stylesheet" href="wm-glass.css?v=8150980665b">
 </head>
 <body>
 <div class="bgfx" aria-hidden="true"></div>
@@ -77,7 +77,7 @@ h3{font:600 12px Inter,system-ui,sans-serif;color:var(--tx2);margin:12px 0 4px;t
 </div>
 <main><section class="card glass wide" id="c-sum"><h2><i class="dot"></i>Summary</h2><div class="b m">Loading…</div></section>
 <section class="card glass wide" id="c-log"><h2><i class="dot"></i>Every visit, newest first</h2><div class="b m">Loading…</div></section></main>
-<p class="m" style="max-width:1360px;margin:14px auto 0">From Go Around's own first-party beacon (no third parties, no cookies; a random session id lives in the browser tab only). IPs are stored with the last part removed (POPIA). Device model shows only when the browser shares it (Chrome/Edge on Android via Client Hints); iPhones and most desktops keep it hidden. Times in SAST. Last 14 days.</p>
+<p class="m" style="max-width:1360px;margin:14px auto 0">From Go Around's own first-party beacon (no third parties, no cookies; a random session id lives in the browser tab only). Full IP addresses are stored (not shortened) and are visible to the admin only, on this password-protected page. Device model shows only when the browser shares it (Chrome/Edge on Android via Client Hints); iPhones and most desktops keep it hidden. Times in SAST. Last 14 days.</p>
 <script>
 var H=document.documentElement,D=[];
 function theme(p){H.dataset.pal=p;H.dataset.theme=(p==='white'||p==='beige')?'day':'night';document.querySelectorAll('.thm button').forEach(function(b){b.classList.toggle('on',b.dataset.p===p)})}
@@ -96,14 +96,14 @@ function draw(){var q=document.getElementById('q').value.trim().toLowerCase(),fd
   var real=D.filter(function(r){return!r.test}),ses={};real.forEach(function(r){ses[r.sid]=1});
   var s=document.getElementById('c-sum');s.className='card glass wide ok';
   s.querySelector('.b').className='b';s.querySelector('.b').innerHTML='<div class="kpis"><div class="kpi"><b>'+real.length+'</b><span>real visits</span></div><div class="kpi"><b>'+Object.keys(ses).length+'</b><span>sessions</span></div><div class="kpi"><b>'+(D.length-real.length)+'</b><span>test visits</span></div></div><div class="m">Showing '+rows.length+' of '+D.length+'</div>';
-  var h='<div class="vt lt"><table><thead><tr><th>Time (SAST)</th><th>Page</th><th>Device</th><th>Model</th><th>OS</th><th>Browser</th><th>Screen</th><th>Viewport</th><th>DPR</th><th>Language</th><th>Time zone</th><th>Location</th><th>IP (cut)</th><th>Referrer</th><th>Session · visit</th></tr></thead><tbody>';
+  var h='<div class="vt lt"><table><thead><tr><th>Time (SAST)</th><th>Page</th><th>Device</th><th>Model</th><th>OS</th><th>Browser</th><th>Screen</th><th>Viewport</th><th>DPR</th><th>Language</th><th>Time zone</th><th>Location</th><th>IP</th><th>Referrer</th><th>Session · visit</th></tr></thead><tbody>';
   rows.forEach(function(r){var loc=[r.city,r.region,r.country].filter(Boolean).join(', ');
     h+='<tr class="'+(r.test?'tst':'')+'"><td class="t" data-k="Time">'+e(sast(r.t))+(r.test?'<span class="tag">test</span>':'')+'</td><td data-k="Page">'+e(r.path)+'</td><td data-k="Device">'+e(r.dev)+'</td><td data-k="Model">'+(r.model?e(r.model):'<span class="hid">hidden</span>')+'</td><td data-k="OS">'+e(r.os+' '+(r.osv||''))+'</td><td class="w" data-k="Browser">'+e(brw(r))+'</td><td data-k="Screen">'+e(r.sw+'×'+r.sh)+'</td><td data-k="Viewport">'+e(r.vw+'×'+r.vh)+'</td><td data-k="DPR">'+e(r.dpr)+'</td><td data-k="Lang">'+e(r.lang)+'</td><td data-k="TZ">'+e(r.tz)+'</td><td class="w" data-k="Location">'+e(loc||'Unknown')+'</td><td data-k="IP">'+e(r.ip||'—')+'</td><td class="w" data-k="From">'+(r.ref?e(r.ref):'<span class="hid">direct</span>')+'</td><td data-k="Session" title="'+e(r.sid)+'">'+e((r.sid||'').slice(0,8))+' · #'+e(r.n)+' of '+e(r.sv)+'</td></tr>'});
   if(!rows.length)h+='<tr><td colspan="15" class="m">No visits match.</td></tr>';
   var c=document.getElementById('c-log');c.className='card glass wide ok';c.querySelector('.b').className='b';c.querySelector('.b').innerHTML=h+'</tbody></table></div>'}
 ['q','fd','fc','fp','ht'].forEach(function(id){document.getElementById(id).addEventListener(id==='q'?'input':'change',draw)});
 async function load(){var b=document.getElementById('re');b.classList.add('spin');
-  try{var r=await fetch('/visitor-log-data',{cache:'no-store',credentials:'same-origin'});if(!r.ok)throw new Error('HTTP '+r.status);var d=await r.json();D=d.visits||[];
+  try{var r=await fetch('/visitor-log-data',{cache:'no-store',credentials:'same-origin'});if(r.status===401){document.getElementById('sub').innerHTML='Sign in first: <a href="/admin/" style="color:inherit">open /admin</a>, enter the admin password, then come back.';b.classList.remove('spin');return}if(!r.ok)throw new Error('HTTP '+r.status);var d=await r.json();D=d.visits||[];
     fill('fd','dev');fill('fc','country');fill('fp','path');draw();document.getElementById('sub').textContent=D.length+' visits · updated '+sast(Date.now())}
   catch(x){document.getElementById('sub').textContent='Could not load: '+x.message}
   b.classList.remove('spin')}

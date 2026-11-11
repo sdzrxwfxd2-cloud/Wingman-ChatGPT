@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" class="ga-small ga-e6b">
+<head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="apple-mobile-web-app-capable" content="yes" />
+     <title>Go Around · E6-B</title>
+     
+     <link href="e6b_assets/css/style.full.css" rel="stylesheet">
+     <link href="e6b_assets/css/accordion.menu.css" rel="stylesheet">
+     <link href="e6b_assets/css/update.asn.v1.1.22.css" rel="stylesheet">
+     
+     <!-- Contains updated css for forms menu new areas etc -->
+     
+     <link href="e6b_assets/css/btn-arrow-flip.css" rel="stylesheet">
+     <link href="../fonts/ga-fonts.css?v=11nov26p" rel="stylesheet">
+     <link href="e6b_assets/css/ga-themes.css?v=11nov26p" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/ga-small.css?v=11nov26p" />
+    <!-- runway 2D diagram skin: reused for its per-theme background token (--wmr-bg) -->
+    <link rel="stylesheet" href="../../rwy/rwy.css?v=f8a877b2d7">
+    <script>
+      /* Follow the Go Around site theme before paint. Midnight/Amethyst = night, Pearl/Champagne = day. */
+      (function () {
+        var map = {
+          midnight: ["night", "black"],
+          amethyst: ["night", "purple"],
+          pearl: ["day", "white"],
+          champagne: ["day", "beige"]
+        };
+        function apply(id) {
+          if (!map[id]) id = "midnight";
+          var m = map[id];
+          document.documentElement.setAttribute("data-theme", m[0]);
+          document.documentElement.setAttribute("data-pal", m[1]);
+          document.documentElement.setAttribute("data-cx3-bw", m[0] === "day" ? "day" : "night");
+        }
+        var id = null;
+        try {
+          var q = new URLSearchParams(location.search);
+          if (q.get("embed") === "1" || self !== top) document.documentElement.classList.add("ga-embed");
+          if (q.get("theme") && map[q.get("theme")]) id = q.get("theme");
+          if (!id && self !== top) {
+            var p = parent.document.documentElement;
+            var t = p.getAttribute("data-theme"), pal = p.getAttribute("data-pal");
+            if (t === "day") id = (pal === "beige" || pal === "warm") ? "champagne" : "pearl";
+            else if (t === "night") id = pal === "purple" ? "amethyst" : "midnight";
+          }
+          if (!id) {
+            var th = localStorage.getItem("wm-theme");
+            var pn = localStorage.getItem("wm-pal");
+            var pd = localStorage.getItem("wm-pal-day");
+            if (th === "day" || th === "light") id = (pd === "beige" || pd === "warm") ? "champagne" : "pearl";
+            else if (th === "night" || th === "dark") id = pn === "purple" ? "amethyst" : "midnight";
+          }
+        } catch (e) {}
+        apply(id || "midnight");
+      })();
+    </script>
+     <link rel="apple-touch-icon" href="e6b_assets/img/test-fav-icon.png">
+     <link rel="stylesheet" href="e6b_assets/vendor/fontawesome-6.2.0/css/all.css">
+     
+     <!-- Bootstrap core CSS <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+     <style type="text/css">
+     </style>
+     <script type="text/javascript">
+          /* Enable our transformations on SVG elements in IE11 */
+          window.MSPointerEvent = undefined;
+          window.PointerEvent = undefined;
+          
+     </script>
+
+</head>
+<body id="main-body" >
+<script>
+/* Use the runway 2D diagram's theme background behind the E6-B: same
+   contract as rwy.js (.wmr, .night, data-theme=midnight|amethyst|pearl|champagne),
+   so the colours come from --wmr-bg in rwy/rwy.css, not from here. */
+(function () {
+  var b = document.body, r = document.documentElement;
+  function sync() {
+    var t = r.getAttribute("data-theme"), p = r.getAttribute("data-pal");
+    var name = t === "day" ? (p === "beige" || p === "warm" ? "champagne" : "pearl") : (p === "purple" ? "amethyst" : "midnight");
+    if (!b.classList.contains("wmr")) b.classList.add("wmr");
+    if (b.classList.contains("night") !== (t !== "day")) b.classList.toggle("night", t !== "day");
+    if (b.getAttribute("data-theme") !== name) b.setAttribute("data-theme", name);
+  }
+  sync();
+  new MutationObserver(sync).observe(r, { attributes: true, attributeFilter: ["data-theme", "data-pal"] });
+  new MutationObserver(sync).observe(b, { attributes: true, attributeFilter: ["class"] });
+})();
+</script>
+     
+     <div  id="window" class="container">
+              
+  
+          <div class="row" >
+               <div class="col-md-12" >
+                     <aside class="sidebar">
+                          
+                         <div id="leftside-navigation"  class="nano" >
+
+                              
+                              <div>&nbsp;</div>
+                              <div>&nbsp;</div>
+                              <ul class="nano-content mode" style="z-index: 10005;" >
+         
+                              
+                                   <div>&nbsp;</div>
+                                  
+                                   <li id="display" style="z-index: 10006; font-size:20px;"   ><a  href="javascript:void(0);"> <span class="sub-menu mode  sim-icon"> Free use</span></a> </li>   
+                                   <li id="practice" style="z-index: 10006; font-size:20px;"  ><a href="javascript:void(0);"> <span class="mode  practice-icon"> Practice problems</span></a></li>  
+                                   <li id="quiz" style="z-index: 10006; font-size:20px;"  ><a  href="javascript:void(0);"> <span class="mode quiz-icon"> Quiz</span></a> </li>  
+                                    
+                                   <li id="list-tutorial" class="sub-menu mode"> 
+                                        <a id="list-tutorial-a" href="javascript:void(0);"><i class="fa fa-tasks"></i><span id="menu-tutorial">&nbsp;Lessons</span><i class="arrow down-arrow-gg-icon fa fa-angle-right pull-right"></i></a>
+                                             
+                                                  <ul style="display:none"> 
+                                                       <a href="#"  id="resume-tutorial" >Resume</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox '>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="basics" class="sliderule-side link-tutorial">Slide Rule - Components</a></li>
+ 
+                                                       <li class="sliderule-side"><div class='fake-checkbox '>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="mathMultiDiv"  class="sliderule-side link-tutorial disable-tutorial-item">Multiplication and Division</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"   id="hourToLegs"  class="sliderule-side link-tutorial disable-tutorial-item" >Time</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a  href="#"  id="speed"  class="sliderule-side link-tutorial disable-tutorial-item" >Speed</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"   id="distance"  class="sliderule-side link-tutorial disable-tutorial-item" >Distance</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="fuel"  class="sliderule-side link-tutorial disable-tutorial-item">Fuel Burn</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="tas"  class="sliderule-side link-tutorial disable-tutorial-item">TAS & Density Alt</a></li>
+                                                       <li class="sliderule-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="conversion"  class="sliderule-side link-tutorial disable-tutorial-item">Conversions</a></li>
+ 
+                                                       <li class="wind-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="ws-basics" class="wind-side link-tutorial disable-tutorial-item">Wind Side - Components</a></li>
+                                                       <li class="wind-side"><div class='fake-checkbox'>
+                                                            <span class="checkmark"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></span>
+                                                       </div><a href="#"  id="ca-gsa"  class="wind-side link-tutorial disable-tutorial-item">WCA & GS Adj for Wind</a></li>
+
+                                                  </ul>
+                        
+                                   </li>
+ 
+                                   <li id="list-options" class="sub-menu">
+                                        <a id="list-options-a" href="javascript:void(0);"><i class="fa  fa-cogs"></i><span>&nbsp;Options</span><i class="arrow down-arrow-gg-icon  fa fa-angle-right pull-right"></i></a>
+                                         
+                                        <ul style="display:none">
+                                             <li class="full-screen"><a href="#" >Fullscreen</a></li>
+                                        </ul>
+                                   </li>
+    
+                              </ul>
+                               
+                         </div>
+                         <div id="walk-thru-progress">
+                              <div id="walk-thru-bar">Progress</div>
+                            </div>
+                            <p id="about-info">
+                              Copyright (c) 2026 Go Around, South Africa. All rights reserved.
+                            </p>
+
+                   </aside>
+                    <div class="svg-message jumbotron">
+
+                         <h1>SVG support required!</h1>
+                         <p>
+                              Your internet browser does not support SVG and this application requires SVG in order to work. According to 
+                              <a href="http://caniuse.com/svg" title="View the internet browser SVG support chart.">caniuse.com/svg</a> 
+                              you will need the minimum version of the following internet browsers to support SVG.
+                         </p>
+                         <p>
+                              We suggest 
+                              <a href="https://www.google.com/intl/en-US/chrome/browser/" title="Download Google Chrome">Google Chrome</a> 
+                              or <a href="http://www.mozilla.org/en-US/firefox/new/" title="Download Mozilla Firefox">Mozilla Firefox</a> 
+                              for a desktop internet browser.
+                         </p>
+
+                         <h2>Desktop</h2>
+                         <ul>
+                              <li>Internet Explorer 9+</li>
+                              <li>Mozilla Firefox 3+</li>
+                              <li>Google Chrome 4+</li>
+                              <li>Apple Safari 3.2+</li>
+                              <li>Opera 9+</li>
+                         </ul>
+
+                         <h2>Mobile</h2>
+                         <ul>
+                              <li>Android Browser 3+</li>
+                              <li>iOS Safari 3.2+</li>
+                         </ul>
+                    </div>
+                    <div id="outer-outer">
+                    <div id="outer"   >
+                         <div id="pan-layer" >
+                              
+                            <div id="wrap"   >
+                               
+                               
+                         </div>
+    
+                         </div>
+ 
+                    </div>
+ 
+               </div>
+               <div id="large-img" class="" >
+
+               </div> 
+          </div>   
+           <div id="ga-small-chrome">
+               <div id="main-menu-btn"><i class="gg-menu"></i></div>
+               <div id="mode-display">Free use</div>
+               <a id="flip-e6b" class="flipside-btn ">Goto: Wind-Side</a>
+        </div>
+      <div class="custom-modal fade" id="modal_interactive" style="display:none">
+          <img src="e6b_assets/img/drag-icon.png" id="custom-modal-drag-icon" class="mobile-drag-icon" ></img>
+     </div>
+       
+      <!--Tutorial Modal -->
+     <div class="modal fade" data-backdrop=”false” id="myModal" role="dialog">
+          <img src="e6b_assets/img/drag-icon.png" id="modal-drag-icon" class="mobile-drag-icon" ></img>
+     <div class="modal-dialog">
+     
+       <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-header">
+           <h4 class="modal-header-msg">&nbsp;Minute/Hour Pointer</h4>
+         </div>
+         <div class="modal-body">
+           <p class="modal-body-msg">It allows you to work with minutes <br/>and hours or do anything in base 60</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default button3 btn-close" data-dismiss="modal">Close</button>
+           <button type="button" class="btn btn-default button3 previous" data-dismiss="modal">Previous</button>
+           <button type="button" class="btn btn-default button3 next" data-dismiss="modal">Next</button>
+ 
+           <button type="button" class="btn btn-default button3 audio" data-dismiss="modal"><img id="sound_icon"  src="e6b_assets/img/soundIcon_off.png" height="22px" style="text-align:center; "></img></button>
+   
+ 
+         </div>
+       </div>
+       
+     </div> 
+   </div>
+      <!-- Practice Modal -->
+      <div class="modal fade" data-backdrop=”false” id="practiceModal" role="dialog">
+          <img src="e6b_assets/img/drag-icon.png" id="practice-modal-drag-icon" class="mobile-drag-icon" ></img>
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-header-msg">Set up practice</h4>
+              </div>
+              <div class="modal-dialog">
+                <p class="modal-body-msg"></p>
+              </div>
+              
+              <div class="modal-footer">
+               <div style="font-size: 16px;">Number of Problems:</div>
+               <select name="practice_pcount" id="practice_pcount">
+                 <option value="5">5</option>
+                 <option value="10">10</option>
+                 <option value="20">20</option>
+                 
+               </select>
+               <br/>
+               <br/>
+               <div style=" font-size: 16px;">Problem Types:</div>
+               <li class="sliderule-side">
+               <div>
+               <input  class="practiceType" type="checkbox" id="opt1" name="opt1" value="10">
+               <label for="opt1"> Multiplication</label><br>
+               </div>
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt2" name="opt2" value="12">
+                    <label for="opt2"> Division</label><br>
+               </div>
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt3" name="opt3" value="21">
+                    <label for="opt3"> Fuel Burn</label><br>
+               </div>
+
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt4" name="opt4" value="31">
+                    <label for="opt4"> Time/Speed/Distance</label><br>
+               </div>
+
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt5" name="opt5" value="41">
+                    <label for="opt5"> Conversion - (Imp gal, US gal, liters)</label><br>
+               </div>
+
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt6" name="opt6" value="43">
+                    <label for="opt6"> Conversion - (km/hr, MPH, kts)</label><br>
+               </div>
+
+               <div>
+
+               </div>
+
+               <div>
+                    <input class="practiceType" type="checkbox" id="opt7" name="opt7" value="43">
+                    <label for="opt7"> Conversion - (ft,sm,meters)</label><br>
+               </div>
+               </li>
+               <li class="wind-side">
+                    <input  class="practiceType" type="checkbox" id="opt11" name="opt11" value="71">
+                    <label for="opt11">Magnetic Course and Heading</label><br>
+                    <input  class="practiceType" type="checkbox" id="opt13" name="opt13" value="72">
+                    <label for="opt13">WCA and Ground Speed</label><br>
+ 
+               </li>
+               <br/>
+                <button type="button" class="btn btn-default practice-resume button3"   data-dismiss="modal">Start practice</button>
+                <button type="button" class="btn btn-default p-form button3"  style="display:none;background-color:rgb(0, 45, 243);"  value="on" data-dismiss="modal">Reset practice</button>
+                <button type="button" class="btn btn-default practice-close button3"  data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div> 
+        </div>
+
+        <!-- Score Modal content-->
+        <div class="modal   fade" data-backdrop=”false” id="scoreModal" role="dialog">
+          <img src="e6b_assets/img/drag-icon.png" id="score-modal-drag-icon" class="mobile-drag-icon" ></img>
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-header-msg">Score</h4>
+              </div>
+              <div class="modal-body modal-dialog">
+                <p id='score'class="modal-body-msg">5/5</p>
+              </div>
+              <div class="modal-body" id="score-problems">
+               <div >Problems:</div>
+ 
+               <br/>
+          </div>
+           <div class="modal-footer">
+                <button type="button" class="btn btn-default score-close button3"  data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div> 
+        </div>
+              <!-- Quiz Modal -->
+      <div class="modal fade" data-backdrop=”false” id="quizModal" role="dialog">
+          <img src="e6b_assets/img/drag-icon.png" id="quiz-drag-icon" class="mobile-drag-icon" ></img>
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-header-msg ">&nbsp;Quiz Start <div style="display: inline-block;" id="attempt-count">- Attempts: 0 of 3</div></h4>
+              </div>
+              <div id="quiz-modal-div" class="modal-body modal-dialog">
+                <div  class="modal-body-msg bolded">&nbsp;Quiz: <div id="quiz-name" style="display: inline-block;" >Name</div></div> 
+                <br/>
+                <div  class="bolded">&nbsp;Number of Problems:&nbsp; <div style="display: inline-block;" id="q_num_p">5</div></div> 
+                <br/>
+                <div class="bolded" >&nbsp;Problem Types:</div>
+                <br>
+                <li>
+                <p class="quiz-modal-p"><input  class="quizType" type="checkbox" id="opt1-q" name="opt1-q" value="10"><label for="opt1-q">&nbsp;Multiplication</label></p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt2-q" name="opt2-q" value="12"><label for="opt2-q">&nbsp;Division </label> </p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt3-q" name="opt3-q" value="21"><label for="opt3-q">&nbsp;Find Missing Value - Fuel Burn</label> </p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt4-q" name="opt4-q" value="31"><label for="opt4-q">&nbsp;Find Missing Value  - Distance</label> </p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt5-q" name="opt5-q" value="41"><label for="opt5-q">&nbsp;Conversion - (Imp gal, US gal, liters)</label> </p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt6-q" name="opt6-q" value="42"><label for="opt6-q">&nbsp;Conversion - (km/hr, MPH, kts)</label> </p>
+                <p class="quiz-modal-p"><input class="quizType" type="checkbox" id="opt7-q" name="opt7-q" value="43"><label for="opt7-q">&nbsp;Conversion - (ft,sm,meters)</label> </p>
+                <p class="quiz-modal-p"><input  class="quizType" type="checkbox" id="opt11-q" name="opt11-q" value="71"><label for="opt11-q">&nbsp;Magnetic Course and Heading</label></p>
+                <p class="quiz-modal-p"><input  class="quizType" type="checkbox" id="opt13-q" name="opt13-q" value="72"><label for="opt13-q">&nbsp;WCA and Ground Speed</label></p>
+               </li>
+ 
+               <br>
+              </div>
+              <div class="modal-footer">
+                
+                <button type="button" class="btn btn-default quiz-resume button3"  data-dismiss="modal">Start/Resume</button>
+                <button type="button" class="btn btn-default button3 " style="display:none" value="on" data-dismiss="modal">Start New</button>
+                <button type="button" class="btn btn-default quiz-close button3"   data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div> 
+        </div>
+        <!--forms used in various parts will submit data to blackboard-->
+        <div class="form-popup" id="practice-popup"> <i id='arrow-icon-practice' class="arrow-icon down-arrow-icon"></i></div>
+        <div class="form-popup" id="quiz-popup"><i id='arrow-icon-quiz' class="arrow-icon down-arrow-icon"></i><div id='attempt-header' style=" float: center">Attempts: 0</div></div>
+
+     </div>
+ 
+     <!--version used to force staging server to update-->
+     <script src="e6b_assets/vendor/jquery-1.8.3.min.js" type="text/javascript"></script>
+     <script src="e6b_assets/vendor/jquery-ui-1.8.17.min.js" type="text/javascript"></script>
+     <script src="e6b_assets/vendor/bootstrap-5.2.2.min.js"></script>  
+     <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=WeakRef,BigInt"></script> -->
+     <script>
+          try {
+               LTIDisabled=false;
+               window.appSettings = JSON.parse(Base64.decode('<%- appSettings %>'))
+               var userAppSetting=window.appSettings
+           } catch (err) {
+               //console.log('App settings not found. Setting Web')
+                LTIDisabled=true;
+                
+          var userAppSetting={
+         "resourceId": "5",
+         "e6b_relay": "true",
+         "e6b_mode": "all",
+         "e6b_quiz_length": "5",
+         "e6b_quiz_name": "Test-JS-1",
+         "grading_enabled": "true",
+         "attempts_enabled": true,
+         "attempts_number": "3",
+         "out_of_points": "100",
+         "e6b_answer_tolerance_percent": "10",
+         "cat_list": "10_AND_12_AND_31_AND_41_AND_42_AND_43_AND_71_AND_72"
+     }
+           }
+     
+     </script>
+ 
+     <script src="e6b_assets/svg/svg-data.js"></script>
+     <script src="e6b_assets/js/script.min.js"></script>
+<script src="../js/ga-fc-page.js?v=11nov26p"></script>
+<script src="../js/ga-e6b-zoom.js?v=11nov26p"></script>
+<script src="../js/ga-e6b-smooth.js?v=11nov26p"></script>
+<script>
+/* Fit the whole E6-B face (computer side 510x590, wind side 510x1000) in
+   the column: no transform, the SVG is sized from its own viewBox so both
+   sides show in full with no half-cut side and no empty gap underneath.
+   Re-fits when the side flips (Snap swaps the SVG inside #wrap). */
+(function () {
+  var root = document.documentElement;
+  root.classList.add("ga-e6b");
+  var embed = root.classList.contains("ga-embed");
+  var queued = 0;
+
+  function px(n) { return Math.round(n) + "px"; }
+
+  function fit() {
+    queued = 0;
+    var fc = document.getElementById("flight-computer");
+    var wrap = document.getElementById("wrap");
+    if (!fc || !wrap) return;
+    var vb = fc.viewBox && fc.viewBox.baseVal;
+    var w = (vb && vb.width) || 510;
+    var h = (vb && vb.height) || 590;
+    var col = root.clientWidth || window.innerWidth || 390;
+    /* 20px inset each side on a phone; a roomier face on wide screens */
+    var maxW = embed ? 520 : (col >= 700 ? 560 : 390);
+    var availW = Math.max(160, Math.min(maxW, col) - 40);
+    var s = availW / w;
+    if (!embed) {
+      /* the glass bar floats over the face (MT t2559), so only the back
+         button above it takes height away from the face */
+      var used = 24;
+      var bar = document.querySelector(".ga-fc-bar");
+      if (bar) used += bar.getBoundingClientRect().height + 10;
+      var availH = Math.max(220, (window.innerHeight || 844) - used);
+      s = Math.min(s, availH / h);
+    }
+    if (embed) {
+      /* in the Calculator card: keep the whole side on screen with the
+         card title, the top bar and the nav pill around it */
+      try {
+        var th = (window.top && window.top.innerHeight) || 0;
+        if (th > 0) s = Math.min(s, Math.max(260, th - 260) / h);
+      } catch (e) {}
+    }
+    s = Math.min(s, 1.2);
+    var visW = w * s, visH = h * s;
+    fc.style.transform = "none";
+    fc.style.transformOrigin = "";
+    fc.style.setProperty("width", px(visW), "important");
+    fc.style.setProperty("height", px(visH), "important");
+    fc.style.maxWidth = "none";
+    fc.style.overflow = "visible";
+    ["wrap", "pan-layer", "outer"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.style.transform = id === "wrap" ? "none" : el.style.transform;
+      el.style.setProperty("width", px(visW), "important");
+      el.style.setProperty("height", px(visH), "important");
+      el.style.maxWidth = "none";
+      el.style.minHeight = "0";
+      el.style.marginLeft = "auto";
+      el.style.marginRight = "auto";
+    });
+    var oo = document.getElementById("outer-outer");
+    if (oo) { oo.style.height = px(visH); oo.style.minHeight = "0"; }
+    /* face box for the floating glass bar, the zoom keys and the menu sheet */
+    var colW = (oo && oo.clientWidth) || col;
+    root.style.setProperty("--e6b-face-w", px(visW));
+    root.style.setProperty("--e6b-face-h", px(visH));
+    root.style.setProperty("--e6b-face-x", px(Math.max(0, (colW - visW) / 2)));
+    var chromeEl = document.getElementById("ga-small-chrome");
+    if (chromeEl) root.style.setProperty("--e6b-bar-h", px(chromeEl.getBoundingClientRect().height || 52));
+    if (window.gaE6bZoom) window.gaE6bZoom.refit();
+    tellHeight();
+  }
+
+  function tellHeight() {
+    if (!embed) return;
+    try {
+      var fe = window.frameElement;
+      if (!fe) return;
+      var hgt = Math.ceil(document.body.getBoundingClientRect().height);
+      if (hgt > 80) { fe.style.minHeight = "0"; fe.style.height = hgt + "px"; }
+    } catch (e) {}
+  }
+
+  function soon() {
+    if (queued) return;
+    queued = 1;
+    (window.requestAnimationFrame || setTimeout)(fit);
+  }
+
+  /* Compact labels so long modes never overflow the glass bar. The app
+     writes "Mode: …" and "Goto: …"; only the shown words change. */
+  function compact() {
+    var md = document.getElementById("mode-display");
+    if (md) {
+      var t = md.textContent.replace(/^\s*Mode:\s*/i, "").replace(/^\s*Tutorial:\s*/i, "Lessons · ").trim();
+      t = t.replace(/\bSimulation\b/g, "Free use").replace(/\bTutorial\b/g, "Lessons").replace(/\bPractice problems\b/g, "Practice").replace(/\bPractice\b/g, "Practice");
+      if (t !== md.textContent) md.textContent = t;
+      md.title = t;
+    }
+    var fl = document.getElementById("flip-e6b");
+    if (fl) {
+      var f = fl.textContent.trim();
+      var nf = /wind/i.test(f) ? "Wind side" : (/slide|rule|computer/i.test(f) ? "Computer side" : f);
+      if (nf !== f) fl.textContent = nf;
+      fl.setAttribute("aria-label", "Show the " + nf.toLowerCase());
+      fl.setAttribute("role", "button");
+      fl.setAttribute("tabindex", "0");
+    }
+  }
+
+  function watch() {
+    compact();
+    var wrap = document.getElementById("wrap");
+    if (wrap) new MutationObserver(soon).observe(wrap, { childList: true });
+    new MutationObserver(soon).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    ["mode-display", "flip-e6b"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) new MutationObserver(compact).observe(el, { childList: true, characterData: true, subtree: true });
+    });
+    var fl = document.getElementById("flip-e6b");
+    if (fl) fl.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fl.click(); }
+    });
+  }
+
+  window.addEventListener("resize", soon);
+  document.addEventListener("DOMContentLoaded", function () { watch(); setTimeout(fit, 200); });
+  window.addEventListener("load", function () {
+    fit();
+    setTimeout(fit, 200);
+    setTimeout(fit, 800);
+  });
+})();
+</script>
+
+</body>
+ 
+ 
+</html>

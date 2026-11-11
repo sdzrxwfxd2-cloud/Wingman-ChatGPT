@@ -12,7 +12,6 @@ Cloudflare's **free** plan so visitors cost nothing.
 | `/api/model-weather` | `functions/api/model-weather.js` |
 | `/api/metar`, `/api/taf` (live proxy) | `functions/api/metar.js`, `taf.js`: served from the snapshot (one live server-side fetch only if the snapshot is empty, no writes) |
 | `/api/flights` | `functions/api/flights.js` (same `flights_core.mjs`) |
-| `/api/ato-reviews` | `functions/api/ato-reviews.js` (KV prefix `atoreviews/`; writes still refused until a real login exists) |
 | `/dashboard-data` | `functions/dashboard-data.js` (probes, source weather, uptime; visitors not counted on Cloudflare) |
 | `/api/visit-beacon` | first-party beacon (`site/wm-beacon.js`) writes to D1 (`VISITORS`) when bound, else dedicated KV `VISITORS_KV` (not weather `WX`). 90-day retention. |
 | `/admin`, `/api/admin/*`, `/visitor-log-data` | private traffic dashboard; guarded by `ADMIN_DASH_SECRET` session cookie, not the old site password |

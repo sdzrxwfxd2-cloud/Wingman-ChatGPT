@@ -7,13 +7,14 @@
    crosswind/tailwind/gust/VRB rules, tested by tests/engine/run.js). WMCore still supplies profile, minimums, wind
    geometry, DA and model fallback; the engine verdict overrides status/reasons/why when an observation exists. */
 var ENG=W.status;
-/* Usable-weather guard (6 Nov 2026, MT): a METAR or model observation counts only while its time is within 90 min of
-   now. Older, undated or future-dated copies are dropped BEFORE any status is worked out, so they can never give
-   DEPART / CAUTION / NO DEPART. The card then uses a TAF valid now, else a fresh model, else INCOMPLETE
-   ("no current weather"). Heliports stay none/HELIPORT. Data freshness only; the status rules are unchanged. */
-var MODEL_MAX_MS=90*60e3,METAR_MAX_MS=90*60e3,WX_MAX_MS=90*60e3;
-function freshT(t,now){t=+t;return isFinite(t)&&t>1e12&&now-t<=WX_MAX_MS&&t-now<=WX_MAX_MS}
-function freshOb(ob,now){if(!ob)return null;if((ob.src==='model'||ob.src==='off')&&!freshT(ob.time,now))return null;return ob}
+/* Usable-weather guard (11 Nov 2026, MT t1513u): a METAR counts only while its time is within 90 min of now;
+   a model observation counts for up to 180 min. Older, undated or future-dated copies are dropped BEFORE any
+   status is worked out, so they can never give DEPART / CAUTION / NO DEPART. The card then uses a TAF valid now,
+   else a fresh model, else INCOMPLETE ("no current weather"). Heliports stay none/HELIPORT. Data freshness only;
+   the status rules are unchanged. */
+var MODEL_MAX_MS=180*60e3,METAR_MAX_MS=90*60e3,WX_MAX_MS=90*60e3;
+function freshT(t,now,max){t=+t;max=max==null?WX_MAX_MS:max;return isFinite(t)&&t>1e12&&now-t<=max&&t-now<=max}
+function freshOb(ob,now){if(!ob)return null;if(ob.src==='model'&&!freshT(ob.time,now,MODEL_MAX_MS))return null;if(ob.src==='off'&&!freshT(ob.time,now,METAR_MAX_MS))return null;return ob}
 window.WMB_FRESH={maxMs:WX_MAX_MS,metarMaxMs:METAR_MAX_MS,modelMaxMs:MODEL_MAX_MS,freshT:freshT,freshOb:freshOb};
 /* 30 Oct 2026 (MT): night minimums are the SA CAR VFR minimums (CAR 91.06.21: 5 km visibility, 1,500 ft ceiling in
    CTR/ATZ), not the old stricter app default 8 km / 2,500 ft. wm-core.js stays md5-locked, so the numbers are set here. */
@@ -105,7 +106,7 @@ function evalCard(c,now){now=now||Date.now();var ic=txt(c,'.icao'),C=window.WSTC
   airspace:cat==='controlled'||cat==='international'?'ctr':cat==='uncontrolled'?'other':undefined};
  var met=/^(METAR|SPECI)\b/.test(m)?metarObs(m.replace(/^(METAR|SPECI) (COR )?/,'')):null;
  if(met){var ob=c.querySelector('[data-obs]');if(ob&&+ob.dataset.obs>1e9)met.time=+ob.dataset.obs*1000;if(!freshT(met.time,now))met=null}
- var mod=null;try{if(c.dataset.wxm){var d=JSON.parse(c.dataset.wxm);if(freshT(d.t,now))mod={wspd:d.w,gust:d.g,vis:d.v==null?undefined:d.v,ceil:d.c==null?null:d.c,vrb:true,wdir:null,time:+d.t}}}catch(e){} /* was time:now, which made any saved model look fresh */
+ var mod=null;try{if(c.dataset.wxm){var d=JSON.parse(c.dataset.wxm);if(freshT(d.t,now,MODEL_MAX_MS))mod={wspd:d.w,gust:d.g,vis:d.v==null?undefined:d.v,ceil:d.c==null?null:d.c,vrb:true,wdir:null,time:+d.t}}}catch(e){} /* was time:now, which made any saved model look fresh */
  var rr=run(ad,met,/^TAF/.test(t2)?tafObs(t2):null,mod,now);
  if(met){var a2={ic:ic,la:ad.lat,lo:ad.lon,el:null,cat:ad.airspace==='ctr'?'c':'u',rw:ad.runways.map(function(x){return{id:x.id,true:x.hdg}}),heli:!ad.runways.length&&HELI.test((c.querySelector('h2,h3,.nm,.name')||{}).textContent||c.dataset.name||'')},S3={metar:{},taf:{},om:{}};
   S3.metar[ic]=awcOf(m.replace(/^(METAR|SPECI) (COR )?/,''),met.time);if(/^TAF/.test(t2))S3.taf[ic]=t2;rr=overlay(rr,a2,freshOb(W.obsOf(a2,S3),now),now);R[ic].r=rr}

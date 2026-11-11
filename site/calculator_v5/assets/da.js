@@ -102,13 +102,17 @@ function inputs(){if(S.mode==='manual'){const g=(id,d)=>{const v=parseFloat($(id
  return{elev:S.ad?S.ad[6]:NaN,oat:WX?WX.oat:NaN,qnh:WX?WX.qnh:NaN,pstn:WX?WX.pstn:null,rh:WX&&WX.rh||0,label:WX?WX.label:'Pick an aerodrome'}}
 let last='';
 function calc(){const v=inputs(),ok=[v.elev,v.oat,v.qnh].every(x=>x!=null&&isFinite(x)),b=$('#daVal');
- $('#daUnit').textContent=U.alt?'m':'ft';$('#srcLine').textContent=v.label;
- if(!ok){b.textContent='—';['#paVal','#devVal','#isaVal'].forEach(s=>$(s).textContent='—');$('#daSub').textContent='Waiting for OAT, QNH and elevation';return}
+ lab();$('#srcLine').textContent=v.label;
+ if(!ok){b.textContent='—';['#paVal','#devVal','#isaVal'].forEach(s=>$(s).textContent='—');$('#daAlt').textContent='';$('#daSub').textContent='Waiting for OAT, QNH and elevation';return}
  /* A3: with station pressure use it directly (PA exact; humidity only if the user typed RH, as before), otherwise the QNH rule-of-thumb path */
  const a=v.pstn?(()=>{const z=C.densAltStn(v.pstn,v.oat,C.dewFromRH(v.oat,v.rh)),isa=C.isaTemp(z.pa),dry=C.densAltStn(v.pstn,v.oat,null).da;return{pa:z.pa,isa,dev:v.oat-isa,da:z.da,hum:z.da-dry}})():C.atmosRH(v.elev,v.qnh,v.oat,v.rh||0),x=C.daAdvice(a.da,v.elev),txt=sp(C.toUnit('alt',a.da,U.alt));
  if(txt!==last){b.classList.add('tick');requestAnimationFrame(()=>requestAnimationFrame(()=>{b.textContent=txt;b.classList.remove('tick')}));last=txt}
+ /* second, different unit under the big number (ft -> m, m -> ft) */
+ $('#daAlt').textContent=sp(U.alt?a.da:a.da*0.3048)+(U.alt?' ft':' m');
  $('#paVal').textContent=alt(a.pa);$('#devVal').textContent=dtmp(a.dev);$('#isaVal').textContent=tmp(a.isa);
- $('#daSub').textContent=`${(x.above>=0?'+':'−')+alt(Math.abs(x.above))} above field · OAT ${tmp(v.oat,0)} · QNH ${prs(v.qnh)}${v.pstn?' (computed)':''} · elev ${alt(v.elev)}`+(v.rh>0?` · RH ${Math.round(v.rh)}% (+${alt(a.hum)} humidity)`:'')+(x.lean?' · lean for take-off (above 5 000 ft DA)':'')}
+ /* OAT and QNH units in this line are tappable too, so Auto mode can switch them without the old unit rows */
+ const ub=d=>`<button type="button" class="u-cyc" data-u="${d}" aria-label="Change ${d==='temp'?'temperature':'pressure'} unit"><span class="u-lab">${UL[d][U[d]?1:0]}</span><i class="u-cue" aria-hidden="true">⇅</i></button>`;
+ $('#daSub').innerHTML=`${(x.above>=0?'+':'−')+alt(Math.abs(x.above))} above field · OAT <span class="nowrap">${(+C.toUnit('temp',v.oat,U.temp)).toFixed(0)}&nbsp;${ub('temp')}</span> · QNH <span class="nowrap">${prs(v.qnh).split(' ')[0]}&nbsp;${ub('press')}</span>${v.pstn?' (computed)':''} · elev ${alt(v.elev)}`+(v.rh>0?` · RH ${Math.round(v.rh)}% (+${alt(a.hum)} humidity)`:'')+(x.lean?' · lean for take-off (above 5 000 ft DA)':'')}
 /* ---------- wiring ---------- */
 seg($('#modeSeg'),S.mode,v=>{S.mode=v;save();$('#autoBox').hidden=v!=='auto';$('#manBox').hidden=v!=='manual';if(v==='manual'){const c=inputs.call?null:null;if(S.ad)$('#mElev').value=Math.round(C.toUnit('alt',S.ad[6],U.alt));if(WX&&isFinite(WX.oat))$('#mOat').value=+C.toUnit('temp',WX.oat,U.temp).toFixed(1);if(WX&&isFinite(WX.qnh))$('#mQnh').value=U.press?C.toUnit('press',WX.qnh,1).toFixed(2):Math.round(WX.qnh)}calc();if(v==='auto')getWx()});
 $('#autoBox').hidden=S.mode!=='auto';$('#manBox').hidden=S.mode!=='manual';
@@ -117,12 +121,16 @@ const now2=new Date(Date.now()+7200e3+3600e3);now2.setUTCMinutes(0);$('#wtime').
 seg($('#timeSeg'),S.time,v=>{S.time=v;save();$('#timeFld').hidden=v!=='pick';getWx()});$('#timeFld').hidden=S.time!=='pick';
 $('#wtime').addEventListener('change',getWx);
 $('#manBox').addEventListener('input',calc);
-const lab=()=>{$('#lOat').textContent='OAT '+(U.temp?'°F':'°C');$('#lQnh').textContent='QNH '+(U.press?'inHg':'hPa');$('#lElev').textContent='Elevation '+(U.alt?'m':'ft')};lab();
-$$('.units .seg').forEach(el=>seg(el,U[el.dataset.u],v=>{const d=el.dataset.u,id={alt:'#mElev',temp:'#mOat',press:'#mQnh'}[d],inp=$(id),base=C.fromUnit(d,parseFloat(inp.value),U[d]);U[d]=+v;
- if(isFinite(base)){const o=C.toUnit(d,base,U[d]);inp.value=d==='press'&&U[d]?o.toFixed(2):d==='temp'?+o.toFixed(1):Math.round(o)}LSS('wm-calc-units',Object.assign(LSG('wm-calc-units',{}),U));lab();if(S.ad)pick(S.ad,1);else calc()}));
+/* units: tap the unit word (big result, OAT, QNH, elevation) to cycle it, same as the other calculators; no unit rows */
+const UL={alt:['ft','m'],temp:['°C','°F'],press:['hPa','inHg']};
+function lab(){$$('.dapage .u-cyc[data-u]').forEach(b=>{b.querySelector('.u-lab').textContent=UL[b.dataset.u][U[b.dataset.u]?1:0]})}lab();
+function unitTap(d){const id={alt:'#mElev',temp:'#mOat',press:'#mQnh'}[d],inp=$(id),base=C.fromUnit(d,parseFloat(inp.value),U[d]);U[d]=U[d]?0:1;
+ if(isFinite(base)){const o=C.toUnit(d,base,U[d]);inp.value=d==='press'&&U[d]?o.toFixed(2):d==='temp'?+o.toFixed(1):Math.round(o)}LSS('wm-calc-units',Object.assign(LSG('wm-calc-units',{}),U));lab();if(S.ad)pick(S.ad,1);else calc()}
+document.querySelector('.dapage').addEventListener('mousedown',e=>{if(e.target.closest('.u-cyc[data-u]'))e.preventDefault()});
+document.querySelector('.dapage').addEventListener('click',e=>{const b=e.target.closest('.u-cyc[data-u]');if(!b)return;e.preventDefault();unitTap(b.dataset.u)});
 if(U.alt)$('#mElev').value=Math.round(C.toUnit('alt',5558,1));if(U.temp)$('#mOat').value=77;if(U.press)$('#mQnh').value=C.toUnit('press',1013,1).toFixed(2);
 $('#daInfo').onclick=()=>{$('#shT').textContent='Density altitude';$('#shF').textContent='PA = elevation + (1013.25 − QNH) × 30\nISA temp = 15 − 2 × PA / 1000\nISA deviation = OAT − ISA temp\nDA = PA + 120 × (OAT − ISA temp)\nManual RH: e = RH/100 × 6.1078 × 10^(7.5T/(T+237.3))\nTv = T / (1 − 0.378 e/p);  DA += DA(ρ humid) − DA(ρ dry)';
  $('#shS').innerHTML='FAA PHAK (FAA-H-8083-25) ch.4 rules of thumb, cross-checked against ICAO Doc 7488 Standard Atmosphere. Leaning above 5 000 ft DA: FAA-P-8740-2. Elevation, runways and TA from the Go Around aerodrome data and CAA SA AIP ENR 1.7. Weather from aviationweather.gov (METAR) and Open-Meteo (model). Planning aid only: always use your POH performance charts.';$('#sheet').classList.add('on');$('#scrim').classList.add('on')};
 const a0=AD.find(a=>a[0]===S.icao)||AD.find(a=>a[0]==='FAOR');if(a0)pick(a0);else calc();
-window.__da={S,U,getWx,pick,AD};
+window.__da={S,U,getWx,pick,AD,unitTap};
 })();

@@ -113,18 +113,28 @@
   /* Shared model copies: the live worker "now" file (wm.now.v1, used by
      cards) and the full /api/model-weather copy (wm.mw.v2, used by the
      13-hour strip). S.om is only filled for fields without a METAR. */
+  var COPY_MEMO = {};
+  function memoCopy(key, build) {
+    var t = Date.now(), m = COPY_MEMO[key], raw = null;
+    if (m && t - m.at < 5000) return m.val;
+    try { raw = localStorage.getItem(key); } catch (e) {}
+    if (m && m.raw === raw) { m.at = t; return m.val; }
+    var val = null;
+    if (raw) { try { val = build(raw); } catch (e) { val = null; } }
+    COPY_MEMO[key] = { at: t, raw: raw, val: val };
+    return val;
+  }
+
   function readMwCopy() {
-    try {
-      var raw = localStorage.getItem('wm.mw.v2');
-      var d = raw ? JSON.parse(raw) : null;
+    return memoCopy('wm.mw.v2', function (raw) {
+      var d = JSON.parse(raw);
       return (d && d.pts && d.v && d.time) ? d : null;
-    } catch (e) { return null; }
+    });
   }
 
   function readNowCopy() {
-    try {
-      var raw = localStorage.getItem('wm.now.v1');
-      var n = raw ? JSON.parse(raw) : null;
+    return memoCopy('wm.now.v1', function (raw) {
+      var n = JSON.parse(raw);
       if (!n || n.v !== 1 || !Array.isArray(n.pts) || !n.t0 || !n.vars || !n.c) return null;
       var t0 = Date.parse(String(n.t0) + 'Z');
       if (!isFinite(t0)) return null;
@@ -138,8 +148,8 @@
         });
       });
       if (n.fzl) v.freezing_level_height = n.fzl;
-      return { pts: n.pts, time: time, v: v, vars: n.vars.concat(n.fzl ? ['freezing_level_height'] : []), ft: n.ft, composedAt: n.composedAt };
-    } catch (e) { return null; }
+      return { pts: n.pts, time: time, v: v, vars: n.vars.concat(n.fzl ? ['freezing_level_height'] : []), ft: n.ft, composedAt: n.composedAt, nh: NH };
+    });
   }
 
   function modelFromCopy(d, a) {
@@ -165,6 +175,7 @@
       if (Date.parse(String(d.time[i]) + 'Z') <= nowMs) h = i;
     }
     if (h < 0) return null;
+    if (d.nh != null && h > d.nh - 1) h = d.nh - 1;
     var cur = { time: d.time[h] };
     var vars = d.vars || [];
     for (i = 0; i < vars.length; i++) {
@@ -178,6 +189,9 @@
       var composed = Date.parse(d.composedAt);
       if (isFinite(composed)) cur.fetchedAt = composed;
     }
+    var any = false, q;
+    for (q in cur) if (q !== 'time' && q !== 'fetchedAt' && cur[q] != null) any = true;
+    if (!any) return null;
     return cur;
   }
 
@@ -702,9 +716,11 @@
       if (cb) cb();
     }
     /* If /api/metar or /api/taf hang, do not leave pending stuck forever. */
-    LIVE.hangTimer = setTimeout(finish, 8000);
-    var p1 = fetch('/api/metar', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
-    var p2 = fetch('/api/taf', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+    LIVE.hangTimer = setTimeout(finish, 20000);
+    var ac = typeof AbortController === 'function' ? new AbortController() : null;
+    if (ac) setTimeout(function () { try { ac.abort(); } catch (e) {} }, 15000);
+    var p1 = fetch('/api/metar', { cache: 'no-store', signal: ac && ac.signal }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+    var p2 = fetch('/api/taf', { cache: 'no-store', signal: ac && ac.signal }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
     Promise.all([p1, p2]).then(function (res) {
       var M = Array.isArray(res[0]) ? res[0] : [];
       var T = Array.isArray(res[1]) ? res[1] : [];
@@ -928,15 +944,19 @@
       } catch (e) {}
       return false;
     }
-    var tries = 0;
+    var tries = 0, lastLen = -1;
     var timer = setInterval(function () {
       tries += 1;
-      var hasModel = false;
-      try { hasModel = !!(localStorage.getItem('wm.now.v1') || localStorage.getItem('wm.mw.v2')); } catch (e) {}
-      runAdPage();
-      /* Keep retrying until the live METAR/TAF fetch finishes AND the model
-         copy is present, so a stale wst-data snapshot cannot win the first paint. */
-      if ((hasModel && !wxFetchPending()) || tries > 40) clearInterval(timer);
+      var len = 0, hasModel = false;
+      try {
+        var raw = localStorage.getItem('wm.now.v1') || localStorage.getItem('wm.mw.v2') || '';
+        len = raw.length; hasModel = !!len;
+      } catch (e) {}
+      if (len !== lastLen || (hasModel && !wxFetchPending())) {
+        lastLen = len;
+        runAdPage();
+      }
+      if ((hasModel && !wxFetchPending()) || tries > 6) clearInterval(timer);
     }, 500);
   }
 
@@ -962,17 +982,19 @@
     fetchLiveOfficial(requestRerun);
     document.addEventListener('wst:data', function () { fetchLiveOfficial(requestRerun); });
     setInterval(function () { if (!document.hidden) fetchLiveOfficial(requestRerun); }, 5 * 60 * 1000);
-    var tries = 0;
-    var sawModel = false;
+    var tries = 0, lastLen = -1;
     var timer = setInterval(function () {
       tries += 1;
-      var hasModel = false;
-      try { hasModel = !!(localStorage.getItem('wm.now.v1') || localStorage.getItem('wm.mw.v2')); } catch (e) {}
-      if (hasModel && !sawModel) {
-        sawModel = true;
+      var len = 0;
+      try {
+        var raw = localStorage.getItem('wm.now.v1') || localStorage.getItem('wm.mw.v2') || '';
+        len = raw.length;
+      } catch (e) {}
+      if (len && len !== lastLen) {
+        lastLen = len;
         requestRerun();
       }
-      if (sawModel || tries > 20) clearInterval(timer);
+      if ((len && tries > 2) || tries > 6) clearInterval(timer);
     }, 500);
   }
 

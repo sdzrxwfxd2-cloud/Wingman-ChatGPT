@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="purple">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Go Around · Visitors</title>
+<link rel="icon" href="/favicon-32.png">
+<link rel="stylesheet" href="/fonts/wm-fonts.css">
+<link rel="stylesheet" href="/admin-x/ax.css?v=78a9607e89">
+<script>
+(function(){try{var L=localStorage,H=document.documentElement,q=new URLSearchParams(location.search).get('theme');
+var m={midnight:['night','black'],black:['night','black'],amethyst:['night','purple'],purple:['night','purple'],pearl:['day','white'],white:['day','white'],champagne:['day','beige'],beige:['day','beige']};
+var t=m[q]||m[L.getItem('ga-admin-theme')]||null;
+if(!t){var th=L.getItem('wm-theme')==='day'?'day':'night';t=th==='day'?['day',L.getItem('wm-pal-day')==='beige'?'beige':'white']:['night',L.getItem('wm-pal')==='purple'?'purple':'black']}
+H.dataset.theme=t[0];H.dataset.pal=t[1]}catch(e){}})();
+</script>
+</head>
+<body>
+<div id="login" class="gate" hidden>
+  <form class="card glass gatebox" id="login-form" autocomplete="on">
+    <p class="eyebrow">Private</p>
+    <h1>Visitors</h1>
+    <p class="lede">Only for the people who run Go Around. Use the same admin password as /admin.</p>
+    <label>Admin password
+      <input id="pw" type="password" name="password" required autocomplete="current-password">
+    </label>
+    <p class="err" id="login-err" hidden></p>
+    <button class="btn" type="submit">Open</button>
+  </form>
+</div>
+<div id="app" hidden>
+  <header class="top glass">
+    <a class="back" href="/admin/" aria-label="Back to Traffic">‹</a>
+    <div class="ttl"><h1>Visitors</h1><p id="sub">Loading…</p></div>
+    <div class="thm" role="group" aria-label="Theme"><button data-t="amethyst" title="Amethyst" aria-label="Amethyst"></button><button data-t="midnight" title="Midnight" aria-label="Midnight"></button><button data-t="pearl" title="Pearl" aria-label="Pearl"></button><button data-t="champagne" title="Champagne" aria-label="Champagne"></button></div>
+    <button id="re" class="btn icon" title="Reload" aria-label="Reload">↻</button>
+    <button id="out" class="btn ghost" type="button">Log out</button>
+  </header>
+  <nav class="tabs wrap" id="tabs" aria-label="Admin pages"></nav>
+  <div class="seg wrap" id="rg" style="margin-bottom:12px"><button data-r="1d">Today</button><button data-r="7d" class="on">7 days</button><button data-r="30d">30 days</button></div>
+  <main class="g3">
+    <section class="card glass wide" id="c-tot"><h2><i class="dot"></i>Totals</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-ch"><h2><i class="dot"></i>Visits over time</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-pg"><h2><i class="dot"></i>Top pages</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-day"><h2><i class="dot"></i>By day</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-pl"><h2><i class="dot"></i>Countries &amp; cities</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-dv"><h2><i class="dot"></i>Devices &amp; models</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-br"><h2><i class="dot"></i>Browsers &amp; systems</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-rf"><h2><i class="dot"></i>Referrers</h2><div class="b m">Loading…</div></section>
+  </main>
+  <p class="foot">The original /admin-visitors totals, rebuilt on Cloudflare with the full breakdowns. Unique = distinct browser sessions. Times in SAST. Private page · not linked from the public menus · <a href="/privacy.html">Privacy</a></p>
+</div>
+<script src="/admin-x/ax.js?v=4c32bf36de"></script>
+<script>
+(function(){var A=AX,range='7d';
+document.querySelectorAll('#rg button').forEach(function(b){b.onclick=function(){document.querySelectorAll('#rg button').forEach(function(x){x.classList.toggle('on',x===b)});range=b.dataset.r;load()}});
+async function load(){var d=await A.get('/api/admin/stats?range='+range),lab=range==='1d'?'today':range==='30d'?'30 days':'7 days';
+  A.set('#c-tot','ok','<table><thead><tr><th></th><th class="n">Page views</th><th class="n">Unique visitors</th></tr></thead><tbody><tr><td>Today</td><td class="n">'+A.n(d.today.visits)+'</td><td class="n">'+A.n(d.today.uniques)+'</td></tr><tr><td>Last 7 days</td><td class="n">'+A.n(d.d7.visits)+'</td><td class="n">'+A.n(d.d7.uniques)+'</td></tr><tr><td>Last 30 days</td><td class="n">'+A.n(d.d30.visits)+'</td><td class="n">'+A.n(d.d30.uniques)+'</td></tr></tbody></table>'+(d.legacy?'<p class="m">'+A.n(d.legacy)+' older visits are counted without details.</p>':''));
+  A.set('#c-ch','ok',A.chart(d.days));
+  A.set('#c-pg','ok','<h3>'+lab+'</h3>'+A.bars(d.pages,12));
+  A.set('#c-day','ok','<table><thead><tr><th>Day (UTC)</th><th class="n">Views</th><th class="n">Unique</th></tr></thead><tbody>'+(d.days||[]).slice().reverse().map(function(x){return'<tr><td>'+A.esc(x.day)+'</td><td class="n">'+A.n(x.n)+'</td><td class="n">'+A.n(x.u)+'</td></tr>'}).join('')+'</tbody></table>');
+  A.set('#c-pl','ok','<h3>Countries</h3>'+A.bars(d.countries,8)+'<h3>Cities</h3>'+A.bars(d.cities,8));
+  A.set('#c-dv','ok','<h3>Devices</h3>'+A.bars(d.devices,6)+'<h3>Models (when shared)</h3>'+A.bars(d.models,6));
+  A.set('#c-br','ok','<h3>Browsers</h3>'+A.bars(d.browsers,6)+'<h3>Systems</h3>'+A.bars(d.os,6));
+  A.set('#c-rf','ok',A.bars(d.referrers,10));
+  A.$('#sub').textContent=lab+' · store '+(d.store||'off')+' · updated '+A.sast(d.now)}
+A.start(load)})();
+</script>
+</body>
+</html>

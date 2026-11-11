@@ -35,7 +35,7 @@
     Run in the words observer's microtask so weather rewrites and phase switches never paint a bare dot. */
  var verdictPaths={go:'<path d="M4 18.2c4.3-.1 6.1-3.6 9.1-7.2L19.4 5M13.9 5.6l5.5-.6-.2 5.6"/><path d="M3.8 21h7"/>',caution:'<path d="M11.5 3.7c.7-1 1.3-.7 1.9.5l7.1 13.9c.6 1.3-.1 2-1.4 2.1l-14.9.3c-1.4 0-1.8-1-1.1-2.2L11.5 3.7Z"/><path d="m12 8.5.2 5.6m-.1 3.2h.1"/>',nogo:'<path d="m8.2 3.7 8.1.4 4.2 4.6-.3 8-4.7 3.8-8.1-.3-4-4.8.5-7.7 4.3-4Z"/><path d="m7.8 12.2 8.4-.2"/>',incomplete:'<path d="M17 4.5c-2.8-2-7.6-1.5-10.2 1.2C3 9.2 3.4 15 6.7 18.3c2.8 2.7 7.2 3 10.6.8m2.8-4.5.2-.5M20 8.4l.2.5"/><path d="m12 7.8-.2 5.1m.1 3.3h.1"/>'};
  verdictPaths.land='<path d="M4 5.2c4.3.1 6.1 3.6 9.1 7.2l6.3 6M13.9 18l5.5.6-.2-5.6M3.8 21h16"/>';
- var verdictKeys={GO:'go',DEPART:'go',LAND:'land',CAUTION:'caution','NO-GO':'nogo','NO DEPART':'nogo','NO LAND':'nogo',INCOMPLETE:'incomplete','No weather':'incomplete'};
+ var verdictKeys={GO:'go',DEPART:'go',LAND:'land',CAUTION:'caution','NO-GO':'nogo','NO DEPART':'nogo','NO LAND':'nogo',INCOMPLETE:'incomplete'};
  function verdictIcons(){D.querySelectorAll('.card .badge, #tiles .tile .k, .v4 .cnt .wm-verdict-label, .fs-wx').forEach(function(b){
   var key=verdictKeys[b.textContent.trim()],old=b.querySelector('svg.wm-verdict-icon');
   if(!key){if(old)old.remove();b.removeAttribute('data-verdict-icon');return}

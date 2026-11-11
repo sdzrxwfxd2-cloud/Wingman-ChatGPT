@@ -33,13 +33,10 @@ function model(){var cs=[].slice.call(document.querySelectorAll('.card[data-heli
    var d=c.querySelector('.wxd');if(d)d.innerHTML='<span>Wind <b class="num">'+String(k(x.wind_direction_10m)).padStart(3,'0')+'\u00b0 '+k(x.wind_speed_10m)+' kt'+(x.wind_gusts_10m>x.wind_speed_10m+5?' G'+k(x.wind_gusts_10m):'')+'</b></span><span>Vis <b>'+(x.visibility==null?'\u2014':(x.visibility>=10000?'10+ km':(x.visibility/1000).toFixed(1)+' km'))+'</b> \u00b7 Cloud <b>'+k(x.cloud_cover)+'%</b></span><span>QNH <b class="num">'+k(x.pressure_msl)+'</b></span>';
    var T=function(q,v){return '<div class="mt2"><span>'+q+'</span><b>'+v+'</b></div>'};HM.set(c,'<div class="mg2">'+T('Wind',String(k(x.wind_direction_10m)).padStart(3,'0')+'\u00b0 '+k(x.wind_speed_10m)+' kt')+T('Gust',k(x.wind_gusts_10m)+' kt')+T('Vis',x.visibility==null?'\u2014':(x.visibility>=10000?'10+ km':(x.visibility/1000).toFixed(1)+' km'))+T('Cloud',k(x.cloud_cover)+'%')+T('Temp',k(x.temperature_2m)+'\u00b0C')+T('QNH',k(x.pressure_msl))+'</div>');fix(c)})}).catch(function(){})}
 function sync(){var b=document.querySelector('[data-f="heli"]');H.dataset.heliHide=(b&&b.classList.contains('on'))?'1':'0';if(typeof window.applyS==='function')try{window.applyS()}catch(e){}guard();if(window.WM_HPAINT)WM_HPAINT()}
-function watchLists(){['list','wsp-cards'].forEach(function(id){var L=document.getElementById(id);if(L&&!L.__heliObs){L.__heliObs=1;new MutationObserver(function(){if(!busy)setTimeout(guard,0)}).observe(L,{subtree:true,attributes:true,attributeFilter:['data-s'],childList:true,characterData:true})}})}
-function retag(){tag();watchLists();guard()}
-window.WM_HELI_RETAG=retag;
 function init(){tag();var b=document.querySelector('[data-f="heli"]');
  if(b&&!b.classList.contains('on')&&localStorage.getItem('wm-heli-hide')==='1')b.click();
  document.addEventListener('click',function(e){var x=e.target.closest&&e.target.closest('[data-f="heli"]');if(x)setTimeout(function(){localStorage.setItem('wm-heli-hide',x.classList.contains('on')?'1':'0');sync()},0)},true);
- watchLists();
+ var L=document.getElementById('list');if(L)new MutationObserver(function(){if(!busy)setTimeout(guard,0)}).observe(L,{subtree:true,attributes:true,attributeFilter:['data-s'],childList:true,characterData:true});
  sync();model();setInterval(model,15*60e3)}
 var st=document.createElement('style');st.textContent=
 '.hflag{display:none!important;/* MT #352 */margin-top:6px;padding:1px 7px;border-radius:999px;font-size:9.5px;font-weight:600;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3,#9aa3b2);border:1px solid currentColor;opacity:.85}.card.wfh{display:none!important}'+
@@ -62,7 +59,7 @@ if(document.readyState==='complete')setTimeout(init,300);else addEventListener('
 (function(){var H=document.documentElement,busy=0;
 function ISO(c){var i=c.querySelector('.icao');return /^[A-Z]{4}$/.test(i?i.textContent.trim():'')}
 /* t2199: do not exclude wfl-off / hide / wfq / wfh / chide — those are list filters; top boxes stay fixed */
-function base(){var all=localStorage.getItem('wm-count')==='all';return [].slice.call(document.querySelectorAll('#list .card, #wsp-cards .card')).filter(function(c){
+function base(){var all=localStorage.getItem('wm-count')==='all';return [].slice.call(document.querySelectorAll('#list .card')).filter(function(c){
  if(c.dataset.cat==='heliport')return false;return all||ISO(c)})}
 window.WM_COUNTS=function(){var b=base(),n={all:b.length,go:0,caution:0,nogo:0,none:0};b.forEach(function(c){var k=c.dataset.s;k=k==='noiap'?'nogo':k;n[k in n?k:'none']++});return n};
 function paint(){if(busy)return;busy=1;var n=WM_COUNTS();

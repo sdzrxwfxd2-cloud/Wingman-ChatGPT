@@ -5,8 +5,8 @@
 
 <link rel="stylesheet" href="../fonts/wm-fonts.css?v=630c9d0277">
 
-<link rel="stylesheet" href="assets/v3.css?v=0624a96cff">
-<link rel="stylesheet" href="assets/more.css?v=1a4bc9a6ba">
+<link rel="stylesheet" href="assets/v3.css?v=d154f2622b">
+<link rel="stylesheet" href="assets/more.css?v=11nov26p">
 <link rel="stylesheet" href="assets/more-old-look.css?v=2bfd4698ae"><link rel="stylesheet" href="assets/liquid-glass.css?v=d5eb89b9c6">
 <link rel="stylesheet" href="fs/fs.css?v=1792589389">
 <style id="wm-sheetx">/* formula sheet: X centred on the title's first line (20px pad + 23px line / 2 - 15px) and inset to the same 22px content edge */#sheet .x{top:16.5px;right:22px;width:30px;height:30px}#sheet h4{margin-right:44px}#sheet .x{padding:0;margin:0;line-height:0;-webkit-appearance:none;appearance:none;box-sizing:border-box}#sheet .x svg{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;display:block;overflow:visible;pointer-events:none}</style><style id="wm-scrimbd">/* formula sheet backdrop: soft dim + light blur over the visible page, fades with the sheet; one blur layer, hidden (no blur cost) when closed */.scrim{--sd:.26;background:rgba(0,0,0,var(--sd));-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s;-webkit-tap-highlight-color:transparent}.scrim.on{visibility:visible;transition:opacity .3s ease,visibility 0s}html[data-theme=day][data-pal=beige] .scrim{--sd:.28}html[data-theme=night] .scrim{--sd:.34}html.emb .scrim{inset:auto;left:0;right:0;top:var(--embst,0px);height:var(--embsh,100%)}</style>
@@ -22,7 +22,8 @@
 <main class="dapage">
   <section class="glass dacard" id="daCard">
     <div class="dahead"><span class="lbl2">Density altitude</span><button class="inote" id="daInfo" aria-label="Formula and sources">i</button></div>
-    <div class="dabig"><b id="daVal">—</b><em id="daUnit">ft</em></div>
+    <div class="dabig"><b id="daVal">—</b><em id="daUnit"><button type="button" class="u-cyc" data-u="alt" aria-label="Change altitude unit"><span class="u-lab">ft</span><i class="u-cue" aria-hidden="true">⇅</i></button></em></div>
+    <div class="dasub" id="daAlt"></div>
     <div class="dasub" id="daSub"></div>
     <div class="dastats">
       <div><span>Pressure altitude</span><b id="paVal">—</b></div>
@@ -44,13 +45,11 @@
       <div class="note" id="wxNote"></div><pre class="raw" id="raw" hidden></pre>
     </div>
     <div id="manBox" class="pane flds" hidden>
-      <label class="fld"><span id="lOat">OAT °C</span><input id="mOat" type="number" inputmode="decimal" step="any" value="25"></label>
-      <label class="fld"><span id="lQnh">QNH hPa</span><input id="mQnh" type="number" inputmode="decimal" step="any" value="1013"></label>
-      <label class="fld"><span id="lElev">Elevation ft</span><input id="mElev" type="number" inputmode="decimal" step="any" value="5558"></label>
+      <label class="fld"><span id="lOat">OAT <button type="button" class="u-cyc" data-u="temp" aria-label="Change temperature unit"><span class="u-lab">°C</span><i class="u-cue" aria-hidden="true">⇅</i></button></span><input id="mOat" type="number" inputmode="decimal" step="any" value="25"></label>
+      <label class="fld"><span id="lQnh">QNH <button type="button" class="u-cyc" data-u="press" aria-label="Change pressure unit"><span class="u-lab">hPa</span><i class="u-cue" aria-hidden="true">⇅</i></button></span><input id="mQnh" type="number" inputmode="decimal" step="any" value="1013"></label>
+      <label class="fld"><span id="lElev">Elevation <button type="button" class="u-cyc" data-u="alt" aria-label="Change altitude unit"><span class="u-lab">ft</span><i class="u-cue" aria-hidden="true">⇅</i></button></span><input id="mElev" type="number" inputmode="decimal" step="any" value="5558"></label>
       <label class="fld"><span id="lRh">Relative humidity (optional) %</span><input id="mRh" type="number" inputmode="decimal" step="any" min="0" max="100" placeholder="Optional"></label>
     </div>
-    <div class="sublbl">Units</div>
-    <div class="units"><div class="seg sm" data-u="alt"><i></i><button data-v="0">ft</button><button data-v="1">m</button></div><div class="seg sm" data-u="temp"><i></i><button data-v="0">°C</button><button data-v="1">°F</button></div><div class="seg sm" data-u="press"><i></i><button data-v="0">hPa</button><button data-v="1">inHg</button></div></div>
   </section>
 </main>
 <!-- Part 2: "More calculators" (rendered by assets/more.js) -->
@@ -58,7 +57,7 @@
 <p class="foot">Demo only · planning aid, always confirm with your POH and the current AIP.</p>
 <div class="scrim" id="scrim"></div>
 <div class="sheet glass" id="sheet" role="dialog" aria-modal="true"><button class="rbtn x" id="sheetX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></button><h4 id="shT"></h4><div class="lbl">Formula</div><pre id="shF"></pre><div class="lbl">Source</div><p id="shS"></p></div>
-<script src="assets/calc.js?v=b2ffd61b0a"></script><script src="assets/ta.js"></script><script src="assets/aerodromes.js?v=072a11f268"></script><script src="assets/v3.js?v=d6b4f587b6"></script><script src="assets/more.js?v=5c74ef03c3"></script><script src="assets/da.js?v=51d1c3dc02"></script>
+<script src="assets/calc.js?v=73452d5933"></script><script src="assets/ta.js"></script><script src="assets/aerodromes.js?v=072a11f268"></script><script src="assets/v3.js?v=556f5878fc"></script><script src="assets/more.js?v=11nov26p"></script><script src="assets/da.js?v=eb8cdc631c"></script>
 <i id="list" hidden></i><!-- marks the list page for the shared search (fs.js), same as main_demo -->
 <!--WMFS--><script id="wm-search2">window.WMSEARCH2=1;if(window.WMEMB)window.__fsPull={embedded:1};else['fs-data','fs'].forEach(function(n){var e=document.createElement('script');e.src='fs/'+n+'.js'+(n=='fs-data'?'?v=f6e9c91533':'');e.async=false;document.body.appendChild(e)})</script><!--/WMFS-->
 <!-- pull-down search: copied verbatim from iphone_combo/pulldown_fix_patch.py -->

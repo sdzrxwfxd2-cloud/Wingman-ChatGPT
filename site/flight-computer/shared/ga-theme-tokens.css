@@ -1,0 +1,189 @@
+/* ============================================================================
+   Go Around theme tokens — source of truth for both trainers (CX-3 and E6-B).
+   Copied verbatim from go-around-design/DESIGN.md §2
+   "Theme values (midnight / amethyst / day-white / day-beige)".
+   Names / html attributes / accents from
+   go-around-design/go-around/NOTION_Go_Around_Design_Rules.md §3.1:
+
+     Theme 1 Midnight   html[data-theme=night][data-pal=black]   --acc #6B78FF
+     Theme 2 Amethyst   html[data-theme=night][data-pal=purple]  --acc #6B78FF
+     Theme 3 Pearl      html[data-theme=day][data-pal=white]     --acc #0019C9
+     Theme 4 Champagne  html[data-theme=day][data-pal=beige]     --acc #0019C9
+
+   Design rule: do not change these values without a design-team decision.
+   The trainer's own internal screen themes (CX-3 standard / night / daylight)
+   are separate and are not overridden here.
+   ============================================================================ */
+
+html[data-theme=night][data-pal=black] {
+  --bg: #000;
+  --bg2: #000;
+  --tx: #F5F5F7;
+  --tx2: rgba(245,245,247,.62);
+  --gl: rgba(28,28,30,.55);
+  --gl2: rgba(255,255,255,.06);
+  --ln: rgba(255,255,255,.10);
+  --hl: rgba(255,255,255,.16);
+  --sh: 0 20px 50px rgba(0,0,0,.6);
+  --pill: rgba(30,32,40,.52);
+  --rimT: rgba(255,255,255,.34);
+  --rimB: rgba(255,255,255,.08);
+  --hair: rgba(255,255,255,.10);
+  --sh1: rgba(0,0,0,.35);
+  --sh2: rgba(0,0,0,.65);
+  --sheet: rgba(30,32,40,.4173);
+  --tint: rgba(10,132,255,.10);
+  --fln: rgba(255,255,255,.1);
+  --fhi: rgba(255,255,255,.1);
+  --fsh: rgba(0,0,0,.35);
+  --solid: #1E2028;
+  --acc: #6B78FF;
+}
+
+html[data-theme=night][data-pal=purple] {
+  --bg: #0B0716;
+  --bg2: #1A0F33;
+  --tx: #F7F4FF;
+  --tx2: rgba(236,228,255,.64);
+  --gl: rgba(40,26,74,.48);
+  --gl2: rgba(200,170,255,.07);
+  --ln: rgba(210,190,255,.13);
+  --hl: rgba(230,215,255,.20);
+  --sh: 0 20px 50px rgba(5,0,20,.6);
+  --pill: rgba(46,26,84,.5);
+  --rimT: rgba(235,220,255,.38);
+  --rimB: rgba(235,220,255,.08);
+  --hair: rgba(220,200,255,.12);
+  --sh1: rgba(5,0,20,.4);
+  --sh2: rgba(5,0,20,.7);
+  --sheet: rgba(46,26,84,.4016);
+  --tint: rgba(196,170,255,.075);
+  --fln: rgba(210,190,255,.13);
+  --fhi: rgba(230,215,255,.2);
+  --fsh: rgba(5,0,20,.6);
+  --solid: #2E1A54;
+  --acc: #6B78FF;
+}
+
+html[data-theme=day][data-pal=white] {
+  --bg: #F2F2F5;
+  --bg2: #E9E6F0;
+  --tx: #111114;
+  --tx2: rgba(17,17,20,.62);
+  --gl: rgba(255,255,255,.62);
+  --gl2: rgba(255,255,255,.5);
+  --ln: rgba(0,0,0,.07);
+  --hl: rgba(255,255,255,.95);
+  --sh: 0 14px 40px rgba(30,20,60,.10);
+  --pill: rgba(250,251,255,.62);
+  --rimT: #fff;
+  --rimB: rgba(255,255,255,.55);
+  --hair: rgba(20,30,70,.10);
+  --sh1: rgba(20,30,70,.06);
+  --sh2: rgba(20,30,70,.16);
+  --sheet: rgba(250,251,255,.4957);
+  --tint: rgba(0,25,201,.05);
+  --fln: rgba(0,0,0,.07);
+  --fhi: rgba(255,255,255,.9);
+  --fsh: rgba(0,0,0,.35);
+  --solid: #FAFBFF;
+  --acc: #0019C9;
+}
+
+html[data-theme=day][data-pal=beige] {
+  --bg: #F4EEE3;
+  --bg2: #E9DFCC;
+  --tx: #1C1814;
+  --tx2: rgba(28,24,20,.62);
+  --gl: rgba(255,251,243,.66);
+  --gl2: rgba(255,250,240,.55);
+  --ln: rgba(60,40,10,.08);
+  --hl: rgba(255,253,248,.95);
+  --sh: 0 14px 40px rgba(70,50,20,.10);
+  --pill: rgba(252,245,233,.68);
+  --rimT: #fff;
+  --rimB: rgba(255,250,240,.6);
+  --hair: rgba(90,70,35,.10);
+  --sh1: rgba(80,60,25,.06);
+  --sh2: rgba(80,60,25,.16);
+  --sheet: rgba(252,245,233,.5427);
+  --tint: rgba(176,120,40,.05);
+  --fln: rgba(60,40,10,.08);
+  --fhi: rgba(255,253,248,.95);
+  --fsh: rgba(70,50,20,.35);
+  --solid: #FCF5E9;
+  --acc: #0019C9;
+}
+
+/* Status colours from go-around-design/DESIGN.md (same in every theme).
+   --ga-blue is the brand / settings-pill blue (#0019C9), also used for the
+   E6-B main wind plot dot so it stays visible on the light computer face. */
+html[data-theme][data-pal] {
+  --go: #22C55E;
+  --cau: #FF8A00;
+  --nogo: #F80F3B;
+  --ga-blue: #0019C9;
+  --ga-r: 14px;
+  --ga-r-lg: 30px;
+}
+
+/* Shared theme switcher chrome (same control on CX-3 and E6-B). */
+#ga-theme-switcher {
+  position: fixed;
+  top: 56px;
+  right: 24px;
+  z-index: 10003;
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 14px;
+  background: var(--gl2);
+  box-shadow: inset 0 0 0 .5px var(--ln);
+  font-family: 'General Sans', 'Satoshi', sans-serif;
+}
+
+#ga-theme-switcher button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--tx2);
+  font: 600 12px/1 'General Sans', 'Satoshi', sans-serif;
+  letter-spacing: .01em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#ga-theme-switcher button[aria-pressed="true"] {
+  background: var(--gl);
+  color: var(--tx);
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 0 0 .5px var(--ln), 0 3px 10px rgba(0,0,0,.18);
+}
+
+html[data-theme=day] #ga-theme-switcher button[aria-pressed="true"] {
+  background: #fff;
+}
+
+@media (max-width: 520px) {
+  #ga-theme-switcher {
+    right: 12px;
+    padding: 3px;
+  }
+  #ga-theme-switcher button {
+    padding: 0 7px;
+    font-size: 11px;
+  }
+}
+
+/* CX-3: sit in a slim top bar so it does not cover the keypad or status icons. */
+html[data-cx3] #ga-theme-switcher {
+  top: 8px;
+  right: 8px;
+  left: 8px;
+  width: auto;
+  justify-content: flex-end;
+}

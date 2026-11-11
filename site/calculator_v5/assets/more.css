@@ -29,7 +29,7 @@ html[data-theme=day][data-pal=beige] .mc,html[data-theme=day][data-pal=warm] .mc
 .mc button:focus-visible{outline:2px solid var(--mc-gt);outline-offset:2px}
 /* inputs: no inner outline — outer .fld ring (v3.css) is the only focus cue */
 .mc input:focus,.mc input:focus-visible,.mc select:focus,.mc select:focus-visible{outline:none!important;box-shadow:none!important;background:transparent!important;caret-color:var(--tx);accent-color:var(--tx)}
-.mc .fld:focus-within{box-shadow:inset 0 0 0 1.5px #22C55E!important}
+.mc .fld:focus-within,.mc .fld.is-res{box-shadow:inset 0 0 0 1.5px #22C55E!important}
 .mc-head{text-align:center;margin:40px 0 16px}
 .mc-head .more{margin:0;padding:0}
 /* Same .more title typography; static, centred selection label, never a FLIP mover. */
@@ -121,3 +121,18 @@ html[data-theme=day][data-pal=beige] .mc,html[data-theme=day][data-pal=warm] .mc
 @media(prefers-reduced-motion:reduce){.mc *,.mcf-sh{transition:none!important;animation:none!important}}
 /* emb: shell .wrap already clears the nav pill — no extra empty end */
 html.emb .mc{padding-bottom:12px}
+
+/* TSD unit word in the label: same type, faint cue, light tap */
+/* same unit word on every calculator: field labels, the big result's unit and the density-altitude card */
+.mc .fld .u-cyc,.mc .res .u-cyc,.dapage .u-cyc{font:inherit;color:inherit;letter-spacing:inherit;display:inline;vertical-align:baseline;border-radius:0;line-height:inherit;transition:opacity .12s ease;background:none;border:0;margin:0;padding:0;cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
+.mc .fld .u-cyc .u-lab,.mc .res .u-cyc .u-lab,.dapage .u-cyc .u-lab{border-bottom:.5px solid color-mix(in srgb,currentColor 40%,transparent)}
+.mc .fld .u-cyc .u-cue,.mc .res .u-cyc .u-cue,.dapage .u-cyc .u-cue{font-style:normal;font-size:8px;margin-left:2px;opacity:.45;vertical-align:1px}
+.dabig .u-cyc .u-cue{font-size:11px;vertical-align:3px}
+.mc .fld .u-cyc:active,.mc .res .u-cyc:active,.dapage .u-cyc:active{opacity:.55}
+.dasub .nowrap{white-space:nowrap}
+.dapage .u-cyc:focus-visible{outline:2px solid #22C55E;outline-offset:2px}
+
+/* Flight computer cards (CX-3 / E6-B). Reuses existing .mcc / .mcf-c / .mcc-fx styles. */
+.mcc-fc .mcc-hd{align-items:flex-start}
+.mcc-fc .mcc-hd .mcc-fx{margin-top:0;flex:0 0 auto;white-space:nowrap}
+.mcc-fc-frame{display:block;width:100%;border:0;background:transparent;min-height:0;height:520px}

@@ -1,0 +1,229 @@
+/* Copyright (c) 2026 Go Around, South Africa. All rights reserved. */
+/*
+  All widgets will have .widget as a class along with a specific class for that, well... class.
+  Example: The calculator field widget will have a class of "widget calculator-field"
+ */
+.widget {
+/*  background-color: black;
+  color: white;
+  border: 1px solid black;
+  border-top: 1px solid #999999;*/
+  padding: 0px 5px;
+  margin: 0px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.widget>var {
+  font-style: normal;
+}
+
+.widget:first-child, .widget.active+.widget {
+/*  border-top: 1px solid black;*/
+}
+
+.widget:last-child {
+/*  border-bottom: 1px solid #999999;*/
+}
+
+.widget.active {
+  border-radius: 5px;
+/*  border: 1px solid white;
+  background-color: white;
+  color: black;*/
+}
+
+.widget.non-selectable {
+/*  color: #ADADAD;*/
+}
+
+/*
+ * Random display flags
+ */
+.widget>var.fieldname.trip-field-left {
+  padding-left: 5px;
+}
+
+.small-font {
+  font-size: .81em;
+}
+
+/* 
+ * CX3CalculatorFieldWidget
+ * Has icon, field name, value, and units.
+ */
+.calculator-field.widget {
+  background-repeat: no-repeat;
+  background-position: 5px 50%;
+  padding-left: 22px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.calculator-field.widget>var.fieldname {
+}
+
+.calculator-field.widget.stretch-name {
+  padding-left: 5px;
+}
+
+.calculator-field.widget.stretch-name>var.fieldname {
+  font-size: .81em;
+}
+
+.calculator-field.widget.stretch-name>var.unit {
+  text-align: right;
+}
+
+.calculator-field.widget.unit-as-value>var.unit {
+  font-size: 1em;
+  text-align: right;
+}
+
+.calculator-field.widget.indent-left {
+  background-position: 15px 50%;
+  padding-left: 32px;
+}
+
+.calculator-field.widget>var.unit {
+  font-size: .81em;
+  width: 50px;
+  white-space:nowrap;
+}
+
+.calculator-field.widget>var.value {
+  padding: 0px 3px;
+  flex:1;
+  text-align:right;
+}
+/*
+.calculator-field.widget.check {
+  background-image: url(../img/status_check_black.png);
+}
+
+.calculator-field.widget.check.active {
+  background-image: url(../img/status_check_white.png);
+}
+
+.calculator-field.widget.equals {
+  background-image: url(../img/status_equals_black.png);
+}
+
+.calculator-field.widget.equals.active {
+  background-image: url(../img/status_equals_white.png);
+}
+
+.calculator-field.widget.global {
+  background-image: url(../img/status_global_black.png);
+}
+
+.calculator-field.widget.global.active {
+  background-image: url(../img/status_global_white.png);
+}
+
+.calculator-field.widget.question {
+  background-image: url(../img/status_question_black.png);
+}
+
+.calculator-field.widget.question.active {
+  background-image: url(../img/status_question_white.png);
+}
+*/
+/*
+ * CX3CalculatorWidget
+ * Has only value.
+ */
+.cx3-calculator.widget {
+/*  border-top: 1px solid black;*/
+  text-align: right;
+}
+
+.cx3-calculator.widget.active {
+/*  border-top: 1px solid white;*/
+}
+
+.cx3-calculator.widget>var.fieldname, .cx3-calculator.widget>var.unit {
+  display: none;
+}
+
+/*
+ * CX3MenuItemWidget
+ * Has only field name.
+ */
+.cx3-menu-item.widget>var.value, .cx3-menu-item.widget>var.unit {
+  display: none;
+}
+
+/*
+ * cx3TripItemWidget
+ * Has fieldname and value.
+ */
+.cx3-trip-item.widget>var.unit {
+  display: none;
+}
+
+.cx3-trip-item.widget>var.value {
+  font-size: .81em;
+  float: right;
+}
+
+/*
+ * CX3TimerWidget
+ * Large size with hour, minute, seconds indicator.
+ */
+.cx3-timer.widget {
+  line-height: 75px;
+  height: 75px;
+  font-size: 62px;
+}
+
+.cx3-timer.widget.expired {
+  color: red;
+}
+
+.cx3-timer.widget>span {
+  padding: 0px;
+  display: inline-block;
+  text-align: center;
+}
+
+.cx3-timer.widget>.hours, .cx3-timer.widget>.minutes, .cx3-timer.widget>.seconds {
+  width: 30px;
+}
+
+.cx3-timer.widget>.filler, .cx3-timer.widget>.sign {
+  width: 20px;
+}
+
+
+/*
+ * timer-labels
+ * Looks like a small widget.
+ */
+.timer-labels.widget {
+/*  border: 1px solid black;
+  border-top: 1px solid #999999;*/
+  font-size: .81em;
+  line-height: 14px;
+  height: 14px;
+  padding: 0px;
+}
+.timer-labels.widget>div {
+  display: inline-block;
+  margin: 0px;
+}
+
+.timer-labels.widget>.hours {
+  padding-left: 25px;
+  width: 80px;
+  float: left;
+}
+
+.timer-labels.widget>.minutes {
+}
+
+.timer-labels.widget>.seconds {
+  padding-right: 25px;
+  width: 80px;
+  float: right;
+}

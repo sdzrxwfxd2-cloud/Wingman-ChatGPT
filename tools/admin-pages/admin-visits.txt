@@ -1,0 +1,24 @@
+
+@@title
+Visits
+@@foot
+The original /admin visit table, rebuilt on Cloudflare with every field the visitor log keeps. Full IPs are shown to the admin only.
+@@body
+  <main>
+    <section class="card glass wide" id="c-sum"><h2><i class="dot"></i>Visits</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-tab"><h2><i class="dot"></i>Every visit, newest first</h2>
+      <div class="flt"><div class="seg" id="rg"><button data-r="1d">Today</button><button data-r="7d">7 days</button><button data-r="30d" class="on">30 days</button></div>
+      <input id="q" type="search" placeholder="Search city, IP, browser, page…" aria-label="Search"></div>
+      <div class="b m">Loading…</div></section>
+  </main>
+@@script
+(function(){var A=AX,R=[],range='30d',total=0;
+function draw(){var q=A.$('#q').value.trim().toLowerCase(),L=R.filter(function(r){return!q||JSON.stringify(r).toLowerCase().indexOf(q)>=0});
+  var ses={},cty={};R.forEach(function(r){ses[r.sid]=1;if(r.country)cty[r.country]=1});
+  A.set('#c-sum','ok','<div class="kpis"><div class="kpi"><b>'+A.n(total)+'</b><span>visits in range</span></div><div class="kpi"><b>'+A.n(Object.keys(ses).length)+'</b><span>sessions</span></div><div class="kpi"><b>'+A.n(Object.keys(cty).length)+'</b><span>countries</span></div></div><p class="m">Newest '+A.n(R.length)+' shown · '+A.n(L.length)+' match the search. Links: <a href="/admin-status">Status</a> · <a href="/admin-visitors">Visitors</a></p>');
+  A.set('#c-tab','ok',A.table(L))}
+A.$('#q').addEventListener('input',draw);
+document.querySelectorAll('#rg button').forEach(function(b){b.onclick=function(){document.querySelectorAll('#rg button').forEach(function(x){x.classList.toggle('on',x===b)});range=b.dataset.r;load()}});
+async function load(){var d=await A.get('/api/admin/visits?range='+range+'&limit=500');R=A.rows(d.rows);total=d.totalMatched||R.length;draw();
+  A.$('#sub').textContent=A.n(total)+' total, newest '+A.n(R.length)+' shown · store '+(d.store||'off')+' · '+A.sast(Date.now())}
+A.start(load)})();

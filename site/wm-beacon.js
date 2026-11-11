@@ -2,6 +2,10 @@
    Only a random session id + per-session page count in sessionStorage. Sends once per page load. */
 (function(){try{
   if(window.__wmb)return;window.__wmb=1;
+  /* 11 Nov 2026: count the page the visitor opened, not the pages the app preloads in hidden frames (one view used to send
+     4-5 beacons), and skip automated browsers (navigator.webdriver). Both burned the KV free plan's 1,000 writes a day. */
+  try{if(window.top!==window.self)return}catch(e){return}
+  if(navigator.webdriver)return;
   var S=sessionStorage,sid=S.getItem('wm-sid');
   if(!sid){sid=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now().toString(36)).slice(0,36);S.setItem('wm-sid',sid)}
   var n=(+S.getItem('wm-sn')||0)+1;S.setItem('wm-sn',n);

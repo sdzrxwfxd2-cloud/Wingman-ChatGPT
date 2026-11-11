@@ -1,0 +1,80 @@
+/* Window stuff */
+.theme-standard #status-bar {
+  background-color: #313131;
+}
+
+.theme-standard #subtitle {
+  background-color: black;
+  border-bottom: 2px solid #313131;
+}
+
+.theme-standard #cx3-window {
+}
+
+/* Widget Stuff */
+.theme-standard .widget {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  border-top: 1px solid #999999;
+}
+
+.theme-standard .widget:first-child, .theme-standard .widget.active+.widget {
+  border-top: 1px solid black;
+}
+
+.theme-standard .widget:last-child {
+  border-bottom: 1px solid #999999;
+}
+
+.theme-standard .widget.active {
+  border: 1px solid white;
+  background-color: white;
+  color: black;
+}
+
+.theme-standard .widget.non-selectable {
+  color: #ADADAD;
+}
+
+/* Status icons */
+.theme-standard .calculator-field.widget.check {
+  background-image: url(../../img/status_check_black.png);
+}
+
+.theme-standard .calculator-field.widget.check.active {
+  background-image: url(../../img/status_check_white.png);
+}
+
+.theme-standard .calculator-field.widget.equals {
+  background-image: url(../../img/status_equals_black.png);
+}
+
+.theme-standard .calculator-field.widget.equals.active {
+  background-image: url(../../img/status_equals_white.png);
+}
+
+.theme-standard .calculator-field.widget.global {
+  background-image: url(../../img/status_global_black.png);
+}
+
+.theme-standard .calculator-field.widget.global.active {
+  background-image: url(../../img/status_global_white.png);
+}
+
+.theme-standard .calculator-field.widget.question {
+  background-image: url(../../img/status_question_black.png);
+}
+
+.theme-standard .calculator-field.widget.question.active {
+  background-image: url(../../img/status_question_white.png);
+}
+
+/* Override lines between widgets on the calculator */
+.theme-standard .cx3-calculator.widget {
+  border-top: 1px solid black;
+}
+
+.theme-standard .cx3-calculator.widget.active {
+  border-top: 1px solid white;
+}

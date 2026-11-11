@@ -30,12 +30,17 @@ function adRec(){const S=window.WMST;const a=S&&S.ads&&S.ads.find(x=>x.ic===ic);
  const rw=f&&f[6]?f[6].map(d=>({id:d,true:((+d.replace(/\D/g,'')*10+dec)%360+360)%360})):[];
  return{ic,nm:f?f[1]:ic,la:A.la,lo:A.lo,el:null,cat:f&&(f[4]==='i'||f[4]==='c')?'c':'u',iap:false,rw,heli:!rw.length&&HELI.test(f?f[1]:document.title)}}
 let busy=0;
-function run(){if(busy)return;const r=window.GA_V2_PAGE;if(!r)return;
- busy=1;try{const v=$('#verd');if(!v||v.getAttribute('data-s')==='heli')return;
+function run(){if(busy)return;const rm=$('#s-wx .rawb[data-r=metar]'),rt=$('#s-wx .rawb[data-r=taf]'),raw=rm?rm.textContent.trim():'';if(!/^(METAR|SPECI) /.test(raw))return;
+ const ad=adRec(),S={metar:{},taf:{},om:{}};S.metar[ic]=awc(raw);const tf=rt?rt.textContent.trim():'';if(/^TAF /.test(tf))S.taf[ic]=tf;
+ const lv=LS('wm-lvl')==='ppln'?'ppl':LS('wm-lvl'),P=Object.assign({},W.PRE[lv]||W.PRE.cpl);if(LS('wm-night')!=null)P.night=LS('wm-night')==='1'?1:0;
+ let r;try{r=W.status(ad,W.obsOf(ad,S),LS('wm-ac')||'C172',LS('wm-rules')==='ifr'?'ifr':'vfr',P,Date.now())}catch(e){return}
+ busy=1;try{const v=$('#verd');v.dataset.s=r.s;$('#vs').textContent=LB[r.s]||r.s;const why=String(r.why||'').replace(/ · METAR.*$/,'');
+  $('#vw').textContent=r.s==='go'?'Within your limits: '+why+'.':r.s==='none'?why:'Because '+(r.F||[]).filter(f=>f.lv===r.s).map(f=>f.txt).join('; ')+'.';
+  const row=[...v.querySelectorAll('.vsuit .kv>div')].find(d=>/^Status/.test(d.firstChild.textContent));if(row){row.lastChild.textContent=LB[r.s];row.lastChild.style.color='var(--'+(r.s==='nogo'?'nogo':r.s==='caution'?'cau':'go')+')'}
   const cnr=(r.F||[]).some(f=>f.k==='cnr');document.querySelectorAll('#s-wx .wcnr').forEach(e=>e.remove());
   if(cnr){const c=[...document.querySelectorAll('#s-wx .pane[data-p=metar] .wxg>div')].find(d=>(d.querySelector('.lbl')||{}).textContent==='Cloud');
    if(c)c.querySelector('b').insertAdjacentHTML('beforeend','<small class="wcnr" style="display:block;color:var(--nogo,#F80F3B);font-weight:600">Cloud height not reported</small>');
-   const vw=v.querySelector('#vw');if(vw&&!v.querySelector('p.wcnr'))vw.insertAdjacentHTML('afterend','<p class="wcnr" style="color:var(--nogo,#F80F3B);font-weight:600;margin:4px 0 0">Cloud height not reported</p>')}
+   v.querySelector('#vw').insertAdjacentHTML('afterend','<p class="wcnr" style="color:var(--nogo,#F80F3B);font-weight:600;margin:4px 0 0">Cloud height not reported</p>')}
  }finally{setTimeout(()=>{busy=0},0)}}
 window.wstAdRun=run;
 const go=()=>{run();const mo=new MutationObserver(()=>{if(!busy)setTimeout(run,0)});const s=$('#s-wx');if(s)mo.observe(s,{subtree:true,childList:true,characterData:true})};
@@ -45,7 +50,7 @@ if(!window.WMST){const sc=document.createElement('script');sc.src=ME.replace(/ws
 /* 30 Oct 2026 (MT): heliport/helipad pages. No GO / CAUTION / NO-GO verdict: the "Can I go?" box shows a steady grey HELIPORT or HELIPAD pill (AD_CLASS helistop = HELIPAD),
    a helipad sign (inline SVG, theme colours) and model weather from Open-Meteo for emergency reference only. */
 (function(){const RUN=()=>{const $=q=>document.querySelector(q),ic=((location.pathname.match(/\/([A-Z0-9-]+)\.html$/i)||[])[1]||'').toUpperCase(),v=$('#verd');if(!ic||!v)return;
-const HELI=/heli(?:port|pad|stop)?\b|hospital|\bHP\b/i,f=window.FS_D&&FS_D.a&&FS_D.a.find(x=>x[0]===ic),cls=(window.AD_CLASS||{})[ic];if(!cls){if(!f||(f[6]||[]).length||!HELI.test(f[1]))return;}
+const HELI=/heli(?:port|pad|stop)?\b|hospital|\bHP\b/i,f=window.FS_D&&FS_D.a&&FS_D.a.find(x=>x[0]===ic);if(!f||(f[6]||[]).length||!HELI.test(f[1]))return;
 const NOTE='Model weather, not an official report. For emergency reference only.',A=window.WSTAD||{},k=x=>x==null?'\u2014':Math.round(x);
 const STOPS={'ZA-0140':1,'ZA-0167':1,'ZA-0170':1,'ZA-0171':1,'ZA-0172':1,'ZA-0173':1,'ZA-0174':1,'ZA-0175':1,'ZA-0202':1,'ZA-0203':1,'ZA-0206':1,'ZA-0207':1,'ZA-0208':1,'ZA-0209':1,'ZA-0211':1,'ZA-0213':1,'ZA-0214':1,'ZA-0290':1,'ZA-0291':1,'ZA-0292':1,'ZA-0311':1,'ZA-0312':1,'ZA-0318':1,'ZA-0319':1,'ZA-0356':1,'ZA-0357':1};
 const LAB=((window.AD_CLASS||{})[ic]==='helistop'||STOPS[ic])?'HELIPAD':'HELIPORT';

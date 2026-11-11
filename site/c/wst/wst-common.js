@@ -11,7 +11,7 @@ window.WSTC={AD,sel,prof,all,dots};})();
 /* when served: refresh the snapshot from the cached /api function (official) + one Open-Meteo batch (model), every 15 min */
 (function(){const S=window.WMST,C=window.WSTC;if(!S||!C||!/^https?:/.test(location.protocol))return;
 async function live(){try{const [M,T]=await Promise.all([fetch('/api/metar').then(r=>r.json()),fetch('/api/taf').then(r=>r.json()).catch(()=>[])]);
- M.sort((a,b)=>a.obsTime-b.obsTime).forEach(m=>{if(m&&m.icaoId)S.metar[m.icaoId]=m});(T||[]).forEach(t=>{if(t&&t.icaoId&&t.rawTAF)S.taf[t.icaoId]=t.rawTAF});
+ M.sort((a,b)=>a.obsTime-b.obsTime).forEach(m=>{if(C.AD[m.icaoId])S.metar[m.icaoId]=m});(T||[]).forEach(t=>{if(C.AD[t.icaoId])S.taf[t.icaoId]=t.rawTAF});
  const mo=S.ads.filter(a=>!S.metar[a.ic]);if(mo.length&&!window.WMCARD){const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+mo.map(a=>a.la).join(',')+'&longitude='+mo.map(a=>a.lo).join(',')+'&current=temperature_2m,dew_point_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,visibility,pressure_msl,cloud_cover_low,cloud_cover,cloud_base&wind_speed_unit=kn&timezone=UTC').then(r=>r.json());[].concat(j).forEach((o,i)=>S.om[mo[i].ic]=o)}
  document.dispatchEvent(new Event('wst:data'))}catch(e){}}
 live();setInterval(live,15*60e3)})();

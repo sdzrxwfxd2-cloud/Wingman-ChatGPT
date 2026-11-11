@@ -1,0 +1,128 @@
+/* Copyright (c) 2026 Go Around, South Africa. All rights reserved. */
+/* ============================================================================
+   DESIGN-NOTES — CX-3 sizing layer
+   ----------------------------------------------------------------------------
+   This file is the only place the design team should need to touch to resize
+   the CX-3 trainer. It does not change calculator logic. Existing layout
+   rules in cx3.css (30vh screen / 70vh keypad / 9.285vh button cap) are
+   re-expressed here in custom properties so they stay in proportion.
+
+   HOW TO CHANGE THE SIZE
+   1. Pick a preset on <html>:
+        <html data-cx3-size="default">   /* current: fills the remaining viewport
+        <html data-cx3-size="phone">     /* 390 × 844 (iPhone-class column)
+        <html data-cx3-size="compact">   /* 320 × 640
+        <html data-cx3-size="tablet">    /* 768 × 1024
+        <html data-cx3-size="scaled">    /* viewport size, then scaled to 85%
+
+   2. Or override the variables on :root / html in this file or a local sheet:
+
+        --cx3-width   Width of the calculator shell. Default 100%.
+        --cx3-height  Height of the calculator shell (screen + keypad).
+                      Default is the viewport minus the theme-switcher bar.
+        --cx3-scale   Uniform scale of the shell (1 = actual size). Useful
+                      when dropping the trainer onto a design-review page.
+        --cx3-screen-ratio   Share of --cx3-height given to the display
+                             (default 0.30, same as the original 30vh).
+        --cx3-keypad-ratio   Share of --cx3-height given to the keypad
+                             (default 0.70, same as the original 70vh).
+        --cx3-switcher-height  Top bar reserved for the theme switcher.
+                               Set to 0px and hide #ga-theme-switcher if you
+                               need the shell to fill the whole viewport.
+
+   3. Keep --cx3-screen-ratio + --cx3-keypad-ratio = 1 so the two panes
+      still fill the shell. Button max-height stays in proportion
+      (original cap was 9.285vh ≈ 13.264% of the 70vh keypad).
+
+   Default size is "default": the calculator behaves as before, just with a
+   slim theme bar at the top. The built-in CX-3 display themes (standard /
+   night / daylight, switched from inside the Settings screen) are unchanged.
+   ============================================================================ */
+
+:root {
+  --cx3-switcher-height: 48px;
+  --cx3-width: 100%;
+  --cx3-height: calc(100vh - var(--cx3-switcher-height));
+  --cx3-scale: 1;
+  --cx3-screen-ratio: 0.30;
+  --cx3-keypad-ratio: 0.70;
+  /* 9.285vh / 70vh = 0.132642... */
+  --cx3-button-max-ratio: 0.132642;
+}
+
+/* Presets. data-cx3-size is set on <html>; "default" is also the :root fallback. */
+html[data-cx3-size="default"] {
+  --cx3-width: 100%;
+  --cx3-height: calc(100vh - var(--cx3-switcher-height));
+  --cx3-scale: 1;
+}
+
+html[data-cx3-size="phone"] {
+  --cx3-width: 390px;
+  --cx3-height: 844px;
+  --cx3-scale: 1;
+}
+
+html[data-cx3-size="compact"] {
+  --cx3-width: 320px;
+  --cx3-height: 640px;
+  --cx3-scale: 1;
+}
+
+html[data-cx3-size="tablet"] {
+  --cx3-width: 768px;
+  --cx3-height: 1024px;
+  --cx3-scale: 1;
+}
+
+html[data-cx3-size="scaled"] {
+  --cx3-width: 100%;
+  --cx3-height: calc(100vh - var(--cx3-switcher-height));
+  --cx3-scale: 0.85;
+}
+
+/* Shell: centers the unit and applies width / scale. */
+#content {
+  width: var(--cx3-width);
+  max-width: 100%;
+  margin: var(--cx3-switcher-height) auto 0;
+  transform: scale(var(--cx3-scale));
+  transform-origin: top center;
+}
+
+/* Re-express the original 30vh / 70vh / 9.285vh in terms of --cx3-height. */
+#cx3-window {
+  width: 100%;
+  height: calc(var(--cx3-height) * var(--cx3-screen-ratio));
+}
+
+.flight-calculator-buttons {
+  width: 100%;
+  height: calc(var(--cx3-height) * var(--cx3-keypad-ratio));
+}
+
+.flight-calculator-button {
+  max-height: calc(var(--cx3-height) * var(--cx3-keypad-ratio) * var(--cx3-button-max-ratio));
+}
+
+/* Typography from go-around-design/DESIGN.md §2 / §6.5 (self-hosted, see ../../fonts/). */
+body {
+  font-family: 'Satoshi', 'General Sans', sans-serif;
+}
+
+#status-bar-title,
+#subtitle {
+  font-family: 'General Sans', 'Satoshi', sans-serif;
+  font-weight: 600;
+}
+
+#screen .value,
+#screen var.value {
+  font-family: 'Nippo', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+#status-bar-clock {
+  font-family: 'Satoshi', 'General Sans', sans-serif;
+  font-variant-numeric: tabular-nums;
+}

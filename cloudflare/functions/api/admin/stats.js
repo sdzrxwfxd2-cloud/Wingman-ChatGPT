@@ -1,5 +1,5 @@
 import { requireAdmin, json } from "../../../lib/admin_session.mjs";
-import { summarize, storageKind } from "../../../lib/visit_store.mjs";
+import { summarizeWindows, storageKind } from "../../../lib/visit_store.mjs";
 
 function windowMs(range) {
   if (range === "1d" || range === "today") return 24 * 60 * 60 * 1000;
@@ -16,9 +16,10 @@ export async function onRequestGet({ request, env }) {
   const since = until - windowMs(range);
   const store = storageKind(env);
   if (!store) return json({ error: "storage_not_ready", store: null, range, since, until });
-  const day = await summarize(env, { since: until - windowMs("1d"), until });
-  const week = range === "7d" ? await summarize(env, { since, until }) : await summarize(env, { since: until - windowMs("7d"), until });
-  const month = range === "30d" ? await summarize(env, { since, until }) : await summarize(env, { since: until - windowMs("30d"), until });
+  // one pass over the store for all three windows (was three full scans, ~4,150 KV operations on 10 Nov)
+  const w = await summarizeWindows(env, { until });
+  if (w.error) return json({ error: w.error, store: w.store, range, since, until });
+  const day = w.today, week = w.week, month = w.month;
   const chosen = range === "1d" || range === "today" ? day : range === "30d" ? month : week;
   return json({
     now: new Date().toISOString(),
@@ -38,6 +39,7 @@ export async function onRequestGet({ request, env }) {
     referrers: chosen.referrers || [],
     models: chosen.models || [],
     cloudflare: { connected: false, note: "Cloudflare GraphQL analytics is optional. The visitor log on this page is the source of visits, devices and IPs. A read-only Analytics token can be added later as the Cloudflare secret CF_ANALYTICS_TOKEN." },
+    legacy: w.legacy || 0,
     note: "A visitor's name cannot be collected. Phones and computers do not share the owner's name."
   });
 }

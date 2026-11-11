@@ -67,7 +67,7 @@
     $('k-30-u').textContent = 'unique '+n(d.d30 && d.d30.uniques);
     $('k-store').textContent = d.store==='d1' ? 'D1' : d.store==='kv' ? 'KV' : 'Off';
     $('k-range').textContent = range==='1d'?'today':range;
-    $('sub').textContent = 'Updated '+fmt(Date.parse(d.now||Date.now())) + (d.store ? ' · store '+d.store : '');
+    $('sub').textContent = 'Updated '+fmt(Date.parse(d.now||Date.now())) + (d.store ? ' · store '+d.store : '') + (d.legacy ? ' · '+n(d.legacy)+' older visits counted without details' : '');
     drawChart(d.days);
     listBlock($('t-pages'), d.pages);
     listBlock($('t-countries'), d.countries);
@@ -108,7 +108,8 @@
     }).join('');
   }
 
-  async function refresh(){ await loadStats(); await loadLog(); }
+  // stats and log load side by side, so a slow or failed one never leaves the other empty
+  async function refresh(){ await Promise.all([loadStats().catch(function(){ $('sub').textContent = 'Could not load the totals'; }), loadLog().catch(function(){})]); }
 
   function showApp(){ $('login').hidden = true; $('app').hidden = false; themeButtons(); refresh(); }
   function showLogin(msg){

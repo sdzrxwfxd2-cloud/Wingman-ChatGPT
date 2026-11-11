@@ -1,6 +1,6 @@
 /* Main-page cards (approved 2026-10-21): no Model box, model weather on no-METAR cards (soft Model tag), Model tab default there, Vis/Sky decoded from the shown METAR, live sunrise/sunset pill. Model panels reuse the one batched Open-Meteo call (no per-card requests). */
 (function(){const W=window.WST,S=window.WMST,C=window.WSTC;if(!W||!S)return;
-const $$=(r,q)=>[...r.querySelectorAll(q)],LB={go:'DEPART',caution:'CAUTION',nogo:'NO DEPART',none:'No weather',noiap:'NO IFR APPROACH'};
+const $$=(r,q)=>[...r.querySelectorAll(q)],LB={go:'GO',caution:'CAUTION',nogo:'NO-GO',none:'NO DATA',noiap:'NO IFR APPROACH'};
 const FCC={VFR:'#22C55E',MVFR:'#3B82F6',IFR:'#F80F3B',LIFR:'#C026D3'};
 const css=`
 html .card .cp[data-p=model]:not(#z):not(#y):not(#x){padding:0!important;background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;color:var(--tx)!important}
@@ -33,22 +33,15 @@ const lat=c=>{const m=c.querySelector('.cp[data-p=model]');return m&&m.dataset.l
 const ic=c=>(c.querySelector('.icao')||{}).textContent;
 /* runway true headings from the card diagram (for non-AIP strips) */
 function rws(c){return $$(c,'.rwd line.r').map((l,i)=>{const dx=l.x2.baseVal.value-l.x1.baseVal.value,dy=l.y2.baseVal.value-l.y1.baseVal.value;const h=(Math.atan2(dx,-dy)*180/Math.PI+360)%360;return[{id:'~',true:h},{id:'~',true:(h+180)%360}]}).flat()}
-/* model data for cards without a METAR: AIP ones come from WMST.om (live batch in wst-common); the rest in one batch per 100 */
-const OM={},AT={};let busy=0,pendingPull=null;
-/* one batched Open-Meteo request for the no-METAR cards on the visible page only (stale > 15 min, or forced by ↻) */
-async function pull(force){if(!/^https?:/.test(location.protocol))return;if(busy){pendingPull=!!(pendingPull||force);return}if(!window.WMPAGE&&document.getElementById('list')){setTimeout(()=>pull(force),250);return} /* wait for the pager: only the visible page is fetched (641 cards) */busy=1;try{
- const now=Date.now(),seen={},Q=[],Qm=[];$$(document,'.card').forEach(c=>{const k=ic(c);if(seen[k]||!lat(c))return;if(window.WMPAGE&&!window.WMPAGE(k))return;if(!force&&AT[k]&&now-AT[k]<15*60e3)return;seen[k]=1;
-  /* #352 v15: lightweight FZL for EVERY visible card (military / no-METAR / incomplete included) */
-  Qm.push([k,lat(c)]);
-  if(!isM(c)) Q.push([k,lat(c)]);});
- /* full model for no-METAR (own try so Qm still runs on rate-limit) */
- try{for(let i=0;i<Q.length;i+=100){const P=Q.slice(i,i+100);const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+P.map(p=>p[1][0]).join(',')+'&longitude='+P.map(p=>p[1][1]).join(',')+'&current=temperature_2m,dew_point_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,visibility,pressure_msl,cloud_cover_low,cloud_cover,cloud_base&hourly=freezing_level_height&forecast_hours=4&wind_speed_unit=kn&timezone=UTC',{cache:force?'no-store':'default'});if(!r.ok)throw new Error(r.status);const j=await r.json();
-  [].concat(j).forEach((o,k)=>{if(o&&o.current){const id=P[k][0];AT[id]=now;if(C&&C.AD[id])S.om[id]=o;else OM[id]=o}})}}catch(e){}
- /* MT #352 v15: lightweight FZL-only fetch for every visible card (cached); separate try so it survives Q failures */
- try{for(let i=0;i<Qm.length;i+=100){const P=Qm.slice(i,i+100);const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+P.map(p=>p[1][0]).join(',')+'&longitude='+P.map(p=>p[1][1]).join(',')+'&current=temperature_2m&hourly=freezing_level_height&forecast_hours=4&wind_speed_unit=kn&timezone=UTC',{cache:force?'no-store':'default'});if(!r.ok)throw new Error(r.status);const j=await r.json();
-  [].concat(j).forEach((o,k)=>{if(o&&(o.current||o.hourly)){const id=P[k][0];AT[id]=now;const prev=S.om[id]||OM[id];const prevCur=prev&&prev.current,nextCur=o.current;const current=(prevCur&&prevCur.wind_speed_10m!=null)?prevCur:(nextCur&&nextCur.wind_speed_10m!=null?nextCur:(prevCur||nextCur));const merged=prev?Object.assign({},prev,o,{hourly:Object.assign({},(prev.hourly||{}),(o.hourly||{})),elevation:o.elevation!=null?o.elevation:prev.elevation,current:current}):o;OM[id]=merged;if(S.om[id]||(C&&C.AD[id]))S.om[id]=merged}})}}catch(e){}
-}finally{busy=0;const again=pendingPull;pendingPull=null;run();if(typeof window.applyS==='function')window.applyS();if(again!=null)setTimeout(()=>pull(!!again),0)}
+/* model data for cards without a METAR: seed every card from the already-loaded wx-now / model copy (__wmModelPoints). METAR temperature still wins in daPill / fill(). No Open-Meteo request from pull(). */
+const OM={},AT={};let busy=0,pendingPull=null,seedTries=0;
+function storeOm(id,o){if(!o)return;const prev=S.om[id]||OM[id];const merged=prev?Object.assign({},prev,o,{current:Object.assign({},(prev.current||{}), (o.current||{})),hourly:Object.assign({},(prev.hourly||{}), (o.hourly||{})),elevation:o.elevation!=null?o.elevation:prev.elevation}):o;if(C&&C.AD[id])S.om[id]=merged;else OM[id]=merged;OM[id]=merged;if(S.om[id]||(C&&C.AD[id]))S.om[id]=merged}
+async function seedFromCopy(force){if(typeof window.__wmModelPoints!=='function')return 0;const now=Date.now(),pts=[],ids=[];const seen={};$$(document,'.card').forEach(c=>{const k=ic(c),p=lat(c);if(!k||!p||seen[k])return;if(!force&&AT[k]&&now-AT[k]<15*60e3)return;seen[k]=1;pts.push(p);ids.push(k)});if(!pts.length)return -1;const vars=['temperature_2m','dew_point_2m','wind_speed_10m','wind_direction_10m','wind_gusts_10m','visibility','pressure_msl','cloud_cover','cloud_cover_low','cloud_base','freezing_level_height'];let ans=null;try{ans=await window.__wmModelPoints(pts,vars)}catch(e){return 0}let n=0;(ans||[]).forEach((o,i)=>{if(!o||!(o.current||o.hourly))return;const id=ids[i];AT[id]=now;storeOm(id,o);n++});return n}
+async function pull(force){if(!/^https?:/.test(location.protocol))return;if(busy){pendingPull=!!(pendingPull||force);return}if(document.getElementById('list')&&!document.querySelector('.card')){setTimeout(()=>pull(force),250);return}busy=1;if(force){seedTries=0;for(const k in AT)delete AT[k]}
+ let n=0;try{n=await seedFromCopy(force);if((n===0||n==null)&&seedTries<8){seedTries++;pendingPull=!!(pendingPull||force)}}
+ finally{busy=0;const again=pendingPull;pendingPull=null;run();if(typeof window.applyS==='function')window.applyS();if(again!=null)setTimeout(()=>pull(!!again),nWait(n))}
 }
+function nWait(n){return (n===0||n==null)?300:0}
 window.WMCARD={pull};
 function omOf(k){const a=S.om&&S.om[k],b=OM[k];if(!a)return b;if(!b)return a;const ah=a.hourly&&a.hourly.freezing_level_height,bh=b.hourly&&b.hourly.freezing_level_height;const hourly=(ah&&ah[0]!=null)?a.hourly:(bh||a.hourly);const elevation=a.elevation!=null?a.elevation:b.elevation;const ca=a.current,cb=b.current;const current=(ca&&ca.wind_speed_10m!=null)?ca:(cb&&cb.wind_speed_10m!=null?cb:(ca||cb));return Object.assign({},b,a,{hourly:hourly,elevation:elevation,current:current})}
 function obM(k){const o=omOf(k);if(!o||!o.current)return null;return W.obsOf({ic:k},{metar:{},taf:{},om:{[k]:o}})}
@@ -116,8 +109,10 @@ function fzl(c){const o=omOf(ic(c));
 
 function daPill(c){const k=ic(c),r10=n=>Math.round(n/10)*10,ft=n=>n.toLocaleString('en-US');
  const rec=window.WMB&&WMB.results&&WMB.results[k];
- const ad=(C&&C.AD&&C.AD[k])||(rec&&rec.ad)||null;
- const elev=ad&&(ad.el!=null?+ad.el:ad.elev!=null?+ad.elev:null);
+ const cad=C&&C.AD&&C.AD[k],rad=rec&&rec.ad;
+ let elev=(cad&&cad.el!=null&&isFinite(+cad.el))?+cad.el:(rad&&rad.elev!=null&&isFinite(+rad.elev)?+rad.elev:null);
+ if(elev==null||!isFinite(elev)){const p=lat(c),x=p&&window.__wmFzlAt&&window.__wmFzlAt(p[0],p[1]);
+  if(x&&x.elev!=null&&isFinite(+x.elev))elev=Math.round(+x.elev*3.280839895)}
  const used=rec&&rec.r&&((rec.r.v2&&rec.r.v2.weatherUsed)||rec.r.weatherUsed);
  let t=used&&used.temp!=null?+used.temp:(used&&used.t!=null?+used.t:null);
  let qnh=used&&used.qnh!=null?+used.qnh:null;
@@ -126,8 +121,13 @@ function daPill(c){const k=ic(c),r10=n=>Math.round(n/10)*10,ft=n=>n.toLocaleStri
   const tm=raw.match(/\s(M?\d{2})\/(M?\d{2}|\/\/)(?:\s|$)/);if(tm)t=(tm[1][0]==='M'?-1:1)*+tm[1].replace('M','');
   const qm=raw.match(/\sQ(\d{4})\b/);if(qnh==null&&qm)qnh=+qm[1]}
  if(t==null){const o=omOf(k);if(o&&o.current&&o.current.temperature_2m!=null){t=+o.current.temperature_2m;if(qnh==null&&o.current.pressure_msl!=null)qnh=+o.current.pressure_msl}}
+ if(t==null){const te=c.querySelector('.temp'),tx=(te&&te.textContent||'').replace(/[—–]/g,'');
+  const tm=tx.match(/-?\d+/);if(tm)t=+tm[0]}
+ if(t==null){const mx=((c.querySelector('.cp[data-p=model]')||{}).textContent||'');
+  const tm=mx.match(/Temp\/Dew\s*(-?\d+)/i);if(tm)t=+tm[1]}
  let el=c.querySelector('.wda2');
  if(t==null||elev==null||!isFinite(elev)){if(el)el.remove();return}
+ if(dA==null&&window.WST&&WST.da)dA=WST.da(elev,t,qnh==null?1013:qnh);
  if(dA==null&&window.GACoreV2&&GACoreV2.da)dA=GACoreV2.da(elev,t,qnh==null?1013:qnh);
  if(dA==null||!isFinite(dA)){if(el)el.remove();return}
  const above=dA-elev,lim=(window.GACoreV2&&GACoreV2.RULES&&GACoreV2.RULES.policy&&GACoreV2.RULES.policy.daAboveFt)||2500;

@@ -1,0 +1,31 @@
+
+@@title
+Visitors
+@@foot
+The original /admin-visitors totals, rebuilt on Cloudflare with the full breakdowns. Unique = distinct browser sessions.
+@@body
+  <div class="seg wrap" id="rg" style="margin-bottom:12px"><button data-r="1d">Today</button><button data-r="7d" class="on">7 days</button><button data-r="30d">30 days</button></div>
+  <main class="g3">
+    <section class="card glass wide" id="c-tot"><h2><i class="dot"></i>Totals</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-ch"><h2><i class="dot"></i>Visits over time</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-pg"><h2><i class="dot"></i>Top pages</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-day"><h2><i class="dot"></i>By day</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-pl"><h2><i class="dot"></i>Countries &amp; cities</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-dv"><h2><i class="dot"></i>Devices &amp; models</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-br"><h2><i class="dot"></i>Browsers &amp; systems</h2><div class="b m">Loading…</div></section>
+    <section class="card glass" id="c-rf"><h2><i class="dot"></i>Referrers</h2><div class="b m">Loading…</div></section>
+  </main>
+@@script
+(function(){var A=AX,range='7d';
+document.querySelectorAll('#rg button').forEach(function(b){b.onclick=function(){document.querySelectorAll('#rg button').forEach(function(x){x.classList.toggle('on',x===b)});range=b.dataset.r;load()}});
+async function load(){var d=await A.get('/api/admin/stats?range='+range),lab=range==='1d'?'today':range==='30d'?'30 days':'7 days';
+  A.set('#c-tot','ok','<table><thead><tr><th></th><th class="n">Page views</th><th class="n">Unique visitors</th></tr></thead><tbody><tr><td>Today</td><td class="n">'+A.n(d.today.visits)+'</td><td class="n">'+A.n(d.today.uniques)+'</td></tr><tr><td>Last 7 days</td><td class="n">'+A.n(d.d7.visits)+'</td><td class="n">'+A.n(d.d7.uniques)+'</td></tr><tr><td>Last 30 days</td><td class="n">'+A.n(d.d30.visits)+'</td><td class="n">'+A.n(d.d30.uniques)+'</td></tr></tbody></table>'+(d.legacy?'<p class="m">'+A.n(d.legacy)+' older visits are counted without details.</p>':''));
+  A.set('#c-ch','ok',A.chart(d.days));
+  A.set('#c-pg','ok','<h3>'+lab+'</h3>'+A.bars(d.pages,12));
+  A.set('#c-day','ok','<table><thead><tr><th>Day (UTC)</th><th class="n">Views</th><th class="n">Unique</th></tr></thead><tbody>'+(d.days||[]).slice().reverse().map(function(x){return'<tr><td>'+A.esc(x.day)+'</td><td class="n">'+A.n(x.n)+'</td><td class="n">'+A.n(x.u)+'</td></tr>'}).join('')+'</tbody></table>');
+  A.set('#c-pl','ok','<h3>Countries</h3>'+A.bars(d.countries,8)+'<h3>Cities</h3>'+A.bars(d.cities,8));
+  A.set('#c-dv','ok','<h3>Devices</h3>'+A.bars(d.devices,6)+'<h3>Models (when shared)</h3>'+A.bars(d.models,6));
+  A.set('#c-br','ok','<h3>Browsers</h3>'+A.bars(d.browsers,6)+'<h3>Systems</h3>'+A.bars(d.os,6));
+  A.set('#c-rf','ok',A.bars(d.referrers,10));
+  A.$('#sub').textContent=lab+' · store '+(d.store||'off')+' · updated '+A.sast(d.now)}
+A.start(load)})();

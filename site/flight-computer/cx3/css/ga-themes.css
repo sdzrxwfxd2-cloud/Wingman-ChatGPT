@@ -1,0 +1,54 @@
+/* Copyright (c) 2026 Go Around, South Africa. All rights reserved. */
+/* ============================================================================
+   DESIGN-NOTES — CX-3 page themes
+   ----------------------------------------------------------------------------
+   Imports the same four Go Around theme tokens used by the E6-B trainer
+   (shared/ga-theme-tokens.css, from go-around-design/DESIGN.md §2).
+
+   These tokens paint the PAGE around the calculator (body, shell bezel,
+   keypad well). They do NOT replace the CX-3's own display themes
+   (theme-standard / theme-night / theme-daylight on #content), which are
+   still chosen from the trainer's Settings screen. Leave those alone.
+
+   To tweak a token, edit shared/ga-theme-tokens.css (both trainers pick
+   it up). To change how the tokens are applied on this page only, edit
+   the rules below.
+
+   The theme switcher is shared/ga-themes.js. It stores the choice in
+   localStorage under "ga-cx3-theme" and also honours ?theme=midnight
+   (amethyst|pearl|champagne).
+   ============================================================================ */
+
+@import url("../../shared/ga-theme-tokens.css");
+
+html[data-theme][data-pal],
+html[data-theme][data-pal] body {
+  background: var(--bg);
+  background-color: var(--bg);
+  color: var(--tx);
+}
+
+html[data-theme][data-pal] #content {
+  background: transparent;
+}
+
+/* Bezel around the display and the keypad well — uses the theme solid/bg2
+   so the four backgrounds are visible even when the shell is full-width. */
+html[data-theme][data-pal] #window-wrapper {
+  background: var(--solid);
+}
+
+html[data-theme][data-pal] #keypad,
+html[data-theme][data-pal] .flight-calculator-buttons {
+  background-color: var(--bg2);
+}
+
+html[data-theme][data-pal] body {
+  font-family: 'Satoshi', 'General Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme][data-pal] #window-wrapper {
+  border-radius: var(--ga-r, 14px);
+}
+

@@ -1,0 +1,217 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Copyright (c) 2026 Go Around, South Africa. All rights reserved.
+   Typography: Satoshi body (go-around-design/DESIGN.md §2 / §6.5).
+   Page colours fall back to theme tokens when ga-themes.css is loaded. */
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--tx, #F5F5F7);
+  font-family: 'Satoshi', 'General Sans', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  background: var(--bg, #000);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media(max-width:240px)
+{
+	body{
+		font-size:13px;
+	}
+}
+
+div, img {
+  padding: 0px;
+  margin: 0px;
+}
+
+#content 
+{
+	padding: 0;
+	margin: 0px auto;
+	/*width: 300px;
+	height:800px;*/
+	/*background-image:url('../img/calculator-background.png');*/
+	background-repeat: no-repeat;
+}
+
+#window-wrapper{
+    background: var(--solid, #000);
+}
+
+#cx3-window 
+{
+	padding: 10px;
+	width: 100%;
+	/*max-width:400px;*/
+	background: var(--solid, #000);
+	height:30vh;
+	position:relative;
+	margin:0 auto;
+}
+
+#status-bar, #subtitle, #screen {
+  margin: 0px 0px;
+}
+
+#status-bar {
+  font-size: small;
+  height: 16px;
+  line-height: 16px;
+}
+
+#status-bar, #subtitle {
+  padding: 0px 4px;
+  z-index: 99;
+}
+
+#status-bar>div {
+  height: 16px;
+}
+
+#status-bar-title {
+  float: left;
+  text-align: left;
+  width: 40%;
+}
+
+#status-bar-battery {
+  float: right;
+  text-align: right;
+  width: 40%;
+}
+
+#status-bar-clock {
+  text-align: center;
+}
+
+#subtitle {
+  font-size: small;
+  line-height: 20px;
+  height: 20px;
+}
+
+#screen 
+{
+	/*height: 165px;*/
+	position: absolute;
+    top: 30px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    overflow: hidden;
+    border-bottom: 1px solid #111222;
+}
+
+
+#subtitle.hidden+#screen 
+{
+	/*height: 187px;*/
+}
+
+#keypad {
+	position:relative;
+}
+
+#keypad>img {
+}
+
+#options {
+  margin: 0px auto;
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+}
+
+
+/* buttons - general */
+.flight-calculator-buttons
+{
+    padding:5px 0;
+    height:70vh;
+    /*max-width:400px;*/
+	display:flex;
+	width:100%;
+    margin:0 auto;
+    flex-wrap:wrap;
+    position:relative;
+}
+
+.flight-calculator-button
+{
+	width:20%;
+    height:14%;
+    /*min-height:70px;*/
+    max-height:9.285vh;
+	background-repeat: no-repeat;
+	cursor:pointer;
+	background-size:contain;
+	background-position:center center;
+}
+
+.flight-calculator-button-click
+{
+	/*margin-top:1px;
+	margin-left:1px;*/
+}
+
+.flight-calculator-button-over
+{
+	opacity: 0.7;
+}
+
+/* button - images */
+.flight-calculator-button-flt{background-image:url(../img/button-flt.png);}
+.flight-calculator-button-plan{background-image:url(../img/button-plan.png);}
+.flight-calculator-button-up{background-image:url(../img/button-up.png);}
+.flight-calculator-button-calc{background-image:url(../img/button-calc.png);}
+.flight-calculator-button-timer{background-image:url(../img/button-timer.png);}
+.flight-calculator-button-back{background-image:url(../img/button-back.png);}
+.flight-calculator-button-star{background-image:url(../img/button-star.png);}
+.flight-calculator-button-square{background-image:url(../img/button-square.png);}
+.flight-calculator-button-wb{background-image:url(../img/button-wb.png);}
+.flight-calculator-button-set{background-image:url(../img/button-set.png);}
+.flight-calculator-button-m{background-image:url(../img/button-m.png);}
+.flight-calculator-button-setunit{background-image:url(../img/button-setunit.png);}
+.flight-calculator-button-down{background-image:url(../img/button-down.png);}
+.flight-calculator-button-convunit{background-image:url(../img/button-convunit.png);}
+.flight-calculator-button-divide{background-image:url(../img/button-divide.png);}
+.flight-calculator-button-c{background-image:url(../img/button-c.png);}
+.flight-calculator-button-7{background-image:url(../img/button-7.png);}
+.flight-calculator-button-8{background-image:url(../img/button-8.png);}
+.flight-calculator-button-9{background-image:url(../img/button-9.png);}
+.flight-calculator-button-x{background-image:url(../img/button-x.png);}
+.flight-calculator-button-bksp{background-image:url(../img/button-bksp.png);}
+.flight-calculator-button-4{background-image:url(../img/button-4.png);}
+.flight-calculator-button-5{background-image:url(../img/button-5.png);}
+.flight-calculator-button-6{background-image:url(../img/button-6.png);}
+.flight-calculator-button-minus{background-image:url(../img/button-minus.png);}
+.flight-calculator-button-colon{background-image:url(../img/button-colon.png);}
+.flight-calculator-button-1{background-image:url(../img/button-1.png);}
+.flight-calculator-button-2{background-image:url(../img/button-2.png);}
+.flight-calculator-button-3{background-image:url(../img/button-3.png);}
+.flight-calculator-button-plus{background-image:url(../img/button-plus.png);}
+.flight-calculator-button-plusminus{background-image:url(../img/button-plusminus.png);}
+.flight-calculator-button-decimal{background-image:url(../img/button-decimal.png);}
+.flight-calculator-button-0{background-image:url(../img/button-0.png);}
+.flight-calculator-button-root{background-image:url(../img/button-root.png);}
+.flight-calculator-button-equals{background-image:url(../img/button-equals.png);}
+
+/* button - positioning */
+.flight-calculator-button-row-1{top:0px;}
+.flight-calculator-button-row-2{top:50px;}
+.flight-calculator-button-row-3{top:100px;}
+.flight-calculator-button-row-4{top:150px;}
+.flight-calculator-button-row-5{top:200px;}
+.flight-calculator-button-row-6{top:250px;}
+.flight-calculator-button-row-7{top:300px;}
+.flight-calculator-button-column-1{left:0px;}
+.flight-calculator-button-column-2{left:58px;}
+.flight-calculator-button-column-3{left:116px;}
+.flight-calculator-button-column-4{left:174px;}
+.flight-calculator-button-column-5{left:232px;}

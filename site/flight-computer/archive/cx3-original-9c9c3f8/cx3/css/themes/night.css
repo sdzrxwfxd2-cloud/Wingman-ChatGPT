@@ -1,0 +1,100 @@
+/* Window stuff */
+.theme-night #status-bar {
+  background-color: #313131;
+}
+
+.theme-night #subtitle {
+  color: #99FF33;
+  background-color: black;
+  border-bottom: 2px solid #313131;
+}
+
+.theme-night #cx3-window {
+  background-color: black;
+}
+
+/* Widget Stuff */
+.theme-night .widget {
+  background-color: black;
+  color: #99FF33;
+  border: 1px solid black;
+  border-top: 1px solid #0099CC;
+}
+
+.theme-night .widget>.value {
+  color: white;
+}
+
+.theme-night .widget.active > var.value{
+  color: black;
+}
+
+.theme-night .widget:first-child, .theme-night .widget.active+.widget {
+  border-top: 1px solid black;
+}
+
+/*
+  Override font color on the timer.
+  Must be above the ".active" tag so
+  the active state will take precedence.
+*/
+.theme-night .widget.cx3-timer {
+  color: white;
+}
+/*---*/
+
+.theme-night .widget:last-child {
+  border-bottom: 1px solid #0099CC;
+}
+
+.theme-night .widget.active {
+  border: 1px solid #99FF33;
+  background-color: #99FF33;
+  color: black;
+}
+
+.theme-night .widget.non-selectable {
+  color: #ADADAD;
+}
+
+/* Status icons */
+.theme-night .calculator-field.widget.check {
+  background-image: url(../../img/status_check_black.png);
+}
+
+.theme-night .calculator-field.widget.check.active {
+  background-image: url(../../img/status_check_white.png);
+}
+
+.theme-night .calculator-field.widget.equals {
+  background-image: url(../../img/status_equals_black.png);
+}
+
+.theme-night .calculator-field.widget.equals.active {
+  background-image: url(../../img/status_equals_white.png);
+}
+
+.theme-night .calculator-field.widget.global {
+  background-image: url(../../img/status_global_black.png);
+}
+
+.theme-night .calculator-field.widget.global.active {
+  background-image: url(../../img/status_global_white.png);
+}
+
+.theme-night .calculator-field.widget.question {
+  background-image: url(../../img/status_question_black.png);
+}
+
+.theme-night .calculator-field.widget.question.active {
+  background-image: url(../../img/status_question_white.png);
+}
+
+/* Override lines between widgets on the calculator */
+.theme-night .cx3-calculator.widget {
+  border-top: 1px solid black;
+}
+
+.theme-night .cx3-calculator.widget.active {
+  border-top: 1px solid #99FF33;
+}

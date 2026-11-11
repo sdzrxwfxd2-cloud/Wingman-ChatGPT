@@ -1,0 +1,53 @@
+
+@@title
+Site status
+@@foot
+The 30 Oct site status page, rebuilt on Cloudflare. Live every time you open or refresh it; nothing is written. Official source: aviationweather.gov. <a href="/admin-visitor-log">Open the full visitor log ›</a>
+@@body
+  <div id="alert" class="alert" hidden></div>
+  <main class="g3">
+    <section class="card glass" id="c-site"><h2><i class="dot"></i>Site &amp; deploy</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-metar"><h2><i class="dot"></i>METAR vs official source</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-taf"><h2><i class="dot"></i>TAF vs official source</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-model"><h2><i class="dot"></i>Weather model (Open-Meteo)</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-pages"><h2><i class="dot"></i>Main pages (13)</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-vis"><h2><i class="dot"></i>Visitors</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-dev"><h2><i class="dot"></i>Devices &amp; places</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-recent"><h2><i class="dot"></i>All recent visits</h2><div class="b m">Loading…</div></section>
+  </main>
+@@script
+(function(){var A=AX,esc=A.esc;
+function wxCard(id,x,kind){var probs=[];if(x.site.s!==200)probs.push('Site '+kind+' feed HTTP '+x.site.s);if(x.up.s!==200)probs.push('Official '+kind+' source did not answer (HTTP '+x.up.s+'), comparison skipped');
+  var real=x.behind.filter(function(r){return r.up-r.site>5*6e4});var cls=x.site.s!==200||x.missing.length>3?'bad':(real.length||x.up.s!==200)?'warn':'ok';
+  var h='<div class="kpis"><div class="kpi"><b>'+x.match+'/'+x.total+'</b><span>stations match</span></div><div class="kpi"><b>'+x.behind.length+'</b><span>behind official</span></div><div class="kpi"><b>'+x.missing.length+'</b><span>missing on site</span></div></div>';
+  h+='<table><tr><td>Site feed</td><td>'+(x.site.s===200?'<span class="ok-t">OK</span>':'<span class="bad-t">HTTP '+x.site.s+'</span>')+' in '+x.site.ms+' ms'+(x.site.src?' · '+esc(x.site.src):'')+(x.site.upd?' · updated '+esc(A.sast(x.site.upd)):'')+'</td></tr>';
+  h+='<tr><td>Official</td><td>'+(x.up.s===200?'<span class="ok-t">OK</span>':'<span class="bad-t">HTTP '+x.up.s+'</span>')+' in '+x.up.ms+' ms · '+x.up.n+' stations</td></tr></table>';
+  if(x.behind.length)h+='<h3>Not yet updated on site</h3><div class="chips">'+x.behind.map(function(r){return'<span class="chip" title="site '+A.sast(r.site)+' / official '+A.sast(r.up)+'">'+esc(r.id)+' · '+Math.round((r.up-r.site)/6e4)+'m behind</span>'}).join('')+'</div><p class="m">Up to ~10 min behind is normal (the weather Worker refreshes every 10 min).</p>';
+  if(x.missing.length)h+='<h3>Missing on site</h3><div class="chips">'+x.missing.map(function(i){return'<span class="chip">'+esc(i)+'</span>'}).join('')+'</div>';
+  if(x.old.length)h+='<h3>Old reports (not issued recently at source)</h3><div class="chips">'+x.old.slice(0,40).map(function(r){return'<span class="chip">'+esc(r.id)+' · '+A.dur(r.ageMin*6e4)+'</span>'}).join('')+'</div>';
+  A.set(id,cls,h);return probs.concat(real.length?[real.length+' '+kind+' report(s) not yet updated on site']:[])}
+async function load(){A.$('#sub').textContent='Checking live…';var t0=performance.now(),probs=[];
+  var stampP=A.api('/ops-stamp.json').then(function(r){return r.ok?r.data:null}).catch(function(){return null});
+  var visP=A.get('/api/admin/visits?range=7d&limit=500'),statP=A.get('/api/admin/stats?range=7d');
+  try{var d=await A.get('/api/admin/health'),stamp=await stampP,now=Date.parse(d.now);
+    A.set('#c-site',d.up?'ok':'bad','<div class="kpis"><div class="kpi"><b>'+(d.up?'Up':'Down')+'</b><span>site responding</span></div><div class="kpi"><b>'+(stamp&&stamp.built?A.dur(now-Date.parse(stamp.built)):'—')+'</b><span>since build stamp</span></div><div class="kpi"><b>'+(d.uptime.all?Math.round(d.uptime.allOk*1000/d.uptime.all)/10+'%':'—')+'</b><span>uptime</span></div></div><table>'+
+      '<tr><td>Deploy</td><td>'+esc(d.deploy.id||'—')+(d.deploy.branch?' <span class="m">('+esc(d.deploy.branch)+')</span>':'')+'</td></tr>'+
+      (stamp?'<tr><td>Built</td><td>'+A.sast(stamp.built)+' · commit '+esc(stamp.commit)+'</td></tr><tr><td>AIP edition</td><td>'+esc(stamp.aipEdition)+'</td></tr><tr><td>SACAA data</td><td>'+esc(stamp.sacaaGenerated)+' · '+esc(stamp.atoCount)+' ATOs · '+esc(stamp.dfeCount)+' DFEs</td></tr>':'')+
+      '<tr><td>Checked</td><td>'+A.sast(d.now)+'</td></tr></table>');
+    var om=d.model,age=om.composedAt?now-Date.parse(om.composedAt):NaN,cls=om.s===200&&age<45*6e4?'ok':om.limited?'bad':'warn';
+    A.set('#c-model',cls,'<div class="kpis"><div class="kpi"><b>'+(om.s===200?'OK':om.limited?'Limit hit':'Error')+'</b><span>HTTP '+om.s+'</span></div><div class="kpi"><b>'+om.ms+' ms</b><span>response</span></div><div class="kpi"><b>'+A.dur(age)+'</b><span>model age</span></div></div><p class="m">Model values are composed by the weather Worker every 10 min; the site never calls Open-Meteo from the browser.</p>');
+    if(om.s!==200)probs.push(om.limited?'Weather model daily limit hit (HTTP 429)':'Weather model error HTTP '+om.s);
+    var pg=d.pages||[],bad=pg.filter(function(r){return!(r.s===200&&r.complete&&!r.clash)});
+    A.set('#c-pages',bad.length?'bad':'ok','<div class="kpis"><div class="kpi"><b>'+(pg.length-bad.length)+'/'+pg.length+'</b><span>pages OK</span></div><div class="kpi"><b>'+Math.round(pg.reduce(function(a,r){return a+r.ms},0)/Math.max(1,pg.length))+' ms</b><span>avg load</span></div><div class="kpi"><b>'+A.n(pg.reduce(function(a,r){return a+r.kb},0))+'</b><span>KB in all</span></div></div><table><thead><tr><th>Page</th><th>State</th><th class="n">Time</th><th class="n">Size</th></tr></thead><tbody>'+pg.map(function(r){var ok=r.s===200&&r.complete&&!r.clash;return'<tr><td class="mono">'+esc(r.p)+'</td><td>'+(ok?'<span class="ok-t">OK</span>':'<span class="bad-t">'+(r.clash?'clash marker':r.s!==200?'HTTP '+r.s:'cut off')+'</span>')+'</td><td class="n">'+r.ms+' ms</td><td class="n">'+r.kb+' KB</td></tr>'}).join('')+'</tbody></table>');
+    bad.forEach(function(r){probs.push('Broken page '+r.p)});
+    probs=probs.concat(wxCard('#c-metar',d.wx.metar,'METAR'),wxCard('#c-taf',d.wx.taf,'TAF'));
+  }catch(e){probs.push('Status data failed: '+e.message);A.set('#c-site','bad','<p>Could not load status data ('+esc(e.message)+').</p>')}
+  try{var s=await statP,v=await visP,R=A.rows(v.rows),real=R.filter(function(r){return!r.test});
+    A.set('#c-vis','ok','<div class="kpis"><div class="kpi"><b>'+A.n(s.today.visits)+'</b><span>views today</span></div><div class="kpi"><b>'+A.n(s.today.uniques)+'</b><span>visitors today</span></div><div class="kpi"><b>'+A.n(s.d7.visits)+'</b><span>views · 7 days</span></div></div><table><thead><tr><th>Day (UTC)</th><th class="n">Views</th><th class="n">Unique</th></tr></thead><tbody>'+(s.days||[]).slice().reverse().map(function(x){return'<tr><td>'+esc(x.day)+'</td><td class="n">'+A.n(x.n)+'</td><td class="n">'+A.n(x.u)+'</td></tr>'}).join('')+'</tbody></table><p class="m">'+A.n(s.d30.visits)+' views in the last 30 days.</p><h3>Top pages · 7 days</h3>'+A.bars(s.pages,8));
+    A.set('#c-dev','ok','<p class="m">'+real.length+' real visits of the last '+R.length+' logged (7 days); '+(R.length-real.length)+' test/check visits left out.</p><div style="display:grid;gap:0 18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><h3>Devices</h3>'+A.bars(A.count(real,'dev'),6)+'</div><div><h3>Systems (OS)</h3>'+A.bars(A.count(real,'os'),6)+'</div><div><h3>Browsers</h3>'+A.bars(A.count(real,'br'),6)+'</div><div><h3>Countries</h3>'+A.bars(A.count(real,'country'),6)+'</div><div><h3>Cities</h3>'+A.bars(A.count(real,'city'),6)+'</div></div>');
+    A.set('#c-recent','','<p class="m">Every logged visit, newest first ('+R.length+'). <span class="tag">test</span> = our own checks.</p>'+A.table(R));
+  }catch(e){['#c-vis','#c-dev','#c-recent'].forEach(function(i){A.set(i,'warn','<p class="m">Visit log unavailable: '+esc(e.message)+'</p>')})}
+  var al=A.$('#alert');al.hidden=false;al.className='alert '+(probs.length?'bad':'ok');
+  al.innerHTML=probs.length?'Needs attention<ul>'+probs.map(function(p){return'<li>'+esc(p)+'</li>'}).join('')+'</ul>':'All checks passed. No broken pages.';
+  A.$('#sub').textContent='Live · checked '+A.sast(Date.now())+' · '+Math.round(performance.now()-t0)+' ms'}
+A.start(load)})();

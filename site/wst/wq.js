@@ -172,7 +172,7 @@ run();const w=document.querySelector('#s-wx');w&&new MutationObserver(run).obser
    const sun=valid&&!heli?W.sunInfo(+la,+lo,when):null;
    const on=w&&!heli&&p.rules!=='ifr'&&!p.night&&p.licence!=='ir'&&sun&&sun.isNight;
    const label=landNight?'You\'ll land after dark · Night not enabled':'After sunset · Night not enabled';
-   if(on){if(!n){const e=document.createElement('div');e.className='wq-nn';e.innerHTML=ic+label;w.after(e)}else{n.classList.remove('wq-nn-cau');const tx=ic+label;if(n.innerHTML!==tx)n.innerHTML=tx}}else if(n)n.remove()})}
+   if(on){if(!n){const e=document.createElement('div');e.className='wq-nn'+(landNight?' wq-nn-cau':'');e.innerHTML=ic+label;w.after(e)}else{n.classList.toggle('wq-nn-cau',!!landNight);const tx=ic+label;if(n.innerHTML!==tx)n.innerHTML=tx}}else if(n)n.remove()})}
  let queued=false;const queue=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;run()})};
  run();document.addEventListener('wm:pass',queue);document.addEventListener('wst:data',queue);document.addEventListener('wm:phase',queue);
  setInterval(()=>{document.hidden||queue()},30e3);document.addEventListener('visibilitychange',()=>{document.hidden||queue()});

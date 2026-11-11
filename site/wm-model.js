@@ -8,18 +8,18 @@
  *  - Anything the copy cannot answer goes to Open-Meteo gently (one at a time, 10-min reuse, 30-min pause after a 429),
  *    through wst/om-cache.js where a page loads it (fallback layer).
  *  - Failure: last good weather stays with "Model limit reached, showing weather from HH:MM SAST".
- *  - Stale guard (6 Nov 2026, MT): a "current" answer is given ONLY when the model hour it uses is valid within
- *    90 min of now AND that point was fetched from Open-Meteo within 90 min (per-point fetch time when the copy has
- *    one, else the copy's refresh time). Otherwise nothing is served as current, so no status can come from old
- *    model data; the page falls back to METAR/TAF or "No current weather". Saved direct answers obey the same rule.
+ *  - Stale guard (11 Nov 2026, MT t1513u): a "current" answer is given ONLY when the model hour it uses is valid
+ *    within 180 min of now AND that point was fetched from Open-Meteo within 180 min (per-point fetch time when the
+ *    copy has one, else the copy's refresh time). Otherwise nothing is served as current, so no status can come from
+ *    old model data; the page falls back to METAR/TAF or "No current weather". Saved direct answers obey the same rule.
  *    Valid time, fetch time and (when known) model generation time stay separate; the banner shows UTC and SAST.
  *  - METAR/TAF first: lists already use the model only where there is no METAR; on an aerodrome page with a TAF,
  *    the first 3 forecast hours are marked as "METAR/TAF takes priority".
  *  - Credit line "Weather data by Open-Meteo.com" with CC BY 4.0 link wherever model data is shown.
  *  - Snapshot-only (9 Nov 2026, MT t873u/t875u): list, Status and card requests are answered ONLY from the copy, point by
  *    point (no more all-or-nothing batches, no direct Open-Meteo call from phones). Per point, by the time Open-Meteo was
- *    asked for that point: <= 90 min -> current as before; 90-180 min -> current, marked "older" (wingman_older, small
- *    "older" tag on the card); > 180 min -> no current (FZL rule unchanged), so no status from it. Vars the copy does not
+ *    asked for that point: <= 180 min -> current (no "older" mark); > 180 min -> no current (FZL rule unchanged), so no
+ *    status from it. Vars the copy does not
  *    carry come back as null (precipitation_probability: the rain line of the 13 h strip is hidden). Only URLs the copy
  *    cannot answer at all (dashboard / ops) still go direct, one at a time, and identical calls in flight are shared.
  */
@@ -28,8 +28,8 @@
   if (window.__wmModel) return; window.__wmModel = 1;
   var OM = /^https:\/\/api\.open-meteo\.com\/v1\/forecast\?/;
   var API = '/api/model-weather', LS_COPY = 'wm.mw.v2', LS_BLOCK = 'wm.om.block', LS_URL = 'wm.om.u:';
-  var FZL_MAX_MS = 180 * 60e3, OLDER_MS = 180 * 60e3;   // OLDER_MS: 90-180 min old model is shown, marked older (MT t875u); FZL forecast may come from a copy point fetched up to 3 h ago (server serve limit)
-  var COPY_MS = 10 * 60e3, STALE_MS = 7.5 * 3600e3, MAX_AGE_MS = 90 * 60e3, BLOCK_MS = 30 * 60e3, GAP_MS = 1500, TOL = 0.005, PRIORITY_H = 3;
+  var FZL_MAX_MS = 180 * 60e3, OLDER_MS = 180 * 60e3;   // serve-limit 180 min (MT t1513u: model is fresh up to 3 h, no older mark); FZL forecast may come from a copy point fetched up to 3 h ago
+  var COPY_MS = 10 * 60e3, STALE_MS = 7.5 * 3600e3, MAX_AGE_MS = 180 * 60e3, BLOCK_MS = 30 * 60e3, GAP_MS = 1500, TOL = 0.005, PRIORITY_H = 3;
   var origFetch = window.fetch.bind(window);
   var top_ = (function () { try { return window.top.document && window.top; } catch (e) { return window; } })();
   function now() { return Date.now(); }
@@ -133,7 +133,7 @@
           (P.fzl ? P.vars.concat(d.vars.filter(function (k) { return k !== 'freezing_level_height' && P.vars.indexOf(k) < 0; })) : P.vars)
             .forEach(function (k) { var r = val(k, i); cur[k] = r ? r[h] : null; cu[k] = (d.units || {})[k]; });
           o.current = cur; o.current_units = cu;
-          if (t - fT > MAX_AGE_MS) o.wingman_older = true; }                    // 90-180 min: shown, marked older
+          }                    // <= 180 min: current, no older mark (MT t1513u)
         if (P.fzl && hasFz && !(d.fz && d.fz[i] === false) && t - fT <= FZL_MAX_MS) {
           o.hourly = { time: d.time.slice(h, h + P.n), freezing_level_height: (val('freezing_level_height', i) || []).slice(h, h + P.n) };
           o.hourly_units = { time: 'iso8601', freezing_level_height: (d.units || {}).freezing_level_height || 'm' }; usable++; }
@@ -144,7 +144,7 @@
           hr[k] = r ? r.slice(h, h + P.n) : hr.time.map(function () { return null; }); hu[k] = (d.units || {})[k]; });
         o.hourly = hr; o.hourly_units = hu; usable++;
         if (none.length) o.wingman_nulls = none;
-        if (t - fT > MAX_AGE_MS) o.wingman_older = true;
+        /* no older mark: model is fresh up to 180 min (MT t1513u) */
       }
       out.push(o);
     }
@@ -237,7 +237,6 @@
     var upd = Date.parse(d.updatedAt), st = d.state || {};
     if (d.failed || now() - upd > STALE_MS || (st.error && Date.parse(st.lastTry || 0) > upd)) banner(upd, true);
     if (P.kind === 'hr') setTimeout(priority, 0);
-    olderSoon();
   }
   window.fetch = function (input, init) {
     var u = typeof input === 'string' ? input : (input && input.url) || String(input);
@@ -273,7 +272,7 @@
       served(d, P); return [].concat(a);
     }).catch(function () { return pts.map(function () { return null; }); });
   };
-  window.__wmModelTest = { parse: parse, answer: answer, OLDER_MS: OLDER_MS, olderAge: olderAge, hourIdx: hourIdx, direct: direct, staleWhy: staleWhy, stamp: stamp, MAX_AGE_MS: MAX_AGE_MS,
+  window.__wmModelTest = { parse: parse, answer: answer, OLDER_MS: OLDER_MS, hourIdx: hourIdx, direct: direct, staleWhy: staleWhy, stamp: stamp, MAX_AGE_MS: MAX_AGE_MS,
     lastStale: function () { return lastStale; } };
 
   /* ---- UI ---- */
@@ -321,41 +320,6 @@
       b.textContent = text;
     });
   }
-  /* "older" mark (9 Nov 2026, MT t875u): model data 90-180 min old is shown with a small, subtle "older" note in the
-     existing muted text colour (var(--tx3)), no new look: Status card reason line, list card "Model" tag, open model panel. */
-  function olderAge(la, lo) {   // minutes since Open-Meteo was asked for this point, only when 90-180 min; else 0
-    var d = best(); if (!d || !d.pts) return 0;
-    var i = find(d, +la, +lo); if (i < 0) return 0;
-    var a = now() - ms(fetchedOf(d, i)); return a > MAX_AGE_MS && a <= OLDER_MS ? a : 0;
-  }
-  var oT = 0, oObs = null;
-  function olderSoon() { if (oT) return; oT = setTimeout(function () { oT = 0; olderMark(); }, 250);
-    if (!oObs && window.MutationObserver) onBody(function () { if (oObs) return;
-      oObs = new MutationObserver(function () { if (!oT && !hiddenFrame() && document.querySelector('.card')) oT = setTimeout(function () { oT = 0; olderMark(); }, 400); });
-      oObs.observe(document.body, { childList: true, subtree: true }); }); }
-  function olderTag(host, text, title) {
-    var t = host.querySelector(':scope > .wm-older');
-    if (!text) { if (t) t.remove(); return; }
-    if (t && t.textContent === text) return;
-    if (!t) { t = document.createElement('span'); t.className = 'wm-older'; host.appendChild(t); }
-    t.textContent = text; t.title = title;
-  }
-  function olderMark() {
-    if (!best() || !document.body) return;
-    if (!document.getElementById('wm-older-css')) { var c = document.createElement('style'); c.id = 'wm-older-css';
-      c.textContent = '.wm-older{font:inherit;letter-spacing:inherit;color:var(--tx3);opacity:.9;white-space:nowrap}'; document.head.appendChild(c); }
-    var cards = document.querySelectorAll('.card');
-    for (var k = 0; k < cards.length; k++) {
-      var c2 = cards[k], p = c2.querySelector('[data-la]'), age = p ? olderAge(p.dataset.la, p.dataset.lo) : 0;
-      var title = age ? 'Model data fetched ' + Math.round(age / 60e3) + ' min ago (' + sast(now() - age) + '). Older than 90 min, still shown.' : '';
-      var tag = c2.querySelector('.wxd .wmtag');
-      /* MT t1104u: do not append a second disclaimer or "older copy, fetched …"
-         on the reason line or the model note. The verdict already says when
-         model data is older than 90 min; the note stays one short line. */
-      if (tag) olderTag(tag, age ? ' \u00b7 older' : '', title);
-    }
-  }
-
   /* Display helper (10 Nov 2026, MT t1104u): read freezing level and elevation
      from the already-loaded copy. Does not change how status is computed. */
   window.__wmFzlAt = function (la, lo) {

@@ -14,7 +14,7 @@ const D=[
  'PA = elev + (1013.25 − QNH) × 30\nISA = 15 − 2 × PA/1000\nDA = PA + 120 × (OAT − ISA)\nExact: ICAO ISA density ratio','FAA PHAK (FAA-H-8083-25) ch.4 rules of thumb; exact cross-check ICAO Doc 7488 Standard Atmosphere. Lean above 5 000 ft DA: FAA-P-8740-2.'],
 ['ta','True altitude (cold temperature)','Atmosphere',[['ind','Indicated alt ft',9500],['stn','Station elev ft',5558],['qnh','QNH hPa',1020],['oat','OAT at alt °C',8]],g=>{const r=C.trueAlt(g('ind'),g('stn'),g('qnh'),g('oat'));return{big:['True altitude',f0(r.ta),'ft'],rows:[['Correction',sg(f0(r.corr))+' ft'],['ISA deviation at alt',sg(f1(r.dev))+' °C'],['Exact (Kelvin ratio)',f0(C.trueAltExact(g('ind'),g('stn'),g('qnh'),g('oat')))+' ft']]}},
  'True alt = Ind + 4 × ISAdev × (Ind − stn elev)/1000\n(4% per 10 °C of height above station)','ICAO cold-temperature rule; FAA AIM 7-2-3 / PHAK. Exact check: T/T_ISA ratio, ICAO Doc 7488.'],
-['isa','Standard atmosphere','Atmosphere',[['h','Pressure alt ft',10000]],g=>{const p=C.isaPress(g('h'));return{big:['ISA pressure',f2(p),'hPa'],rows:[['ISA temperature',f2(C.isaTempExact(g('h')))+' °C'],['Pressure',f2(p/33.8638866667)+' inHg']]}},
+['isa','Standard atmosphere','Atmosphere',[['h','Pressure alt ft',10000]],g=>{const p=C.isaPress(g('h'));return{big:['ISA pressure',f2(p),'hPa'],rows:[['ISA temperature',f2(C.isaTempExact(g('h')))+' °C']]}},
  'p = 1013.25 × (1 − 6.8755856e-6 × h)^5.2558797\nT = 15 − 0.0019812 × h (to 36 089 ft), then −56.5 °C','ICAO Doc 7488 Manual of the ICAO Standard Atmosphere.'],
 ['alt','QNH · QFE & transition altitude','Atmosphere',[['icao','Aerodrome ICAO','FAOR','text'],['qnh','QNH hPa',1020],['elev','Elevation ft',5558]],g=>{const q=C.qfe(g('qnh'),g('elev')),t=C.taLookup(g('icao'),NaN,NaN,g('elev'),[],window.TA||[]);
  return{big:['QFE',f1(q.exact),'hPa'],rows:[['Rule of thumb (30 ft/hPa, sea level only)',f1(q.approx)+' hPa'],['QNE / pressure alt',f0(C.pressureAlt(g('elev'),g('qnh')))+' ft'],['Transition altitude',t.kind==='listed'?f0(t.ta)+' ft · '+t.name:'Not listed: see ENR 1.7 para 3d–e'],['Reference',t.ref]]}},
@@ -39,15 +39,15 @@ const D=[
  'σ = (1 − 6.8755856e-6 × DA)^4.2558797\nTAS = CAS / √σ','ICAO Doc 7488 density ratio; E6B check.'],
 ['mach','Mach number','Speed',[['tas','TAS kt',250],['oat','OAT °C',-20]],g=>{const r=C.mach(g('tas'),g('oat'));return{big:['Mach',r.m.toFixed(3),''],rows:[['Speed of sound',f1(r.a)+' kt']]}},
  'a = 38.967854 × √(OAT + 273.15) kt\nM = TAS / a','ICAO Doc 7488 speed of sound.'],
-['tsd','Time · speed · distance','Speed',[['d','Distance NM',120],['s','Ground speed kt',100]],g=>{const t=C.tsd.time(g('d'),g('s'));return{big:['Time',(m=>m.h+'h '+String(m.m).padStart(2,'0'))(C.hm(t)),'min'],rows:[['Minutes',f1(t)+' min']]}},
- 'Time = Distance / Speed × 60','Basic navigation.'],
+['tsd','Time · speed · distance','Speed',[['d','Distance NM',120],['s','Ground speed kt',100],['t','Time','','text']],g=>{const t=C.tsd.time(g('d'),g('s'));if(!isFinite(t))return{err:'Check the values.'};return{big:['Time',(m=>m.h+'h '+String(m.m).padStart(2,'0'))(C.hm(t)),'min'],rows:[['Minutes',f1(t)+' min']]}},
+ 'Time = Distance / Speed × 60\nDistance = Speed × Time / 60\nSpeed = Distance / Time × 60','Basic navigation.'],
 ['to','Take-off distance','Performance',...perf(false),'Distance × weight × PA × temp × slope × tailwind × surface factors, then × 1.33 safety','UK CAA Safety Sense Leaflet 09 / UK AIC 173/2024 factor table. Always use your POH chart first.'],
 ['ld','Landing distance','Performance',...perf(true),'Distance × weight × PA × temp × slope × tailwind × surface factors, then × 1.43 safety','UK CAA Safety Sense Leaflet 09 / UK AIC 173/2024 factor table. Always use your POH chart first.'],
 ['roc','Climb gradient → rate of climb','Performance',[['grad','Gradient ft/NM',400],['gs','Ground speed kt',80]],g=>({big:['Rate of climb',f0(C.rocFromGrad(g('grad'),g('gs'))),'ft/min'],rows:[['Gradient %',f1(g('grad')/60.76)+' %']]}),
  'ROC = gradient × GS / 60','ICAO PANS-OPS climb gradient tables.'],
 ['fuel','Fuel planning & endurance','Fuel & loading',[['fob','Fuel on board L',150],['burn','Burn L/h',32],['trip','Trip min',120],['res','Reserve min',45],['taxi','Taxi L',5]],g=>{const r=C.fuel(g('fob'),g('burn'),g('res'),g('taxi'),g('trip'));if(r.error)return{err:r.error};return{big:['Spare fuel',f1(r.spare),'L'],rows:[['Required',f1(r.req)+' L'],['Trip',f1(r.trip)+' L'],['Reserve',f1(r.res)+' L'],['Endurance',f0(r.endur)+' min'],['Usable endurance (after reserve)',f0(r.usableEndur)+' min']]}},
  'Trip = burn × trip min / 60\nReserve = burn × reserve min / 60\nRequired = trip + reserve + taxi\nEndurance = FOB / burn × 60','SACAA Part 91 fuel reserve arithmetic; E6B.'],
-['fwv','Fuel weight ↔ volume','Fuel & loading',[['l','Litres',100],['type','Fuel','avgas',[['avgas','Avgas 100LL'],['jeta1','Jet A-1'],['mogas','Mogas']]]],g=>{const kg=g('l')*C.fuelSG[g('type')];return{big:['Mass',f1(kg),'kg'],rows:[['Pounds',f1(kg/0.45359237)+' lb'],['US gallons',f1(g('l')/3.785411784)+' USG'],['Specific gravity',C.fuelSG[g('type')]]]}},
+['fwv','Fuel weight ↔ volume','Fuel & loading',[['l','Volume L',100],['type','Fuel','avgas',[['avgas','Avgas 100LL'],['jeta1','Jet A-1'],['mogas','Mogas']]]],g=>{const kg=g('l')*C.fuelSG[g('type')];return{big:['Mass',f1(kg),'kg'],rows:[['US gallons',f1(g('l')/3.785411784)+' USG'],['Specific gravity',C.fuelSG[g('type')]]]}},
  'kg = L × SG (Avgas 0.72, Jet A-1 0.80, Mogas 0.74)','Typical specific gravity at 15 °C; confirm with fuel docket.'],
 ['cgs','CG shift & %MAC','Fuel & loading',[['w','Weight moved lb',50],['d','Distance moved in',40],['tot','Total weight lb',2400],['cg','CG in',40],['lemac','LEMAC in',30],['mac','MAC in',60]],g=>{const s=C.cgShift(g('w'),g('d'),g('tot'));return{big:['CG shift',f2(s),'in'],rows:[['New CG',f2(g('cg')+s)+' in'],['%MAC before',f1(C.pctMAC(g('cg'),g('lemac'),g('mac')))+' %'],['%MAC after',f1(C.pctMAC(g('cg')+s,g('lemac'),g('mac')))+' %']]}},
  'ΔCG = weight moved × distance / total weight\n%MAC = (CG − LEMAC) / MAC × 100','FAA Weight & Balance Handbook (FAA-H-8083-1).'],
@@ -68,19 +68,20 @@ const D=[
 ['msa','Minimum safe altitude','Navigation',[['obs','Highest obstacle ft AMSL',6800],['m','Margin ft',1000]],g=>({big:['MSA',f0(C.msa(g('obs'),g('m'))),'ft'],rows:[['Rounded up to','next 100 ft']]}),
  'MSA = ceil((obstacle + margin) / 100) × 100','SACAA Part 91 minimum heights; ICAO PANS-OPS margins (1000 ft, 2000 ft mountainous).'],
 ['conv','Unit conversions','Units',[
- ['v','Value',1000],['u','Convert','alt',Object.entries(C.conversionGroups).map(([id,g])=>[id,g.label])],
- ['from','From','ft',C.conversionGroups.alt.units.map(u=>u.slice(0,2))],
- ['to','To','m',C.conversionGroups.alt.units.map(u=>u.slice(0,2))]
+ ['v','Value',1000],['u','Convert','alt',Object.entries(C.conversionGroups).map(([id,g])=>[id,g.label])]
 ],g=>{
+ /* From / To come from the tappable unit words (more.js), not from select rows */
  const category=g('u'),group=C.conversionGroups[category],value=g('v'),from=g('from'),to=g('to');
  const out=C.convertUnits(category,value,from,to);
  if(!Number.isFinite(out))return{err:category==='temp'?'Temperature cannot be below absolute zero.':'Check the value and selected units. Fuel quantities must be zero or more.'};
  const label=id=>group.units.find(u=>u[0]===id)[1];
  const fmt=v=>String(Number(v.toPrecision(10)));
- return{big:[label(from)+' → '+label(to),fmt(out),label(to)],rows:[['Back again',fmt(C.convertUnits(category,out,to,from))+' '+label(from)]].concat(group.density?[
+ const sec=C.convSecond(category,from,to),rows=[];
+ if(sec){const sv=C.convertUnits(category,value,from,sec);if(Number.isFinite(sv))rows.push([C.unitNames[sec]||label(sec),String(Number(sv.toPrecision(6)))+' '+label(sec)])}
+ return{big:[label(from)+' → '+label(to),fmt(out),label(to)],rows:rows.concat(group.density?[
  ['Planning density at 15 °C',group.density.toFixed(2)+' kg/L'],['Fuel note','Approximate; use actual uplift density.']]:[])};
 },
- 'result = value × source SI factor ÷ target SI factor. Temperature via kelvin. Fuel mass kg = volume L × density kg/L; Avgas 0.72, Jet A-1 0.80 at 15 °C (planning assumptions only). Swap reverses units and uses the unrounded result.',
+ 'result = value × source SI factor ÷ target SI factor. Temperature via kelvin. Fuel mass kg = volume L × density kg/L; Avgas 0.72, Jet A-1 0.80 at 15 °C (planning assumptions only). Tap the unit word on the value or the result to change it. Swap reverses units and uses the unrounded result.',
  'SI / ICAO Annex 5 conversion factors; US liquid gal = 3.785411784 L; Imperial gal = 4.54609 L. Fuel densities vary with temperature and batch; use measured density for operational loading.'],
  /* Part 2 additions (30 Oct 2026). Coordinated level turn: tan φ = ω·V/g, R = V²/(g·tan φ) (FAA-H-8083-15B Instrument Flying Handbook ch.5; rule of thumb bank ≈ TAS/10 + 7). */
 ['turn','Rate of turn, radius & bank','Performance',[['tas','TAS kt',100],['bank','Bank angle °',15]],g=>{const r=C.turn(g('tas'),g('bank'));if(r.error)return{err:r.error};return{big:['Rate of turn',f1(r.rate),'°/s'],rows:[['Turn radius',f2(r.radiusNm)+' NM ('+f0(r.radiusM)+' m)'],['360° takes',f0(r.t360)+' s'],['Rate-1 bank (3°/s)',f1(r.rate1Bank)+'°'],['Rule of thumb (TAS/10 + 7)',f0(r.rule)+'°']]}},

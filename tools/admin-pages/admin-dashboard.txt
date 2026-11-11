@@ -1,0 +1,52 @@
+
+@@title
+Dashboard
+@@foot
+The 6 Nov dashboard, rebuilt on Cloudflare with the admin password. The aerodrome status bar (DEPART / CAUTION / NO DEPART counts) needs the aerodrome page loaded in a hidden frame and stays on <a href="/dashboard">/dashboard</a>. Guidance only, the pilot in command decides.
+@@body
+  <div id="alert" class="alert" hidden></div>
+  <main>
+    <section class="card glass wide" id="c-wx"><h2><i class="dot"></i>Weather check<small id="wx-meta"></small></h2>
+      <div id="wx-kpi"></div>
+      <div class="flt"><div class="seg" id="wx-seg"><button class="on" data-f="problems">Problems</button><button data-f="stale">Stale</button><button data-f="all">All</button></div>
+      <input id="q" type="search" placeholder="Search ICAO" autocomplete="off" aria-label="Search aerodromes"></div>
+      <div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-up"><h2><i class="dot"></i>Uptime &amp; site health</h2><div class="b m">Checking…</div></section>
+    <section class="card glass" id="c-vis"><h2><i class="dot"></i>Visitors &amp; devices</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-err"><h2><i class="dot"></i>Errors</h2><div class="b m">Loading…</div></section>
+    <section class="card glass wide" id="c-rec"><h2><i class="dot"></i>Latest visits</h2><div class="b m">Loading…</div></section>
+  </main>
+@@script
+(function(){var A=AX,esc=A.esc,ST=[],f='problems';
+function merge(d){var m={};['metar','taf'].forEach(function(k){(d.wx[k].stations||[]).forEach(function(s){var o=m[s.id]=m[s.id]||{id:s.id};o[k]=s});(d.wx[k].missing||[]).forEach(function(id){var o=m[id]=m[id]||{id:id};o[k+'Miss']=1})});
+  return Object.keys(m).sort().map(function(id){var o=m[id],now=Date.now(),mt=o.metar,tf=o.taf;o.mAge=mt&&mt.site?now-mt.site:NaN;o.tAge=tf&&tf.site?now-tf.site:NaN;
+    o.behind=(mt&&mt.up>mt.site&&mt.site)||(tf&&tf.up>tf.site&&tf.site);o.stale=!(o.mAge<90*6e4);o.problem=o.metarMiss||o.tafMiss||o.behind||(mt&&!mt.site);return o})}
+function drawWx(){var q=A.$('#q').value.trim().toUpperCase(),L=ST.filter(function(o){return(f==='all'||(f==='stale'?o.stale:o.problem))&&(!q||o.id.indexOf(q)>=0)});
+  var h='<div class="wl">'+L.map(function(o){var st=o.problem?'<span class="bad-t">'+(o.metarMiss||o.tafMiss?'missing':'behind')+'</span>':o.stale?'<span class="warn-t">stale</span>':'<span class="ok-t">OK</span>';
+    return'<div class="ws"><b>'+esc(o.id)+'</b><span>METAR '+(o.metar&&o.metar.site?A.dur(o.mAge)+' old':'—')+' · TAF '+(o.taf&&o.taf.site?A.dur(o.tAge)+' old':'—')+'</span>'+st+(o.metar?'<span class="raw">'+esc(o.metar.raw)+'</span>':'')+'</div>'}).join('')+'</div>';
+  if(!L.length)h='<p class="m">'+(f==='problems'?'No problems: every station matches the official source.':'Nothing matches.')+'</p>';
+  var b=A.$('#c-wx .b');b.className='b';b.innerHTML=h}
+document.querySelectorAll('#wx-seg button').forEach(function(b){b.onclick=function(){document.querySelectorAll('#wx-seg button').forEach(function(x){x.classList.toggle('on',x===b)});f=b.dataset.f;drawWx()}});
+A.$('#q').addEventListener('input',drawWx);
+async function load(){A.$('#sub').textContent='Checking live…';var t0=performance.now(),probs=[];
+  var visP=A.get('/api/admin/visits?range=7d&limit=200'),statP=A.get('/api/admin/stats?range=7d');
+  try{var d=await A.get('/api/admin/health');ST=merge(d);var P=ST.filter(function(o){return o.problem}).length,S=ST.filter(function(o){return o.stale}).length;
+    var c=A.$('#c-wx');c.className='card glass wide '+(P?'warn':'ok');
+    A.$('#wx-meta').textContent=ST.length+' stations · '+P+' problems · '+S+' stale';
+    var kp='<div class="kpis k4"><div class="kpi"><b>'+d.wx.metar.match+'/'+d.wx.metar.total+'</b><span>METAR match official</span></div><div class="kpi"><b>'+d.wx.taf.match+'/'+d.wx.taf.total+'</b><span>TAF match official</span></div><div class="kpi"><b>'+P+'</b><span>problems</span></div><div class="kpi"><b>'+S+'</b><span>stale METAR</span></div></div>';
+    A.$('#wx-kpi').innerHTML=kp;drawWx();
+    var u=d.uptime,pr=d.probes,pct=u.all?Math.round(u.allOk*1000/u.all)/10:null;
+    A.set('#c-up',d.up&&!u.downs.length?'ok':d.up?'warn':'bad','<div class="kpis"><div class="kpi"><b>'+(pct==null?'—':pct+'%')+'</b><span>uptime</span></div><div class="kpi"><b>'+A.n(u.all)+'</b><span>checks</span></div><div class="kpi"><b>'+pr.site.ms+' ms</b><span>home page</span></div></div>'+
+      (u.recent&&u.recent.length?'<div class="chart" style="height:56px;gap:2px" title="Recent checks">'+u.recent.map(function(x){return'<div class="col"><i style="height:'+Math.max(6,Math.min(44,Math.round(x.ms/6)))+'px;'+(x.up?'':'background:var(--ng)')+'"></i></div>'}).join('')+'</div>':'')+
+      '<table>'+[['Home page',pr.site],['METAR feed',pr.metar],['TAF feed',pr.taf],['Flights',pr.flights],['Weather model',pr.model]].map(function(r){var ok=r[1].s===200||(r[0]==='Home page'&&r[1].s===401);return'<tr><td>'+r[0]+'</td><td>'+(ok?'<span class="ok-t">OK</span>':'<span class="bad-t">HTTP '+r[1].s+'</span>')+'</td><td class="n">'+r[1].ms+' ms</td></tr>'}).join('')+'</table><p class="m">'+(u.all?'Checks since '+esc(A.sast(u.allFirst))+'. Deploy '+esc(d.deploy.id||'—')+'.':'No uptime checks recorded yet.')+'</p>');
+    var E=d.errors||[];A.set('#c-err',E.length?'warn':'ok',(E.length?'<table><thead><tr><th>Time (SAST)</th><th>What</th><th>Detail</th></tr></thead><tbody>'+E.slice().reverse().map(function(e){return'<tr><td>'+esc(A.sast(e.t))+'</td><td>'+esc(e.what)+'</td><td class="m">'+esc(e.detail)+'</td></tr>'}).join('')+'</tbody></table>':'<p class="ok-t">No errors in the live checks.</p>')+'<h3>Not connected yet</h3><div class="chips">'+(d.notConnected||[]).map(function(x){return'<span class="chip">'+esc(x)+'</span>'}).join('')+'</div>');
+    if(!d.up)probs.push('Site is not responding');if(P)probs.push(P+' weather station(s) behind or missing on the site');E.filter(function(e){return!/recorded check/.test(e.what)}).forEach(function(e){probs.push(e.what+': '+e.detail)});
+  }catch(e){probs.push('Health data failed: '+e.message);A.set('#c-up','bad','<p>Could not load health data ('+esc(e.message)+').</p>')}
+  try{var s=await statP,v=await visP,R=A.rows(v.rows);
+    A.set('#c-vis','ok','<div class="kpis"><div class="kpi"><b>'+A.n(s.today.visits)+'</b><span>today</span></div><div class="kpi"><b>'+A.n(s.d7.visits)+'</b><span>7 days</span></div><div class="kpi"><b>'+A.n(s.d7.uniques)+'</b><span>unique · 7 days</span></div></div>'+A.chart(s.days)+'<h3>Devices</h3>'+A.bars(s.devices,4)+'<h3>Countries</h3>'+A.bars(s.countries,4));
+    A.set('#c-rec','ok','<p class="m">Newest '+Math.min(R.length,20)+' of '+R.length+' · <a href="/admin-visitor-log">full visitor log ›</a></p>'+A.table(R.slice(0,20)));
+  }catch(e){['#c-vis','#c-rec'].forEach(function(i){A.set(i,'warn','<p class="m">Visit log unavailable: '+esc(e.message)+'</p>')})}
+  var al=A.$('#alert');al.hidden=false;al.className='alert '+(probs.length?'warn':'ok');
+  al.innerHTML=probs.length?'Needs attention<ul>'+probs.map(function(p){return'<li>'+esc(p)+'</li>'}).join('')+'</ul>':'All checks passed.';
+  A.$('#sub').textContent='Live · checked '+A.sast(Date.now())+' · '+Math.round(performance.now()-t0)+' ms'}
+A.start(load)})();

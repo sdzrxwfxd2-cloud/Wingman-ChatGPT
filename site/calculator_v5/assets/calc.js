@@ -170,6 +170,12 @@ C.conversionGroups={
  time:{label:'Time',units:[['min','min',60],['hr','h',3600],['sec','s',1]],defaults:['min','hr']},
  flow:{label:'Fuel flow (volume)',units:[['lph','L/h',1],['usgph','US gal/h',3.785411784],['impgph','Imp gal/h',4.54609]],defaults:['lph','usgph']}
 };
+/* full names for the converter's second line */
+C.unitNames={ft:'Feet',m:'Metres',nm:'Nautical miles',km:'Kilometres',sm:'Statute miles',kt:'Knots',kmh:'Kilometres per hour',mph:'Miles per hour',ms:'Metres per second',fpm:'Feet per minute',
+ hpa:'Hectopascals',inhg:'Inches of mercury',mmhg:'Millimetres of mercury',psi:'Pounds per square inch',mb:'Millibars',c:'Celsius',f:'Fahrenheit',k:'Kelvin',lb:'Pounds',kg:'Kilograms',g:'Grams',t:'Tonnes',
+ l:'Litres',usg:'US gallons',impg:'Imperial gallons',ml:'Millilitres',min:'Minutes',hr:'Hours',sec:'Seconds',lph:'Litres per hour',usgph:'US gallons per hour',impgph:'Imperial gallons per hour'};
+/* the converter's second line: the next unit in the tap cycle after To, never From (so a tap on the result brings it up) */
+C.convSecond=(category,from,to)=>{const g=C.conversionGroups[category];if(!g)return null;const ids=g.units.map(u=>u[0]).filter(x=>x!==from);if(ids.length<2)return null;const i=ids.indexOf(to);return ids[(i<0?0:i+1)%ids.length]};
 C.convertUnits=(category,value,from,to)=>{
  const group=C.conversionGroups[category];
  if(!group||!Number.isFinite(value))return NaN;
@@ -219,5 +225,130 @@ C.glide=(h,ratio,tas,hw)=>{
  const gs=tas-hw;if(!(gs>0))return{error:'Headwind is stronger than the TAS: no forward progress.'};
  const still=h*ratio/6076.12,rod=tas*6076.12/60/ratio;
  return{still,nm:still*gs/tas,gs,rod,min:h/rod};};
+
+/* TSD: any-two solve, unit convert, time parse. Base units are NM, kt and minutes.
+   1 NM = 1852 m, 1 statute mile = 1609.344 m, 1 kt = 1 NM/h, 1 mph = 1 SM/h (ICAO Annex 5). */
+C.distToNm=(v,u)=>{u=String(u||'nm').toLowerCase();v=+v;if(u==='km')return v/C.units.nm_km;if(u==='sm')return v*C.units.sm_km/C.units.nm_km;return v};
+C.nmToDist=(nm,u)=>{u=String(u||'nm').toLowerCase();if(u==='km')return nm*C.units.nm_km;if(u==='sm')return nm*C.units.nm_km/C.units.sm_km;return nm};
+C.spdToKt=(v,u)=>{u=String(u||'kt').toLowerCase().replace('km/h','kmh');v=+v;if(u==='kmh')return v/C.units.kt_kmh;if(u==='mph')return v*C.units.sm_km/C.units.nm_km;return v};
+C.ktToSpd=(kt,u)=>{u=String(u||'kt').toLowerCase().replace('km/h','kmh');if(u==='kmh')return kt*C.units.kt_kmh;if(u==='mph')return kt*C.units.nm_km/C.units.sm_km;return kt};
+C.convertDist=(v,from,to)=>C.nmToDist(C.distToNm(v,from),to);
+C.convertSpd=(v,from,to)=>C.ktToSpd(C.spdToKt(v,from),to);
+C.parseTime=(raw,unit)=>{
+ const s=String(raw==null?'':raw).trim().toLowerCase().replace(/,/g,'');
+ if(!s)return{error:'Enter a time, like 1:30 or 90.'};
+ unit=String(unit||'min').toLowerCase().replace('h:mm','hmm');
+ let m=/^(\d+)\s*:\s*(\d{1,2})(?:\s*:\s*(\d{1,2}))?$/.exec(s);
+ if(m){const h=+m[1],min=+m[2],sec=m[3]?+m[3]:0;if(min>=60||sec>=60)return{error:'Enter a time, like 1:30 or 90.'};const t=h*60+min+sec/60;if(!(t>0)||!isFinite(t))return{error:'Time must be more than 0.'};return{min:t}}
+ m=/^([0-9]*\.?[0-9]+)\s*(h|hr|hrs|hour|hours)$/.exec(s);
+ if(m){const t=+m[1]*60;if(!(t>0)||!isFinite(t))return{error:'Time must be more than 0.'};return{min:t}}
+ m=/^([0-9]*\.?[0-9]+)\s*(m|min|mins|minute|minutes)$/.exec(s);
+ if(m){const t=+m[1];if(!(t>0)||!isFinite(t))return{error:'Time must be more than 0.'};return{min:t}}
+ m=/^([0-9]*\.?[0-9]+)\s*h(?:ours?)?\s*([0-9]*\.?[0-9]+)\s*(?:m|min|mins|minutes)?$/.exec(s);
+ if(m){const t=+m[1]*60+(+m[2]);if(!(t>0)||!isFinite(t))return{error:'Time must be more than 0.'};return{min:t}}
+ if(!/^[+-]?[0-9]*\.?[0-9]+$/.test(s))return{error:'Enter a time, like 1:30 or 90.'};
+ const n=+s;if(!isFinite(n)||n<=0)return{error:'Time must be more than 0.'};
+ if(unit==='hmm'&&s.includes('.'))return{min:n*60};
+ if(unit==='hmm'&&n<=24&&!s.includes('.'))return{min:n*60};
+ return{min:n};
+};
+C.formatTime=(min,unit)=>{if(!isFinite(min)||min<0)return'';unit=String(unit||'hmm').toLowerCase().replace('h:mm','hmm');if(unit==='min'||unit==='minutes'||unit==='m'){const r=Math.round(min*10)/10;return Math.abs(r-Math.round(r))<1e-9?String(Math.round(r)):r.toFixed(1)}const hm=C.hm(min);return hm.h+':'+String(hm.m).padStart(2,'0')};
+C.stepTime=(raw,unit,dir)=>{
+ unit=String(unit||'hmm').toLowerCase().replace('h:mm','hmm');
+ dir=dir<0?-1:1;
+ const p=C.parseTime(raw,unit);
+ let t=(p&&!p.error&&isFinite(p.min))?p.min:0;
+ const asMin=unit==='min'||unit==='minutes'||unit==='m';
+ if(!asMin)t=Math.round(t);
+ t+=dir;
+ if(t<0)t=0;
+ return C.formatTime(t,unit);
+};
+C.nextUnit=(kind,cur)=>{
+ const seq=({d:['nm','km','sm'],du:['nm','km','sm'],s:['kt','kmh','mph'],su:['kt','kmh','mph'],t:['hmm','min'],tu:['hmm','min']})[String(kind||'').toLowerCase()];
+ if(!seq)return cur;
+ const v=String(cur==null?'':cur).toLowerCase().replace('km/h','kmh').replace('h:mm','hmm');
+ const i=seq.indexOf(v);
+ return seq[(i<0?0:i+1)%seq.length];
+};
+C.tsdAlt=(solve,dNm,sKt,tMin,du,su)=>{
+ du=String(du||'nm').toLowerCase();
+ su=String(su||'kt').toLowerCase().replace('km/h','kmh');
+ if(solve==='t')return{label:'Minutes',value:tMin,unit:'min'};
+ if(solve==='d'){
+  if(du==='nm')return{label:'Statute miles',value:C.nmToDist(dNm,'sm'),unit:'sm'};
+  return{label:'Nautical miles',value:dNm,unit:'NM'};
+ }
+ if(solve==='s'){
+  if(su==='kt')return{label:'Miles per hour',value:C.ktToSpd(sKt,'mph'),unit:'mph'};
+  return{label:'Knots',value:sKt,unit:'kt'};
+ }
+ return{error:'Check the values.'};
+};
+C.tsdSolve=(dNm,sKt,tMin,solve)=>{
+ const err=m=>({error:m});
+ if(solve==='t'){if(!(dNm>0)||!isFinite(dNm))return err('Distance must be more than 0.');if(!(sKt>0)||!isFinite(sKt))return err('Speed must be more than 0.');const t=C.tsd.time(dNm,sKt);if(!isFinite(t)||t<0)return err('Check the values.');return{t,d:dNm,s:sKt}}
+ if(solve==='d'){if(!(sKt>0)||!isFinite(sKt))return err('Speed must be more than 0.');if(!(tMin>0)||!isFinite(tMin))return err('Time must be more than 0.');const d=C.tsd.dist(sKt,tMin);if(!isFinite(d)||d<0)return err('Check the values.');return{d,s:sKt,t:tMin}}
+ if(solve==='s'){if(!(dNm>0)||!isFinite(dNm))return err('Distance must be more than 0.');if(!(tMin>0)||!isFinite(tMin))return err('Time must be more than 0.');const s=C.tsd.speed(dNm,tMin);if(!isFinite(s)||s<0)return err('Check the values.');return{s,d:dNm,t:tMin}}
+ return err('Check the values.');
+};
+
+/* Tap-to-cycle units (MT 11 Nov 2026). Every calculator works in one base unit per field (the unit its maths expects);
+   the page shows the pilot's chosen unit and converts at the edge. Factors are SI (ICAO Annex 5): 1 ft = 0.3048 m,
+   1 NM = 1852 m, 1 sm = 1609.344 m, 1 lb = 0.45359237 kg, 1 US gal = 3.785411784 L, 1 inHg = 33.8638866667 hPa.
+   sec = the second, different unit shown under a result. */
+C.UDIM={
+ alt:{u:[['ft','ft',0.3048,'Feet'],['m','m',1,'Metres']],sec:{ft:'m',m:'ft'}},
+ len:{u:[['m','m',1,'Metres'],['ft','ft',0.3048,'Feet']],sec:{m:'ft',ft:'m'}},
+ dist:{u:[['nm','NM',1852,'Nautical miles'],['km','km',1000,'Kilometres'],['sm','sm',1609.344,'Statute miles']],sec:{nm:'sm',km:'nm',sm:'nm'}},
+ spd:{u:[['kt','kt',1852/3600,'Knots'],['kmh','km/h',1/3.6,'Kilometres per hour'],['mph','mph',1609.344/3600,'Miles per hour']],sec:{kt:'mph',kmh:'kt',mph:'kt'}},
+ vs:{u:[['fpm','ft/min',0.3048/60,'Feet per minute'],['ms','m/s',1,'Metres per second']],sec:{fpm:'ms',ms:'fpm'}},
+ temp:{u:[['c','°C',null,'Fahrenheit'],['f','°F',null,'Celsius']],sec:{c:'f',f:'c'}},
+ press:{u:[['hpa','hPa',100,'Hectopascals'],['inhg','inHg',3386.38866667,'Inches of mercury']],sec:{hpa:'inhg',inhg:'hpa'}},
+ mass:{u:[['lb','lb',0.45359237,'Pounds'],['kg','kg',1,'Kilograms']],sec:{lb:'kg',kg:'lb'}},
+ vol:{u:[['l','L',1,'Litres'],['usg','USG',3.785411784,'US gallons']],sec:{l:'usg',usg:'l'}},
+ arm:{u:[['in','in',0.0254,'Inches'],['cm','cm',0.01,'Centimetres']],sec:{in:'cm',cm:'in'}},
+ grad:{u:[['ftnm','ft/NM',0.3048/1852,'Feet per NM'],['pct','%',0.01,'Percent']],sec:{ftnm:'pct',pct:'ftnm'}}
+};
+C.UDIM.temp.u[0][3]='Celsius';C.UDIM.temp.u[1][3]='Fahrenheit';
+C.uUnit=(dim,id)=>{const D=C.UDIM[dim];return D&&D.u.find(u=>u[0]===id)||null};
+C.uLabel=(dim,id)=>{const u=C.uUnit(dim,id);return u?u[1]:''};
+C.uName=(dim,id)=>{const u=C.uUnit(dim,id);return u?u[3]:''};
+/* convert v (dim) from -> to; delta=true for a temperature difference (no 32 offset) */
+C.uConv=(dim,v,from,to,delta)=>{v=+v;if(!isFinite(v))return NaN;if(from===to)return v;
+ if(dim==='temp'){if(delta)return from==='c'?v*9/5:v*5/9;return from==='c'?v*9/5+32:(v-32)*5/9}
+ const a=C.uUnit(dim,from),b=C.uUnit(dim,to);if(!a||!b)return NaN;return v*a[2]/b[2]};
+/* next unit in the tap cycle (optionally skipping one unit, used by the converter) */
+C.uNext=(dim,cur,skip)=>{const D=C.UDIM[dim];if(!D)return cur;const ids=D.u.map(u=>u[0]).filter(x=>x!==skip);if(!ids.length)return cur;const i=ids.indexOf(cur);return ids[(i<0?0:i+1)%ids.length]};
+C.uSecond=(dim,cur)=>{const D=C.UDIM[dim];return D&&D.sec[cur]||null};
+/* decimals a re-typed input gets after a unit tap */
+const UDP={inhg:2,ms:2,pct:2,usg:2,in:1,cm:1,kg:1,lb:1};
+C.uFmtIn=(v,unit)=>{if(!isFinite(v))return '';const dp=UDP[unit]!=null?UDP[unit]:1,p=Math.pow(10,dp);let r=Math.round(v*p)/p;if(Object.is(r,-0))r=0;return String(+r.toFixed(dp))};
+/* min decimals for a converted result (so 1020 hPa never shows as "30 inHg") */
+const UMIN={inhg:2,ms:1,pct:1,nm:0,km:0,sm:0};
+const grp=n=>{const s=String(Math.round(Math.abs(n)));return s.replace(/\B(?=(\d{3})+(?!\d))/g,' ')};
+C.uFmtOut=(v,dec)=>{if(!isFinite(v))return '—';if(dec===0)return(v<0&&Math.round(v)!==0?'-':'')+grp(v);return v.toFixed(dec)};
+/* the last number in a result string: "330° / 18" -> 18, "−1 234" -> -1234, "+12.5" -> 12.5 */
+const NUMRE=/([+\-−]?)(\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:\.(\d+))?(?!.*\d)/;
+C.uParse=str=>{const s=String(str),m=NUMRE.exec(s);if(!m)return null;const int=m[2].replace(/[ \u00a0\u202f]/g,''),dec=m[3]||'';let v=parseFloat(int+(dec?'.'+dec:''));if(m[1]==='-'||m[1]==='−')v=-v;
+ return{v,dec:dec.length,sign:m[1],pre:s.slice(0,m.index),post:s.slice(m.index+m[0].length)}};
+C.uConvStr=(str,dim,from,to,delta)=>{const p=C.uParse(str);if(!p)return str;const v=C.uConv(dim,p.v,from,to,delta);if(!isFinite(v))return str;
+ const dec=Math.max(p.dec,UMIN[to]!=null?UMIN[to]:p.dec);let out=C.uFmtOut(Math.abs(v),dec);
+ const neg=v<0&&+out.replace(/ /g,'')!==0,sign=neg?(p.sign==='−'?'−':'-'):(p.sign==='+'?'+':'');return p.pre+sign+out+p.post};
+/* unitize a calculator result r = {big:[label,value,unit],rows:[[label,value]]} computed in base units.
+   spec.r = [dim, baseUnit] for the big result; dims = {dim: baseUnit} for every unit kind on the card;
+   cu = {dim: chosenUnit}. Returns a new result: big in the chosen unit, the second unit as the first row,
+   and rows that carry a base unit (e.g. "4 900 ft", "12 kt") converted too. */
+C.unitize=(r,spec,dims,cu)=>{if(!r||r.err||!r.big)return r;const out={big:r.big.slice(),rows:(r.rows||[]).map(x=>x.slice())};
+ for(const dim in dims){const base=dims[dim],cur=cu[dim]||base;if(cur===base)continue;const bl=C.uLabel(dim,base),cl=C.uLabel(dim,cur);
+  const re=new RegExp('^([+\\-−]?[\\d \\u00a0\\u202f]*\\d(?:\\.\\d+)?) '+bl.replace(/[.*+?^${}()|[\]\\\/]/g,'\\$&')+'(?=$| )');
+  out.rows.forEach(x=>{if(typeof x[1]!=='string')return;const m=re.exec(x[1]);if(!m)return;const delta=dim==='temp'&&/deviation/i.test(x[0]);
+   x[1]=C.uConvStr(m[1],dim,base,cur,delta)+' '+cl+x[1].slice(m[0].length)})}
+ if(spec&&spec.r){const[dim,base]=spec.r,cur=cu[dim]||base,bl=C.uLabel(dim,base),cl=C.uLabel(dim,cur),p=C.uParse(out.big[1]);
+  const u=String(out.big[2]||'');out.unitSuffix=u.indexOf(bl)===0?u.slice(bl.length):'';out.unitDim=dim;out.unitCur=cur;
+  if(p){if(cur!==base){out.big[1]=C.uConvStr(out.big[1],dim,base,cur);out.big[2]=cl+out.unitSuffix}
+   const sec=C.uSecond(dim,cur);if(sec){const s2=C.uConvStr(r.big[1],dim,base,sec),p2=C.uParse(s2);
+    if(p2){out.rows.unshift([C.uName(dim,sec),(p2.sign==='-'||p2.sign==='−'?p2.sign:'')+s2.slice(p2.pre.length+p2.sign.length,s2.length-p2.post.length)+' '+C.uLabel(dim,sec)]);out.second=sec}}}}
+ return out};
 if(typeof module!=='undefined')module.exports=C;else root.WC=C;
 })(this);

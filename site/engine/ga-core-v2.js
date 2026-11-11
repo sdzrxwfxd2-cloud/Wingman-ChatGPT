@@ -9,7 +9,7 @@
  * a single source-priority ladder, real Depart/Land timing, and the
  * 33rd Amendment (GG 55226, 21 August 2026) VMC minima.
  *
- * Rule pack 2.3.1 — 11 November 2026 (Africa/Johannesburg).
+ * Rule pack 2.3.2 — 11 November 2026 (Africa/Johannesburg).
  * 2.1.0: gust, variable-wind and model-wind triggers tied to the user's own limits.
  * 2.2.0: missing METAR visibility is filled from the TAF prevailing value, then the model;
  *        a fill below the legal / user minimum is NO DEPART / NO LAND, not caution;
@@ -20,11 +20,13 @@
  * 2.3.1: the user's gust limit is capped at 35 kt; 9999 and CAVOK mean 10 km or more,
  *        so they meet any visibility limit up to 10 km and do not trigger the near-limit
  *        caution (the same applies to TAF values and visibility fills).
+ * 2.3.2: model weather is fresh for up to 3 hours and may be GO; the POL-MODEL-OLDER
+ *        caution cap is removed, because data older than 180 min is already unused.
  */
 (function (G) {
   'use strict';
 
-  var RULES_VERSION = '2.3.1';
+  var RULES_VERSION = '2.3.2';
 
   /* Locked decision numbers. Changing any value requires a version bump and
      an update of RULES_LOCK (see tests/engine-v2). Citations live in CITES. */
@@ -42,7 +44,7 @@
       nearBand: 0.2,
       metarFreshMin: 60,
       metarUsableMin: 90,
-      modelFreshMin: 90,
+      modelFreshMin: 180,
       modelUsableMin: 180,
       trendValidH: 2,
       tafLookaheadH: 2,
@@ -91,8 +93,8 @@
   };
 
   var RULES_LOCK = {
-    version: '2.3.1',
-    checksum: '1ad19aeb3863e8d0f60eb1c200839533eeb0ae388d01944a3df2a4e552e9ece9'
+    version: '2.3.2',
+    checksum: '0802b4b3f504db54d947a168157f1c9082952ebc0996dc263efbb337a0644340'
   };
 
   var AC = [
@@ -571,16 +573,15 @@
   }
   function parseModel(model, now) {
     if (!model) return null;
-    /* Accept the live Open-Meteo { current: {...} } wrapper as well as a flat object. */
+    /* UI / Open-Meteo shape: { current: { visibility, wind_speed_10m, time, ... } } */
     if (model.current && typeof model.current === 'object' &&
-        model.vis == null && model.visKm == null && model.ws == null && model.wd == null &&
-        model.wind_speed_10m == null) {
-      var wrap = {};
+        model.visKm == null && model.vis == null && model.ws == null && model.wind_speed_10m == null) {
       var cur = model.current;
-      for (var ck in cur) wrap[ck] = cur[ck];
-      if (model.fetchedAt != null) wrap.fetchedAt = model.fetchedAt;
-      else if (model.wingman_fetched) wrap.fetchedAt = model.wingman_fetched;
-      model = wrap;
+      model = Object.assign({}, cur, {
+        time: cur.time || model.time,
+        fetchedAt: model.fetchedAt != null ? model.fetchedAt : cur.fetchedAt,
+        wingman_fetched: model.wingman_fetched || cur.wingman_fetched
+      });
     }
     var vis = model.visKm != null ? +model.visKm : (model.vis != null ? +model.vis : (model.visibility != null ? Math.min(10, model.visibility / 1000) : null));
     var ceil = model.ceilFt != null ? +model.ceilFt : (model.ceil != null ? +model.ceil : null);
@@ -604,10 +605,10 @@
     if (vis == null && ceil == null && ws == null && low == null) return null;
     return {
       src: 'model',
-      wd: wd,
-      vrb: vrb,
-      ws: ws,
-      g: g,
+      wd: model.wd != null ? +model.wd : model.wind_direction_10m,
+      vrb: !!model.vrb,
+      ws: model.ws != null ? +model.ws : (model.wind_speed_10m != null ? Math.round(model.wind_speed_10m) : null),
+      g: model.g != null ? +model.g : (model.wind_gusts_10m != null ? Math.round(model.wind_gusts_10m) : null),
       vis: vis, ceil: ceil,
       low: low,
       cc: model.cc != null ? model.cc : model.cloud_cover,
@@ -722,8 +723,6 @@
           ageMin: Math.round(ageMin(model.time, now)),
           label: 'Weather model estimate'
         };
-        picked.modelOlder = ageMin(model.time, now) > RULES.policy.modelFreshMin ||
-          ageMin(model.fetchedAt != null ? model.fetchedAt : model.time, now) > RULES.policy.modelFreshMin;
         return picked;
       }
       return picked;
@@ -768,7 +767,6 @@
     if (model && usableModel(model, now)) {
       picked.obs = model;
       picked.source = { kind: 'model', time: model.time, ageMin: Math.round(ageMin(model.time, now)), label: 'Weather model estimate (past the TAF or no TAF)' };
-      picked.modelOlder = true;
       return picked;
     }
     return picked;
@@ -819,7 +817,7 @@
     if (field.heliport || field.heli) {
       return finish({
         status: 'none', code: 'heliport', heliport: true,
-        why: 'Heliport — no DEPART / LAND verdict',
+        why: 'Heliport — no go / caution / no-go verdict',
         F: F, reasons: F, source: null, weatherUsed: null,
         disclaimers: disclaimers
       }, now, phase, P, ac, null, null);
@@ -832,24 +830,23 @@
     var ob = picked.obs;
     var src = ob && ob.src;
 
-    /* NIL only means INCOMPLETE when nothing else on the ladder (TREND / TAF / model) could be used. */
-    if (!ob) {
-      if (picked.reasonNil || (picked.official && picked.official.nil)) {
-        add('note', 'METAR NIL (no report)', 'nil', 'policy', 'POL-NIL');
+    if (picked.reasonNil || (ob && ob.nil)) {
+      add('note', 'METAR NIL (no report)', 'nil', 'policy', 'POL-NIL');
+      /* Signed-off policy 2.1.0–2.3.1: a NIL METAR is not the last word when a
+         TAF or a usable model is available — keep POL-NIL as a note and fall back. */
+      if (!ob || ob.nil) {
         return finish({ status: 'incomplete', code: 'nil', why: 'METAR NIL (no report)', F: F, si: si, picked: picked }, now, phase, P, ac, si, picked);
       }
+    }
+    if (!ob) {
       if (picked.modelTooOld) add('note', 'Model data is older than ' + RULES.policy.modelUsableMin + ' min and was not used', 'model', 'policy', 'POL-MODEL-TOO-OLD');
       add('note', 'No current weather report, forecast or model', 'nodata', 'policy', 'POL-NODATA');
       return finish({ status: 'incomplete', code: 'nodata', why: 'No current weather report, forecast or model', F: F, si: si, picked: picked }, now, phase, P, ac, si, picked);
-    }
-    if (picked.reasonNil || (picked.official && picked.official.nil)) {
-      add('note', 'METAR NIL (no report) — using the next available source', 'nil', 'policy', 'POL-NIL');
     }
 
     if (src === 'model') {
       disclaimers.push(MODEL_DISCLAIMER);
       add('note', MODEL_DISCLAIMER, 'model', 'policy', 'POL-MODEL-DISCLAIMER');
-      if (picked.modelOlder) add('caution', 'Model data is older than ' + RULES.policy.modelFreshMin + ' min', 'modelage', 'policy', 'POL-MODEL-OLDER');
     }
     if (picked.stale) {
       add('caution', 'Weather report is getting stale (' + picked.source.ageMin + ' min old)', 'age', 'policy', 'POL-METAR-STALE-60');

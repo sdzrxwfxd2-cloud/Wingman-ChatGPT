@@ -212,7 +212,7 @@ const cases = [
   { id: 'POL-MODEL-GO', input: { weather: { model: { visKm: 10, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 10 * 6e4 } } }, expect: { status: 'go', ruleId: 'POL-MODEL-DISCLAIMER' } },
   { id: 'POL-MODEL-NOGO-CLEAR', input: { weather: { model: { visKm: 3, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 10 * 6e4 } } }, expect: { status: 'nogo', ruleId: 'POL-MODEL-NOGO-CLEAR' } },
   { id: 'POL-MODEL-BORDERLINE', input: { weather: { model: { visKm: 4.5, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 10 * 6e4 } } }, expect: { status: 'caution', ruleId: 'POL-MODEL-BORDERLINE' } },
-  { id: 'POL-MODEL-OLDER', input: { weather: { model: { visKm: 10, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 120 * 6e4 } } }, expect: { status: 'caution', ruleId: 'POL-MODEL-OLDER' } },
+  { id: 'POL-MODEL-OLDER', input: { weather: { model: { visKm: 10, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 120 * 6e4 } } }, expect: { status: 'go', notRuleId: 'POL-MODEL-OLDER' } },  /* 2.3.2: fresh up to 180 min, cap removed */
   { id: 'POL-MODEL-TOO-OLD', input: { weather: { model: { visKm: 10, ceilFt: 3000, wd: 240, ws: 8, time: NOW - 200 * 6e4 } } }, expect: { status: 'incomplete', ruleId: 'POL-MODEL-TOO-OLD' } },
   { id: 'POL-WIND-MISSING', input: { weather: { metar: metar('FACT 091000Z /////KT 9999 CAVOK 22/10 Q1020') } }, expect: { status: 'caution', ruleId: 'POL-WIND-MISSING' } },
   { id: 'POL-VAR-GROUP', input: { weather: { metar: metar('FACT 091000Z 24015KT 220V300 9999 CAVOK 22/10 Q1020') } }, expect: { status: 'caution', ruleId: 'POL-VAR-GROUP' } },
@@ -384,10 +384,10 @@ const cases210 = [
 
   /* stale model: 90 / 91 / 180 / 181 minutes, and fetchedAt older than the valid time */
   { id: 'A-MODEL-90', input: { weather: { model: model({ wd: 240, ws: 8 }, 90) } }, expect: { status: 'go', notRuleId: 'POL-MODEL-OLDER' } },
-  { id: 'A-MODEL-91', input: { weather: { model: model({ wd: 240, ws: 8 }, 91) } }, expect: { status: 'caution', ruleId: 'POL-MODEL-OLDER' } },
-  { id: 'A-MODEL-180', input: { weather: { model: model({ wd: 240, ws: 8 }, 180) } }, expect: { status: 'caution', ruleId: 'POL-MODEL-OLDER', sourceKind: 'model' } },
+  { id: 'A-MODEL-91', input: { weather: { model: model({ wd: 240, ws: 8 }, 91) } }, expect: { status: 'go', notRuleId: 'POL-MODEL-OLDER' } },
+  { id: 'A-MODEL-180', input: { weather: { model: model({ wd: 240, ws: 8 }, 180) } }, expect: { status: 'go', notRuleId: 'POL-MODEL-OLDER', sourceKind: 'model' } },
   { id: 'A-MODEL-181', input: { weather: { model: model({ wd: 240, ws: 8 }, 181) } }, expect: { status: 'incomplete', ruleId: 'POL-MODEL-TOO-OLD' } },
-  { id: 'A-MODEL-FETCHED-100-VALID-10', input: { weather: { model: model({ wd: 240, ws: 8, fetchedAt: NOW - 100 * 6e4 }, 10) } }, expect: { status: 'caution', ruleId: 'POL-MODEL-OLDER' } },
+  { id: 'A-MODEL-FETCHED-100-VALID-10', input: { weather: { model: model({ wd: 240, ws: 8, fetchedAt: NOW - 100 * 6e4 }, 10) } }, expect: { status: 'go', notRuleId: 'POL-MODEL-OLDER' } },
   { id: 'A-MODEL-FETCHED-200-VALID-10', input: { weather: { model: model({ wd: 240, ws: 8, fetchedAt: NOW - 200 * 6e4 }, 10) } }, expect: { status: 'incomplete', ruleId: 'POL-MODEL-TOO-OLD' } }
 ];
 
@@ -494,7 +494,7 @@ const required = [
   'POL-MODEL-DISCLAIMER', 'POL-MODEL-GO', 'POL-MODEL-NOGO-CLEAR', 'POL-MODEL-BORDERLINE',
   'POL-MODEL-OLDER', 'POL-MODEL-TOO-OLD',
   'POL-WIND-MISSING', 'POL-VAR-GROUP', 'POL-WS-STRONG',
-  'POL-HELI', 'POL-NIL', 'POL-NODATA', 'POL-FALLBACK-STALE-METAR-TAF', 'POL-FALLBACK-STALE-METAR-MODEL', 'POL-FALLBACK-NIL-TAF', 'POL-FALLBACK-NIL-MODEL', 'POL-FALLBACK-TAF-ONLY', 'POL-FALLBACK-UI-MODEL-SHAPE', 'POL-CAVOK', 'POL-SPECI-WINS',
+  'POL-HELI', 'POL-NIL', 'POL-NODATA', 'POL-CAVOK', 'POL-SPECI-WINS',
   'POL-WORST-WINS', 'POL-SHELVES', 'POL-SOURCE-LABEL',
   'POL-LAND-FOLLOWS-TAF', 'POL-DEPART-METAR-WINS', 'POL-ARRIVE-NEAR-NOW',
   'POL-AUTO', 'POL-9999', 'POL-FILL-HOLE', 'POL-FILL-DISAGREE', 'POL-DISCLAIMER',

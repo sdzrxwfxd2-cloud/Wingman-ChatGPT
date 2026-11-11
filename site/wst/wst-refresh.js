@@ -14,7 +14,7 @@ function hook(){const b=document.querySelector('.wrf');if(!b||b.dataset.wr)retur
  b.onclick=async e=>{e&&e.stopPropagation();if(busy)return;busy=1;const t0=Date.now();b.classList.add('ld');b.classList.remove('off');const lab=document.querySelector('.wupd');if(lab){lab.classList.remove('off');lab.textContent='Updating…'}
   bust=Date.now();memo={};let ok=1;
   try{const [M,T]=await Promise.all([fetch('/api/metar').then(r=>r.json()),fetch('/api/taf').then(r=>r.json()).catch(()=>[])]);if(!Array.isArray(M))throw 0;
-   if(S){M.slice().sort((a,b)=>a.obsTime-b.obsTime).forEach(m=>{if(m&&m.icaoId)S.metar[m.icaoId]=m});(T||[]).forEach(t=>{if(t&&t.icaoId&&t.rawTAF)S.taf[t.icaoId]=t.rawTAF});try{await model()}catch(x){}}
+   if(S&&C){M.slice().sort((a,b)=>a.obsTime-b.obsTime).forEach(m=>{if(C.AD[m.icaoId])S.metar[m.icaoId]=m});(T||[]).forEach(t=>{if(C.AD[t.icaoId])S.taf[t.icaoId]=t.rawTAF});try{await model()}catch(x){}}
    await new Promise(r=>{const o=new MutationObserver(()=>{if(!b.classList.contains('ld')||(lab&&/^(Updated|Snapshot)/.test(lab.textContent))){o.disconnect();r()}});o.observe(b,{attributes:true});lab&&o.observe(lab,{childList:true,characterData:true,subtree:true});try{orig.call(b,e||new Event('click'))}catch(x){o.disconnect();r()}setTimeout(()=>{o.disconnect();r()},15e3)});b.classList.add('ld');
    document.dispatchEvent(new Event('wst:data'));typeof window.applyS==='function'&&window.applyS();
   }catch(x){ok=0}

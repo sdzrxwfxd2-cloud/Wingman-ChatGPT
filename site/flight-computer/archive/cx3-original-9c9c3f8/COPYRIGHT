@@ -1,0 +1,7 @@
+Copyright (c) 2026 Go Around, South Africa. All rights reserved.
+
+Third-party notices that remain in this repository:
+
+- The Apache License, Version 2.0 notice in cx3/js/index.js (Apache Cordova application bootstrap) is kept as required by that licence.
+- Font Awesome 4.0.3 and Font Awesome 6.2.0 under e6b/e6b_assets/vendor/ are kept under their own licences (Font Awesome Free License).
+- Bundled typography under fonts/ is used under the ITF Free Font License (Fontshare: Clash Display, General Sans, Satoshi, Nippo) and the SIL Open Font License (JetBrains Mono). See fonts/README.md.

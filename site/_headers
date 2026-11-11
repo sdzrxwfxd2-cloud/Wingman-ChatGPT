@@ -111,3 +111,12 @@
   Cache-Control: no-cache, max-age=0, must-revalidate
 /privacy.html
   Cache-Control: no-cache, max-age=0, must-revalidate
+
+# Rebuilt admin pages (11 Nov 2026): never indexed
+/admin-*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/admin-x/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/admin-visits-classic
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive

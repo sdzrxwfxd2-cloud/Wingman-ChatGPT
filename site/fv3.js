@@ -41,13 +41,22 @@ function active(){return Object.keys(K).filter(k=>k!=='Controlled'&&on(k)).lengt
 const click=sel=>{const b=P(sel);b&&b.click()};
 const later=()=>{setTimeout(draw,60);setTimeout(draw,300)};
 const F=window.WMflt;let geoAsked=false,sortNote='';
-function geoFail(){sortNote='Location unavailable · sorted by Name A–Z';click('[data-sort="name"]');saveSort('name');draw();setTimeout(()=>{sortNote='';draw()},5000)}
+/* Near me must run on the top window: the list lives in #wmF-aero, and iOS Safari
+   often denies iframe geolocation immediately (no prompt) even with allow="geolocation"
+   and Permissions-Policy geolocation=(self). window.top is same-origin and is allowed. */
+function geoApi(){try{if(window.top&&window.top.navigator&&window.top.navigator.geolocation)return window.top.navigator.geolocation}catch(e){}return navigator.geolocation}
+function geoNote(msg){sortNote=msg||'';draw()}
+function geoFail(err){const c=err&&err.code;sortNote=c===1?'Location permission denied. Allow location in your browser settings, or search for a place.':c===3?'Location timed out. Try again, or search for a place.':'Location unavailable. Try again, or search for a place.';click('[data-sort="name"]');saveSort('name');draw();setTimeout(()=>{if(sortNote){sortNote='';draw()}},8000)}
 function saveSort(k){try{localStorage.setItem('wm-fv3-sort',k)}catch(e){}}
 const repage=()=>{stamp();setTimeout(()=>{L.apply(1);draw()},40)};
+function requestGeo(ok,err,opts){try{if(window.top&&typeof window.top.wmGeo==='function')return window.top.wmGeo(ok,err,opts)}catch(e){}const g=geoApi();if(!g){err&&err({code:2,message:'Location not available on this device'});return}g.getCurrentPosition(ok,err,opts)}
 function setSort(k,quiet){if(k!=='near'){click('[data-sort="'+k+'"]');saveSort(k);repage();return}
- 
- if(!navigator.geolocation||geoAsked&&quiet){geoFail();return}geoAsked=true;
- navigator.geolocation.getCurrentPosition(pp=>{/* hand the one fix to the engine so it never asks twice */const g=navigator.geolocation,o=g.getCurrentPosition;try{g.getCurrentPosition=ok=>ok(pp)}catch(e){}click('[data-sort="near"]');try{g.getCurrentPosition=o}catch(e){}saveSort('near');let n=0;const w=()=>{if(curSort()[0]==='near'){repage();return}if(++n>40){geoFail();return}setTimeout(w,100)};w()},geoFail,{timeout:8000})}
+ const g=geoApi();
+ if(!g||(geoAsked&&quiet)){geoFail();return}
+ /* quiet = auto-restore from localStorage: never request geo without a user tap (iOS needs a gesture). */
+ if(quiet){return}
+ geoAsked=true;geoNote('Finding your location…');
+ requestGeo(pp=>{try{if(window.WMflt)WMflt.pos=[pp.coords.latitude,pp.coords.longitude]}catch(e){}click('[data-sort="near"]');saveSort('near');geoNote('');let n=0;const w=()=>{if(curSort()[0]==='near'){repage();return}if(++n>80){geoFail();return}setTimeout(w,100)};w()},geoFail,{timeout:15000,maximumAge:6e4,enableHighAccuracy:false})}
 
 const lab=k=>K[k].lab.replace(/^Hide /,'No ');
 /* live count for a chip = cards it would leave (or the current total when it is on), exactly as the old panel showed */
@@ -493,6 +502,7 @@ window.WMfv5={open,close,rects};
 const FLZ=(()=>{for(const w of [window,parent]){try{if(new URLSearchParams(w.location.search).get('fvlazy')==='0')return true}catch(e){}}return false})();
 let lastA=-1;
 function draw(){const N=visC().length,a=active();if(FLZ||ui.isOpen()||ui.root.classList.contains('fv5-show')||a!==lastA){ui.draw();lastA=a}tiles();
+ if(sortNote){const sm=ui.root&&ui.root.querySelector('.ph small');if(sm)sm.textContent=sortNote}
  if(hint){if(sortNote){hint.textContent=sortNote}else{const t=a?'Showing '+N+' of '+base():hint.dataset.fv0||hint.textContent;if(!a&&!hint.dataset.fv0)hint.dataset.fv0=hint.textContent;if(a&&!hint.dataset.fv0)hint.dataset.fv0='';if(hint.textContent!==t&&t)hint.textContent=t}}}
 let rq=0;const tick=()=>{if(rq)return;rq=1;requestAnimationFrame(()=>{rq=0;draw()})};
 new MutationObserver(tick).observe(list,{subtree:true,attributes:true,attributeFilter:['class','data-s']});
@@ -510,7 +520,7 @@ function tiles(){const m=mode(),cs=[...list.querySelectorAll('.card')].filter(c=
 /* fv3b: i icon inline right after "Updated HH:MM" */
 function moveI(){const f=document.querySelector('#tiles .stfoot'),u=f&&f.querySelector('.wupd'),i=f&&f.querySelector('.inote');if(u&&i&&u.nextElementSibling!==i)u.after(i)}
 moveI();setTimeout(moveI,500);setTimeout(moveI,2500);
-try{const k=localStorage.getItem('wm-fv3-sort');if(k&&k!=='name')setTimeout(()=>setSort(k,0),300)}catch(e){}
+try{const k=localStorage.getItem('wm-fv3-sort');if(k&&k!=='name'&&k!=='near')setTimeout(()=>setSort(k),300)}catch(e){}
 draw();setTimeout(draw,400);
 document.addEventListener('wm:page',()=>{
  if(!animT||performance.now()-animT>800)return;animT=0;

@@ -36,6 +36,11 @@ export async function onRequestPost({ request, env }) {
     let body = {};
     try { body = text ? JSON.parse(text) : {}; } catch { body = {}; }
     if (!body || typeof body !== "object") body = {};
+    // automated browsers and bots are not visitors (on 10 Nov ~95% of rows were one scripted iPhone profile from a US data
+    // centre, and they used up the KV free plan's 1,000 new keys a day by 04:16 UTC, so real visits after that were lost)
+    if (body.wd === 1 || /bot|crawl|spider|slurp|HeadlessChrome|GoAround-|Lighthouse|python-requests|curl\//i.test(request.headers.get("User-Agent") || "")) {
+      return new Response(null, { status: 204, headers: HEAD });
+    }
     const cf = request.cf || {};
     const ua = request.headers.get("User-Agent") || String(body.ua || "");
     const hints = {
