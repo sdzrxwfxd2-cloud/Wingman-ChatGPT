@@ -1,0 +1,322 @@
+/* Wingman queue items (approved 2026-10-21) */
+/* item 2 */
+.wq-fade{opacity:0;transition:opacity .45s cubic-bezier(.2,.7,.2,1)}.wq-fade.wq-on{opacity:1}
+@media (prefers-reduced-motion:reduce){.wq-fade{transition:none}}
+/* item 3: Settings in place on pages without their own sheet */
+.wq-set{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.18);opacity:0;transition:opacity .25s}.wq-set.on{opacity:1}
+.wq-set iframe{color-scheme:normal;position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
+html.wq-sheet,html.wq-sheet body{background:transparent!important;color-scheme:normal!important}html.wq-sheet body::before,html.wq-sheet body::after{display:none!important}html.wq-sheet header{visibility:hidden!important;background:none!important;box-shadow:none!important;border:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.wq-sheet body>*:not(header):not(.sheet){visibility:hidden!important}
+html.wq-sheet .tabbar,html.wq-sheet nav{display:none!important}html.wq-sheet header>*:not(.sheet){visibility:hidden!important}html.wq-sheet .sheet{visibility:visible!important}
+/* item 5: icon glow — day: warm sun glow; night: tuned per palette (moon glows cool) */
+html[data-theme=day] .wmdn,html[data-theme=day] .wsun2 svg,html[data-theme=day] .wdi{filter:drop-shadow(0 0 4px rgba(245,165,36,.55))}
+html[data-theme=night][data-pal=black] .tabbar a svg,html[data-theme=night][data-pal=black] .wrf svg,html[data-theme=night][data-pal=black] #tb-theme svg,html[data-theme=night][data-pal=black] .wmicb svg{filter:drop-shadow(0 0 4px rgba(170,195,255,.28))}
+html[data-theme=night][data-pal=black] .tabbar a.on svg{filter:drop-shadow(0 0 6px rgba(190,210,255,.55))}
+html[data-theme=night][data-pal=black] .wmdn,html[data-theme=night][data-pal=black] .wsun2 svg,html[data-theme=night][data-pal=black] .wdi{filter:drop-shadow(0 0 5px rgba(169,184,232,.6))}
+html[data-theme=night][data-pal=purple] .tabbar a svg,html[data-theme=night][data-pal=purple] .wrf svg,html[data-theme=night][data-pal=purple] #tb-theme svg,html[data-theme=night][data-pal=purple] .wmicb svg{filter:drop-shadow(0 0 4px rgba(183,156,255,.38))}
+html[data-theme=night][data-pal=purple] .tabbar a.on svg{filter:drop-shadow(0 0 7px rgba(200,175,255,.7))}
+html[data-theme=night][data-pal=purple] .wmdn,html[data-theme=night][data-pal=purple] .wsun2 svg,html[data-theme=night][data-pal=purple] .wdi{filter:drop-shadow(0 0 5px rgba(196,170,255,.7))}
+/* item 6: night palette names visible (Midnight label had no gradient → invisible) */
+.wmtn-midnight{background-image:linear-gradient(100deg,#C9D3E6 0%,#F2F5FB 45%,#AEB9CF 62%,#C9D3E6 100%)}
+html[data-theme=day] .wmtn-midnight{background-image:linear-gradient(100deg,#2B3243 0%,#4A5672 50%,#2B3243 100%)}
+.wqtn{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;margin:0;padding:0;border:0} /* MT: no text under the selected theme icon — screen-reader only */
+/* item 4: ATO province → city chips */
+.wq-loc{margin:10px 0 2px;min-width:0}
+.wq-loc .wq-lbl{display:block;margin:0 4px 6px;font:600 10.5px/1 -apple-system,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3,#8a8a94)}
+.wq-loc .wq-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.wq-loc .wq-row::-webkit-scrollbar{display:none}
+.wq-chip{flex:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;border:0;cursor:pointer;font:600 13px/1 -apple-system,sans-serif;color:var(--tx,#111);background:var(--gl,rgba(255,255,255,.7));box-shadow:inset 0 1px 0 var(--hl,rgba(255,255,255,.9)),inset 0 0 0 .5px var(--ln,rgba(0,0,0,.1))}
+.wq-chip small{font:600 11px/1 -apple-system,sans-serif;color:var(--tx3,#8a8a94);font-variant-numeric:tabular-nums}
+.wq-chip.on{color:var(--acc,#2F5BFF);box-shadow:inset 0 0 0 1px currentColor,inset 0 1px 0 var(--hl,rgba(255,255,255,.9))}
+.wq-chip i{font-style:normal;font-size:15px;opacity:.7}
+.wq-sep{flex:none;width:1px;margin:6px 2px;background:var(--ln,rgba(0,0,0,.12))}
+/* Q8 */ .age.wq-old{color:#B45309}html[data-theme=night] .age.wq-old{color:#FBBF24}
+/* Q14 — ATO/DFE night tones. Cert/designation ids were gold (Midnight ≈ Licences family #CDB98A) and periwinkle (Amethyst ≈ Instrument family #AFB6DE):
+   now a neutral, untinted silver/lilac-white so no text colour reads as a rating family. Supporting text lifted for contrast. */
+html[data-theme=night][data-pal=black] body section#ato .grid>.c .id,html[data-theme=night][data-pal=black] body section#dfe .grid>.c .id{color:#EDEDF2!important;-webkit-text-fill-color:#EDEDF2!important;opacity:.9}
+html[data-theme=night][data-pal=purple] body section#ato .grid>.c .id,html[data-theme=night][data-pal=purple] body section#dfe .grid>.c .id{color:#F3EFFA!important;-webkit-text-fill-color:#F3EFFA!important;opacity:.9}
+html[data-theme=night] body section#ato .grid>.c .meta,html[data-theme=night] body section#dfe .grid>.c .meta,html[data-theme=night] section#ato .wx-sub,html[data-theme=night] section#dfe .wx-sub{color:rgba(235,235,245,.72)!important}
+html[data-theme=night][data-pal=purple] section#ato .wx-sub,html[data-theme=night][data-pal=purple] section#dfe .wx-sub{color:rgba(238,230,252,.74)!important}
+html[data-theme=night] body section#dfe>main>.meta{color:rgba(235,235,245,.55)!important}
+html[data-theme=night] section#ato .grid>.c.wx,html[data-theme=night] section#dfe .grid>.c.wx{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025))!important;border-color:rgba(255,255,255,.09)!important}
+html[data-theme=night][data-pal=purple] section#ato .grid>.c.wx,html[data-theme=night][data-pal=purple] section#dfe .grid>.c.wx{background:linear-gradient(180deg,rgba(196,170,255,.075),rgba(140,110,220,.03))!important;border-color:rgba(200,180,255,.12)!important}
+html[data-theme=night] section#ato .wx-k,html[data-theme=night] section#dfe .wx-k{color:rgba(235,235,245,.5)}
+html[data-theme=night] section#ato .wq-loc button,html[data-theme=night] section#ato .wx-cnt{color:rgba(240,240,248,.86)}
+/* Q9 — ATO/DFE cards on aerodrome pages (same families/tones as the ATO/DFE pages) */
+html{--f-lic:#8A6A2C;--f-inst:#3F5C86;--f-night:#6A5A8C;--f-instr:#4E6F57;--f-type:#8A5A44;--f-other:#4C6E70}
+html[data-pal=beige]{--f-lic:#7D5F22;--f-inst:#4A5F7A;--f-night:#6E5C80;--f-instr:#56704F;--f-type:#8A5638;--f-other:#55706A}
+html[data-theme=night]{--f-lic:#CDB98A;--f-inst:#9DB1CC;--f-night:#B3A6CC;--f-instr:#A7BFA8;--f-type:#C9A58F;--f-other:#9DBDBB}
+html[data-theme=night][data-pal=purple]{--f-lic:#D9C49A;--f-inst:#AFB6DE;--f-night:#C9B4EC;--f-instr:#B4C9B6;--f-type:#D8AFA2;--f-other:#A9C6CC}
+.wq-cards .list{display:grid;gap:10px;background:none!important;box-shadow:none!important;border:0!important;padding:0!important}
+.wq-cards details.wq-cg{border-radius:22px;padding:2px 4px;background:var(--gl,rgba(255,255,255,.72));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 24px -14px rgba(0,0,0,.25);border:1px solid rgba(0,0,0,.05)}
+html[data-theme=night] .wq-cards details.wq-cg{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+html[data-theme=night][data-pal=purple] .wq-cards details.wq-cg{background:linear-gradient(180deg,rgba(196,170,255,.075),rgba(140,110,220,.03));border-color:rgba(200,180,255,.12)}
+.wq-cards .wq-cg summary b{font-family:Sora,sans-serif;font-weight:600}
+.wq-id{font-family:'Nippo',ui-monospace,monospace;letter-spacing:.06em;font-weight:500;color:var(--acc,#1446D6)}
+html[data-pal=beige] .wq-id{color:#6E5A3A}
+html[data-theme=night][data-pal=black] .wq-id{color:#EDEDF2;opacity:.9}html[data-theme=night][data-pal=purple] .wq-id{color:#F3EFFA;opacity:.9}
+.wq-cards .chips>span.wq-chip{--fc:var(--f-other);color:var(--fc)!important;background:color-mix(in srgb,var(--fc) 10%,transparent)!important;border:1px solid color-mix(in srgb,var(--fc) 22%,transparent)!important;border-radius:999px;font:500 12px/1.25 Sora,sans-serif}
+.wq-chip[data-f=lic]{--fc:var(--f-lic)!important}.wq-chip[data-f=inst]{--fc:var(--f-inst)!important}.wq-chip[data-f=night]{--fc:var(--f-night)!important}.wq-chip[data-f=instr]{--fc:var(--f-instr)!important}.wq-chip[data-f=type]{--fc:var(--f-type)!important}
+.wq-open{display:inline-block;margin:10px 0 4px;font:600 13px Sora,sans-serif;text-decoration:none}
+/* Q13 — From the AIP */
+.wq-aip .wq-box{margin-top:12px;padding:14px 16px}
+.wq-aip h4.lbl{display:flex;align-items:baseline;gap:8px;margin:0 0 6px}.wq-aip h4.lbl small{font-size:10.5px;letter-spacing:.06em;color:var(--tx3);font-weight:500;text-transform:none}
+.wq-r{display:grid;grid-template-columns:minmax(110px,34%) 1fr;gap:10px;padding:8px 0;border-top:1px solid rgba(127,127,140,.14);font-size:13px;line-height:1.45}
+.wq-r:first-of-type{border-top:0}.wq-r .lbl{color:var(--tx3);font-size:12px}.wq-v{color:var(--tx);overflow-wrap:anywhere;min-width:0}.wq-v b{font-weight:600;color:var(--tx2)}
+.wq-np{color:var(--tx3);font-style:italic}.wq-nil{color:var(--tx2)}
+.wq-more summary{cursor:pointer;list-style:none}.wq-more summary::-webkit-details-marker{display:none}.wq-more summary span{color:var(--acc,#1446D6);font-weight:600}.wq-more[open] summary span{display:none}
+.wq-note{margin:8px 0 0;font-size:11.5px;color:var(--tx3)}.wq-dav{font-weight:600}
+@media (max-width:420px){.wq-r{grid-template-columns:1fr;gap:2px}}
+.wq-cards .chips{display:flex!important;flex-wrap:wrap;gap:6px 4px}.wq-cards .chips>span.wq-chip{display:inline-flex!important;width:auto!important;padding:5px 10px!important;margin:0!important}
+/* Q4b — one tidy location control */
+.wq-loc .wq-chip.lead{font-weight:650}
+.wq-loc .wq-chip.ou{opacity:.78;font-style:normal}
+.wq-loc .wq-chip.more{font-weight:600;color:var(--acc,#1446D6)!important}html[data-theme=night] .wq-loc .wq-chip.more{color:#C9D4FF!important}html[data-pal=purple] .wq-loc .wq-chip.more{color:#D9C8FF!important}
+.wq-loc.open .wq-row{flex-wrap:wrap;overflow:visible;mask-image:none;-webkit-mask-image:none}
+.wq-loc .wq-sep{flex:none;width:1px;height:22px!important;align-self:center;margin:0 2px;background:rgba(127,127,140,.25)}
+.wq-loc .wq-row{align-items:center!important}.wq-loc .wq-chip{vertical-align:middle;margin:0!important}
+/* search pill beside "Good morning" (≥820) */
+@media (min-width:820px){section.hello.wq-hs{display:flex;align-items:center;justify-content:space-between;gap:24px}
+ section.hello.wq-hs>h1{flex:1 1 auto;min-width:0;margin-bottom:0}
+ section.hello.wq-hs>.fs-bar{flex:0 1 420px;width:auto!important;max-width:420px;min-width:300px;margin:0!important}}
+@media (min-width:1280px){section.hello.wq-hs>.fs-bar{flex-basis:460px;max-width:460px}}
+/* filter bar between the status tiles and the cards, even spacing */
+.wfb.wq-fbpos{margin:22px 0 18px!important}
+/* tiles as filters */
+#list.wq-lfade{animation:wqfade .28s ease}@keyframes wqfade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+#a1stats .st,#tiles .tile{transition:transform .18s ease,box-shadow .2s ease,opacity .2s ease}
+#a1stats .st.sel,#tiles .tile.sel{box-shadow:inset 0 0 0 1.5px var(--c,rgba(10,132,255,.9)),0 10px 28px -12px var(--c,rgba(10,132,255,.6))!important;transform:translateY(-1px)}
+#tiles .tile[data-s=go]{--c:#22C55E}#tiles .tile[data-s=caution]{--c:#F59E0B}#tiles .tile[data-s=nogo]{--c:#F43F5E}
+#a1stats.dim .st:not(.sel),#tiles.dim .tile:not(.sel){opacity:.55}
+@media (prefers-reduced-motion:reduce){#list.wq-lfade{animation:none}}
+/* filter bar: centred refined capsule between tiles and cards (MT 2026-10-22) */
+.wfb.wq-fbpos{margin:28px auto 24px!important;width:100%;max-width:none;box-sizing:border-box;text-align:center}
+@media (min-width:820px){.wfb.wq-fbpos{max-width:600px}}
+@media (min-width:1280px){.wfb.wq-fbpos{max-width:640px}}
+.wfb.wq-fbpos .bar{border-radius:999px!important;text-align:left;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 30px -16px rgba(0,0,0,.28)!important}
+html[data-theme=night] .wfb.wq-fbpos .bar{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 32px -16px rgba(0,0,0,.7)!important}
+.wfb.wq-fbpos .cnt{text-align:center;margin-top:8px}
+.wfb.wq-fbpos .sug{text-align:left}
+.wfb.wq-fbpos{margin:6px auto 26px!important}
+/* blue halo behind the pill when it sits beside the greeting */
+section.hello.wq-hs .fs-field::after{opacity:0!important;animation:none!important}
+/* aerodrome-page search behind a magnifier */
+.wq-adsw{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .32s cubic-bezier(.2,.8,.2,1),opacity .24s ease,margin .32s ease;position:relative;margin:0}
+.wq-adsw>.fs-bar{min-height:0;overflow:hidden}
+.wq-adsw.on{grid-template-rows:1fr;opacity:1;margin:4px 0 14px}
+.wq-adsw:not(.on)>.fs-bar{visibility:hidden}
+.wq-adsw .wq-adx{position:absolute;right:-6px;top:-10px;width:28px;height:28px;border-radius:50%;border:0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.85);box-shadow:0 2px 10px rgba(0,0,0,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;z-index:3;color:#1d1d1f}
+.wq-adsw.on .wq-adx{display:flex}
+.wq-adx svg,.wq-adm svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.wq-adm{width:36px;height:36px;border:0;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;color:#1d1d1f;background:rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 6px 18px -10px rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;transition:transform .15s ease,background .2s ease;-webkit-tap-highlight-color:transparent}
+.wq-adm:active{transform:scale(.94)}.wq-adm.on{background:rgba(255,255,255,.95)}
+html[data-theme=night] .wq-adm,html[data-theme=night] .wq-adsw .wq-adx{color:#F5F5F7;background:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 26px -12px rgba(0,0,0,.8)}
+html[data-theme=night][data-pal=purple] .wq-adm{background:rgba(190,160,255,.10)}
+@media (prefers-reduced-motion:reduce){.wq-adsw{transition:none}}
+/* Night ID accent v2 (MT 2026-10-22): Pearl/Champagne unchanged. FINAL (MT pick, option C): Midnight = champagne-ivory #FBF0D8, Amethyst = rose-quartz #FFB0D4. AA ≥ 8.6:1, min ΔE ≥ 20 vs all 6 rating families. */
+html[data-theme=night][data-pal=black] body section#ato .grid>.c .id,html[data-theme=night][data-pal=black] body section#dfe .grid>.c .id,html[data-theme=night][data-pal=black] .wq-id{color:#FBF0D8!important;-webkit-text-fill-color:#FBF0D8!important;opacity:1!important;text-shadow:0 0 10px rgba(251,240,216,.30)}
+html[data-theme=night][data-pal=purple] body section#ato .grid>.c .id,html[data-theme=night][data-pal=purple] body section#dfe .grid>.c .id,html[data-theme=night][data-pal=purple] .wq-id{color:#FFB0D4!important;-webkit-text-fill-color:#FFB0D4!important;opacity:1!important;text-shadow:0 0 10px rgba(255,176,212,.32)}
+/* 13b — fold "Not published" rows */
+.wq-npf{border-top:1px solid rgba(127,127,140,.14);margin-top:2px}
+.wq-npf>summary{list-style:none;cursor:pointer;padding:9px 0 3px;font-size:12px;color:var(--tx3);display:flex;align-items:center;gap:6px}
+.wq-npf>summary::-webkit-details-marker{display:none}
+.wq-npf>summary::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-left:2px;transition:transform .2s}
+.wq-npf[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.wq-box>.wq-npf:first-of-type:nth-child(2){border-top:0}
+/* night note on NO-GO cards */
+.card .wq-nn{display:inline-flex;align-items:center;gap:6px;margin:2px 0 10px;padding:3px 10px;border-radius:999px;font:500 11.5px/1.4 Sora,sans-serif;color:#6E5E9E;background:rgba(110,94,158,.08)}
+.card .wq-nn svg{width:12px;height:12px}
+html[data-theme=night] .card .wq-nn{color:#B9C3F2;background:rgba(169,184,232,.10)}
+html[data-theme=night][data-pal=purple] .card .wq-nn{color:#D7C4FA;background:rgba(201,180,236,.12)}
+html[data-pal=beige] .card .wq-nn{color:#7A6440;background:rgba(122,100,64,.08)}
+
+
+/* Night icons in the logo palette (logo cobalt #0020C0 sampled from logo_src.png; lifted tints for AA ≥4.5:1 on night surfaces, glow in the exact logo blue). Day themes unchanged. */
+html:not(.wq-noico)[data-theme=night][data-pal=black] nav.tabbar a svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wmpill .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .topbar .tbtn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .topbar a.back svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .topbar .wq-adm svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .card .wsun2 svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .card .wq-nn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] details.cg>summary svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wdn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] label.fs-field svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wfb .bar svg{color:#5A78FF!important;filter:drop-shadow(0 0 5px rgba(0,32,192,.75)) drop-shadow(0 0 1px rgba(0,40,220,.6))}
+html:not(.wq-noico)[data-theme=night][data-pal=black] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wmpill a.on .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet .sw button.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet .wstl .ic svg{color:#AEBEFF!important;filter:drop-shadow(0 0 7px rgba(0,40,192,.7))}
+html:not(.wq-noico)[data-theme=night][data-pal=purple] nav.tabbar a svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wmpill .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .topbar .tbtn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .topbar a.back svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .topbar .wq-adm svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .card .wsun2 svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .card .wq-nn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] details.cg>summary svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wdn svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] label.fs-field svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wfb .bar svg{color:#8E97FF!important;filter:drop-shadow(0 0 5px rgba(34,28,208,.60))}
+html:not(.wq-noico)[data-theme=night][data-pal=purple] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wmpill a.on .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet .sw button.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet .wstl .ic svg{color:#B9BEFF!important;filter:drop-shadow(0 0 7px rgba(34,28,208,.7))}
+
+/* MT 2026-10-22: night SELECTED state = polished silver (no vivid blue). Unselected stay logo-blue. */
+html:not(.wq-noico)[data-theme=night][data-pal=black] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] nav.tabbar a.cur svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wmpill a.on .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet .sw button.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=black] details.cg[open]>summary svg{color:#E4E7EE!important;stroke:#E4E7EE;filter:drop-shadow(0 0 1px rgba(255,255,255,.55)) drop-shadow(0 0 6px rgba(214,220,232,.30))!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet .wstl .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .v2chsw button.on,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wfb .chip.on,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wfb button.on,
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wfb [aria-pressed=true],
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sw button.on{background:linear-gradient(135deg,#F7F8FA 0%,#D5D9E0 45%,#AEB4BE 70%,#EEF0F4 100%)!important;color:#1B1D22!important;border-color:rgba(255,255,255,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 10px rgba(214,220,232,.22)!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night][data-pal=black] .sheet .wstl .ic svg{color:#1B1D22!important;filter:none!important}
+*/
+html:not(.wq-noico)[data-theme=night][data-pal=black] .wmpill a.on{background:linear-gradient(135deg,rgba(247,248,250,.16),rgba(174,180,190,.10))!important;box-shadow:inset 0 0 0 1px rgba(228,231,238,.28),0 0 12px rgba(214,220,232,.12)!important}
+html:not(.wq-noico)[data-theme=night][data-pal=purple] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] nav.tabbar a.cur svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wmpill a.on .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet .sw button.on svg,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] details.cg[open]>summary svg{color:#E4E7EE!important;stroke:#E4E7EE;filter:drop-shadow(0 0 1px rgba(255,255,255,.55)) drop-shadow(0 0 6px rgba(214,220,232,.30))!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet .wstl .ic,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .v2chsw button.on,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wfb .chip.on,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wfb button.on,
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wfb [aria-pressed=true],
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sw button.on{background:linear-gradient(135deg,#F7F8FA 0%,#D5D9E0 45%,#AEB4BE 70%,#EEF0F4 100%)!important;color:#1B1D22!important;border-color:rgba(255,255,255,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 10px rgba(214,220,232,.22)!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .sheet .wstl .ic svg{color:#1B1D22!important;filter:none!important}
+*/
+html:not(.wq-noico)[data-theme=night][data-pal=purple] .wmpill a.on{background:linear-gradient(135deg,rgba(247,248,250,.16),rgba(174,180,190,.10))!important;box-shadow:inset 0 0 0 1px rgba(228,231,238,.28),0 0 12px rgba(214,220,232,.12)!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night] .sw button.on *,html:not(.wq-noico)[data-theme=night] .v2chsw button.on *,html:not(.wq-noico)[data-theme=night] .sw button.on{color:#1B1D22!important;-webkit-text-fill-color:#1B1D22!important;text-shadow:none!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-theme=night] .sheet .sw button.on svg{color:#1B1D22!important;filter:none!important}
+*/
+
+/* Amethyst icon idea options a–d (toggle html[data-wqico=a|b|c|d]; default = b) */
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wmpill .ic,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .topbar .tbtn svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .topbar a.back svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .topbar .wq-adm svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .card .wsun2 svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .card .wq-nn svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sheet svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] details.cg>summary svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wdn svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] label.fs-field svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wfb .bar svg{color:#E79BFF!important;filter:drop-shadow(0 0 5px rgba(231,155,255,.45))!important}
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a.cur svg,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on .ic,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] details.cg[open]>summary svg{color:#EEE8FF!important;stroke:#EEE8FF;filter:drop-shadow(0 0 1px rgba(255,255,255,.5)) drop-shadow(0 0 6px rgba(220,210,250,.35))!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sheet .wstl .ic,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .v2chsw button.on,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wfb .chip.on,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wfb button.on,
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wfb [aria-pressed=true],
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sw button.on{background:linear-gradient(135deg,#FAF8FF 0%,#DCD4F2 45%,#B5A9D6 72%,#F2EEFF 100%)!important;color:#1E1830!important;border-color:rgba(255,255,255,.5)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 10px rgba(220,210,250,.25)!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sw button.on *,html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sheet .wstl .ic svg,html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .sheet .sw button.on svg{color:#1E1830!important;-webkit-text-fill-color:#1E1830!important;filter:none!important;text-shadow:none!important}
+*/
+html:not(.wq-noico)[data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on{background:linear-gradient(135deg,rgba(220,210,250,.20),rgba(220,210,250,.08))!important;box-shadow:inset 0 0 0 1px rgba(220,210,250,.32),0 0 12px rgba(220,210,250,.14)!important}
+/* Settings sheet open → pill tab bar hides cleanly (was showing through: dock z 9000 > sheet z 40) */
+.wmpill-dock{transition:opacity .22s ease,transform .22s ease}
+/* #21: hidden state is a class set by syncDock() in wq.js, not body:has(.sheet.on). A :has() on body made the browser
+   re-check it on every class change in the page (about 1,300 cards), which was most of a filter tap's style time. */
+.wmpill-dock.wq-dock-off{opacity:0!important;transform:translateY(14px)!important;pointer-events:none!important}
+
+/* SWAP variants (MT 2026-10-22): unselected = silver, selected = colour. Toggle html[data-wqswap] (+ data-wqico=a–d on Amethyst). Midnight current (blue idle / silver selected) kept as the alternative. */
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill .ic,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .topbar .tbtn svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .topbar a.back svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .topbar .wq-adm svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .card .wsun2 svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .card .wq-nn svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sheet svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] details.cg>summary svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wdn svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] label.fs-field svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wfb .bar svg{color:#D9DDE5!important;filter:drop-shadow(0 0 1px rgba(255,255,255,.35)) drop-shadow(0 0 5px rgba(214,220,232,.18))!important}
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] nav.tabbar a.cur svg,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on .ic,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] details.cg[open]>summary svg{color:#E79BFF!important;stroke:#E79BFF;filter:drop-shadow(0 0 6px rgba(231,155,255,.65))!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sheet .wstl .ic,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .v2chsw button.on,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wfb .chip.on,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wfb button.on,
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wfb [aria-pressed=true],
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sw button.on{background:linear-gradient(135deg,#F4CCFF 0%,#E79BFF 55%,#C774EE 100%)!important;color:#22102E!important;border-color:rgba(255,255,255,.35)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 12px rgba(231,155,255,.35)!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sw button.on *,html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sheet .wstl .ic svg,html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .sheet .sw button.on svg{color:#22102E!important;-webkit-text-fill-color:#22102E!important;filter:none!important;text-shadow:none!important}
+*/
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on{background:linear-gradient(135deg,rgba(231,155,255,.22),rgba(231,155,255,.08))!important;box-shadow:inset 0 0 0 1px rgba(231,155,255,.40),0 0 14px rgba(231,155,255,.20)!important}
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on *{color:#F5F6FA!important}
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on .ic{color:#E79BFF!important}
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] nav.tabbar a svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wmpill .ic,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .topbar .tbtn svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .topbar a.back svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .topbar .wq-adm svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .card .wsun2 svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .card .wq-nn svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sheet svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] details.cg>summary svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wdn svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] label.fs-field svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wfb .bar svg{color:#D9DDE5!important;filter:drop-shadow(0 0 1px rgba(255,255,255,.35)) drop-shadow(0 0 5px rgba(214,220,232,.18))!important}
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] nav.tabbar a.on svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] nav.tabbar a.cur svg,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wmpill a.on .ic,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] details.cg[open]>summary svg{color:#5A78FF!important;stroke:#5A78FF;filter:drop-shadow(0 0 6px rgba(0,32,192,.65))!important}
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sheet .wstl .ic,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .v2chsw button.on,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wfb .chip.on,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wfb button.on,
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wfb [aria-pressed=true],
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sw button.on{background:linear-gradient(135deg,#8FA4FF 0%,#5A78FF 55%,#2F52F0 100%)!important;color:#FFFFFF!important;border-color:rgba(255,255,255,.35)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 12px rgba(0,32,192,.35)!important}
+*/
+/* WM-PLAIN-GLASS 1708 disabled:
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sw button.on *,html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sheet .wstl .ic svg,html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .sheet .sw button.on svg{color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;filter:none!important;text-shadow:none!important}
+*/
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wmpill a.on{background:linear-gradient(135deg,rgba(0,32,192,.22),rgba(0,32,192,.08))!important;box-shadow:inset 0 0 0 1px rgba(0,32,192,.40),0 0 14px rgba(0,32,192,.20)!important}
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wmpill a.on *{color:#F5F6FA!important}
+html:not(.wq-noico)[data-wqswap][data-theme=night][data-pal=black] .wmpill a.on .ic{color:#5A78FF!important}
+html:not(.wq-noico)[data-wqswap][data-theme=night] .wmpill a.on .ic *{color:inherit!important}
+/* Aerodrome top bar: one clean row on phones (back pill collapses to a glass chevron; label stays for screen readers) */
+@media (max-width:480px){
+ .topbar:has(.wq-adm){display:flex!important;grid-template-columns:none!important;grid-template-areas:none!important;flex-wrap:nowrap!important;gap:8px!important;align-items:center!important}
+ .topbar:has(.wq-adm)>a.back{flex:0 0 36px!important;width:36px!important;min-width:36px!important;height:36px!important;padding:0!important;justify-content:center!important;border-radius:50%!important;font-size:0!important;overflow:hidden}
+ .topbar:has(.wq-adm)>a.back svg{width:18px!important;height:18px!important;margin:0!important}
+ .topbar:has(.wq-adm)>.logo{flex:0 0 auto;margin-right:auto!important}
+ .topbar:has(.wq-adm)>.wq-adm{flex:0 0 36px;margin:0!important}
+ .topbar:has(.wq-adm)>.tbtn{flex:0 0 auto!important;margin:0!important;flex-wrap:nowrap!important;gap:6px!important}
+}
+@media (max-width:370px){.topbar:has(.wq-adm)>.tbtn{gap:4px!important}.topbar:has(.wq-adm) .tbtn .icb,.topbar:has(.wq-adm) .tbtn .wrf{width:34px!important;height:34px!important}}
+@media (max-width:480px){.topbar:has(.wq-adm)>*{grid-area:auto!important;grid-column:auto!important;grid-row:auto!important}}
+
+/* FINAL night icons (MT 2026-10-22): SWAP is default — unselected silver, selected colour. Amethyst selected orchid strengthened on a deep plum backing. */
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on{background:linear-gradient(135deg,rgba(58,20,84,.92),rgba(34,12,56,.92))!important;box-shadow:inset 0 0 0 1px rgba(231,155,255,.55),0 0 16px rgba(214,110,255,.35)!important}
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on .ic{color:#E28CFF!important;filter:drop-shadow(0 0 4px rgba(214,110,255,.9)) drop-shadow(0 0 10px rgba(214,110,255,.5))!important}
+html:not(.wq-noico)[data-wqswap][data-wqico=d][data-theme=night][data-pal=purple] .wmpill a.on .ic *{color:inherit!important}

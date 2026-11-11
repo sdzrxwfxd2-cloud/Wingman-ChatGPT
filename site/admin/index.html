@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="purple">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Go Around · Traffic</title>
+<link rel="icon" href="/favicon-32.png">
+<link rel="stylesheet" href="/fonts/wm-fonts.css">
+<link rel="stylesheet" href="/admin/admin.css">
+<script>
+(function(){try{var L=localStorage,H=document.documentElement,q=new URLSearchParams(location.search).get('theme');
+var m={midnight:['night','black'],black:['night','black'],amethyst:['night','purple'],purple:['night','purple'],pearl:['day','white'],white:['day','white'],champagne:['day','beige'],beige:['day','beige']};
+var t=m[q]||m[L.getItem('ga-admin-theme')]||null;
+if(!t){var th=L.getItem('wm-theme')==='day'?'day':'night';t=th==='day'?['day',L.getItem('wm-pal-day')==='beige'?'beige':'white']:['night',L.getItem('wm-pal')==='purple'?'purple':'black']}
+H.dataset.theme=t[0];H.dataset.pal=t[1]}catch(e){}})();
+</script>
+</head>
+<body>
+<div id="login" class="gate" hidden>
+  <form class="card glass gatebox" id="login-form" autocomplete="current-password">
+    <p class="eyebrow">Private</p>
+    <h1>Traffic</h1>
+    <p class="lede">This page is only for the people who run Go Around. It shows visits, devices and the pages people opened. A visitor’s name cannot be collected — phones and computers do not share it.</p>
+    <label>Admin password
+      <input id="pw" type="password" name="password" required autocomplete="current-password">
+    </label>
+    <p class="err" id="login-err" hidden></p>
+    <button class="btn" type="submit">Open</button>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top glass">
+    <a class="back" href="/index.html" aria-label="Back to the site">‹</a>
+    <div class="ttl">
+      <h1>Traffic</h1>
+      <p id="sub">Go Around · private</p>
+    </div>
+    <div class="thm" role="group" aria-label="Theme">
+      <button data-t="amethyst" title="Amethyst" aria-label="Amethyst"></button>
+      <button data-t="midnight" title="Midnight" aria-label="Midnight"></button>
+      <button data-t="pearl" title="Pearl" aria-label="Pearl"></button>
+      <button data-t="champagne" title="Champagne" aria-label="Champagne"></button>
+    </div>
+    <button id="re" class="btn icon" title="Refresh" aria-label="Refresh">↻</button>
+    <button id="out" class="btn ghost" type="button">Log out</button>
+  </header>
+
+  <div class="seg wrap" role="tablist" aria-label="Time range">
+    <button data-range="1d" class="on">Today</button>
+    <button data-range="7d">7 days</button>
+    <button data-range="30d">30 days</button>
+  </div>
+
+  <section class="kpis wrap">
+    <article class="card glass"><span>Today</span><b id="k-today">—</b><small id="k-today-u">unique —</small></article>
+    <article class="card glass"><span>7 days</span><b id="k-7">—</b><small id="k-7-u">unique —</small></article>
+    <article class="card glass"><span>30 days</span><b id="k-30">—</b><small id="k-30-u">unique —</small></article>
+    <article class="card glass"><span>Store</span><b id="k-store">—</b><small id="k-range">—</small></article>
+  </section>
+
+  <main class="grid wrap">
+    <section class="card glass wide">
+      <h2>Visits over time</h2>
+      <div id="chart" class="chart" aria-live="polite"></div>
+    </section>
+    <section class="card glass"><h2>Top pages</h2><div id="t-pages" class="list"></div></section>
+    <section class="card glass"><h2>Countries</h2><div id="t-countries" class="list"></div></section>
+    <section class="card glass"><h2>Cities</h2><div id="t-cities" class="list"></div></section>
+    <section class="card glass"><h2>Devices</h2><div id="t-devices" class="list"></div></section>
+    <section class="card glass"><h2>Browsers</h2><div id="t-browsers" class="list"></div></section>
+    <section class="card glass"><h2>Operating systems</h2><div id="t-os" class="list"></div></section>
+    <section class="card glass"><h2>Referrers</h2><div id="t-referrers" class="list"></div></section>
+    <section class="card glass wide">
+      <h2>Visitor log</h2>
+      <p class="note">Each row is one page view. We keep these for 90 days. A visitor’s name cannot be collected.</p>
+      <div class="filters">
+        <input id="f-q" placeholder="Search page, city, browser" aria-label="Search the log">
+        <input id="f-ip" placeholder="IP" aria-label="Filter by IP" autocomplete="off">
+        <select id="f-device" aria-label="Device">
+          <option value="">All devices</option>
+          <option value="desktop">Desktop</option>
+          <option value="mobile">Mobile</option>
+          <option value="tablet">Tablet</option>
+        </select>
+        <button class="btn ghost" id="f-go" type="button">Filter</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time (SAST)</th>
+              <th>IP</th>
+              <th>Place</th>
+              <th>Device</th>
+              <th>Browser / OS</th>
+              <th>Screen</th>
+              <th>Page</th>
+              <th>From</th>
+            </tr>
+          </thead>
+          <tbody id="log"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <p class="foot">Private page · not linked from the public menus · <a href="/privacy.html">Privacy</a></p>
+</div>
+<script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,1043 @@
+{
+ "Pressure altitude": {
+  "p": 7,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "FAOR 5558 ft QNH 1020 (30 ft/hPa)",
+    "got": "5355.500",
+    "exp": "5355.5 ±0.1",
+    "ref": "FAA PHAK 8083-25 ch.4 rule: 1 inHg≈1000 ft (≈30 ft/hPa)"
+   },
+   {
+    "ok": true,
+    "name": "Exact ISA FAOR",
+    "got": "5374.225",
+    "exp": "5374 ±1",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table (exact formula)"
+   },
+   {
+    "ok": true,
+    "name": "QNH 1013.25 → PA = elev",
+    "got": "3000.000",
+    "exp": "3000 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "QNH 950 low extreme (exact)",
+    "got": "1772.030",
+    "exp": "1773 ±3",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table: 950 hPa ≈ 540 m"
+   },
+   {
+    "ok": true,
+    "name": "1000 hPa → 364 ft (110.8 m)",
+    "got": "363.645",
+    "exp": "363.5 ±2",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "QNH 1050 high extreme → negative PA",
+    "got": "-988.828",
+    "exp": "-989 ±3",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table: 1050 hPa ≈ −301 m"
+   },
+   {
+    "ok": true,
+    "name": "Cross-check: 30 ft/hPa approx within 40 ft of exact at 1000 hPa (APPROX)",
+    "got": "33.855",
+    "exp": "0 ±40",
+    "ref": "Second method"
+   }
+  ]
+ },
+ "ISA pressure / temperature": {
+  "p": 7,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "5000 ft → 843.07 hPa",
+    "got": "843.073",
+    "exp": "843.07 ±0.1",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "10000 ft → 696.82 hPa",
+    "got": "696.816",
+    "exp": "696.82 ±0.1",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "18000 ft → 505.98 hPa",
+    "got": "505.998",
+    "exp": "505.98 ±0.2",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "Inverse 700 hPa → 9882 ft",
+    "got": "9878.385",
+    "exp": "9882 ±5",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "ISA temp 10000 ft −4.81 °C",
+    "got": "-4.812",
+    "exp": "-4.81 ±0.02",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "Tropopause −56.5",
+    "got": "-56.500",
+    "exp": "-56.5 ±0",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "Round trip p→h→p",
+    "got": "850.063",
+    "exp": "850 ±0.1",
+    "ref": "Analytic identity (two published constant sets; 0.06 hPa)"
+   }
+  ]
+ },
+ "Density altitude": {
+  "p": 8,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "FAOR 25 °C (120 ft/°C)",
+    "got": "7840.820",
+    "exp": "7840.7 ±0.5",
+    "ref": "FAA PHAK ch.4 rule of thumb"
+   },
+   {
+    "ok": true,
+    "name": "Exact ISA DA FAOR",
+    "got": "7716.372",
+    "exp": "7716 ±15",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table density ratio"
+   },
+   {
+    "ok": true,
+    "name": "ISA day DA = PA (exact)",
+    "got": "4999.999",
+    "exp": "5000 ±2",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "PHAK example PA 5000, 30 °C ≈ 8000 ft (chart)",
+    "got": "8000.000",
+    "exp": "7880 ±150",
+    "ref": "FAA PHAK Fig 11-4 density altitude chart, approx"
+   },
+   {
+    "ok": true,
+    "name": "Cold negative DA: SL −20 °C",
+    "got": "-4200.000",
+    "exp": "-4200 ±1",
+    "ref": "120 ft/°C rule"
+   },
+   {
+    "ok": true,
+    "name": "Approx vs exact within 200 ft at FAOR",
+    "got": "124.448",
+    "exp": "0 ±200",
+    "ref": "Second method"
+   },
+   {
+    "ok": true,
+    "name": "DA above field FAOR",
+    "got": "2283.000",
+    "exp": "2283 ±0",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "Lean advisory above 5000 ft DA",
+    "got": "",
+    "exp": "",
+    "ref": "FAA-P-8740-2 Density Altitude"
+   }
+  ]
+ },
+ "True altitude": {
+  "p": 3,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "ISA−10 → 4% low per 10°C",
+    "got": "9600.000",
+    "exp": "9600 ±1",
+    "ref": "FAA AIM 7-2-3 / PHAK: 4% per 10 °C"
+   },
+   {
+    "ok": true,
+    "name": "Exact Kelvin ratio ISA−10",
+    "got": "9640.603",
+    "exp": "9640 ±5",
+    "ref": "Analytic identity T/Tisa"
+   },
+   {
+    "ok": true,
+    "name": "ISA day: TA = IA",
+    "got": "8004.813",
+    "exp": "8000 ±20",
+    "ref": "Analytic identity"
+   }
+  ]
+ },
+ "Wind triangle": {
+  "p": 8,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "WCA 090/20 TAS100",
+    "got": "11.537",
+    "exp": "11.537 ±0.01",
+    "ref": "E6B manual worked method (asin(ws·sin/TAS))"
+   },
+   {
+    "ok": true,
+    "name": "GS",
+    "got": "97.980",
+    "exp": "97.98 ±0.01",
+    "ref": "E6B"
+   },
+   {
+    "ok": true,
+    "name": "Vector cross-check: track east comp = 0",
+    "got": "0.000",
+    "exp": "0 ±0.000001",
+    "ref": "Second method (vector sum)"
+   },
+   {
+    "ok": true,
+    "name": "0/360 wrap TC 355 wind 045",
+    "got": "363.813",
+    "exp": "365 ±6",
+    "ref": "Analytic identity result in 000–359"
+   },
+   {
+    "ok": true,
+    "name": "Calm wind GS=TAS",
+    "got": "110.000",
+    "exp": "110 ±0",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "Crosswind > TAS → no solution",
+    "got": "",
+    "exp": "",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "Find wind recovers 090",
+    "got": "90.000",
+    "exp": "90 ±0.05",
+    "ref": "Inverse cross-check"
+   },
+   {
+    "ok": true,
+    "name": "Find wind 20 kt",
+    "got": "20.000",
+    "exp": "20 ±0.01",
+    "ref": "Inverse"
+   }
+  ]
+ },
+ "Runway wind components": {
+  "p": 4,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "30° off 20 kt HW",
+    "got": "17.321",
+    "exp": "17.32 ±0.01",
+    "ref": "FAA AFH crosswind chart / sin-cos"
+   },
+   {
+    "ok": true,
+    "name": "XW",
+    "got": "10.000",
+    "exp": "10 ±0.01",
+    "ref": "FAA AFH"
+   },
+   {
+    "ok": true,
+    "name": "Direct tailwind",
+    "got": "-15.000",
+    "exp": "-15 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "Pythagoras cross-check",
+    "got": "20.000",
+    "exp": "20 ±1e-9",
+    "ref": "Second method"
+   }
+  ]
+ },
+ "TAS / Mach": {
+  "p": 3,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "CAS100 10000 ISA",
+    "got": "116.367",
+    "exp": "116.1 ±0.6",
+    "ref": "E6B / 2%-per-1000 ft rule"
+   },
+   {
+    "ok": true,
+    "name": "Sound 15 °C",
+    "got": "661.479",
+    "exp": "661.5 ±0.2",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table a0=661.47 kt"
+   },
+   {
+    "ok": true,
+    "name": "Mach 480 kt −56.5",
+    "got": "0.837",
+    "exp": "0.8366 ±0.002",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table a=573.6 kt"
+   }
+  ]
+ },
+ "Time-speed-distance & fuel": {
+  "p": 5,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "120 nm @100 kt = 72 min",
+    "got": "72.000",
+    "exp": "72 ±1e-9",
+    "ref": "E6B"
+   },
+   {
+    "ok": true,
+    "name": "110 kt 30 min = 55 nm",
+    "got": "55.000",
+    "exp": "55 ±1e-9",
+    "ref": "E6B"
+   },
+   {
+    "ok": true,
+    "name": "Fuel required",
+    "got": "87.500",
+    "exp": "87.5 ±1e-9",
+    "ref": "SACAA Part 91 reserves arithmetic"
+   },
+   {
+    "ok": true,
+    "name": "Endurance",
+    "got": "300.000",
+    "exp": "300 ±1e-9",
+    "ref": "E6B"
+   },
+   {
+    "ok": true,
+    "name": "Avgas SG 0.72 → 100 L = 72 kg",
+    "got": "72.000",
+    "exp": "72 ±1e-9",
+    "ref": "ASTM D910 typical SG"
+   }
+  ]
+ },
+ "Turn / glide / VDP (squawk MIT)": {
+  "p": 3,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "Rate-one bank 100 kt",
+    "got": "15.359",
+    "exp": "15.36 ±0.2",
+    "ref": "FAA AFH: TAS/10+7 ≈ 17° rule; exact atan(ωV/g)"
+   },
+   {
+    "ok": true,
+    "name": "Load factor 60° bank = 2 g",
+    "got": "2.000",
+    "exp": "2 ±0.000001",
+    "ref": "FAA PHAK ch.5 load factor chart"
+   },
+   {
+    "ok": true,
+    "name": "Rule-of-thumb cross-check TAS/10+7",
+    "got": "17.000",
+    "exp": "17 ±0",
+    "ref": "FAA rule"
+   }
+  ]
+ },
+ "Gradient / descent": {
+  "p": 4,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "200 ft/nm @120 = 400 fpm",
+    "got": "400.000",
+    "exp": "400 ±1e-9",
+    "ref": "FAA TERPS climb gradient table"
+   },
+   {
+    "ok": true,
+    "name": "Inverse",
+    "got": "200.000",
+    "exp": "200 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "TOD 3° 4000 ft",
+    "got": "12.561",
+    "exp": "12.56 ±0.05",
+    "ref": "tan 3° geometry"
+   },
+   {
+    "ok": true,
+    "name": "ROD 3° @120",
+    "got": "636.874",
+    "exp": "636.9 ±1",
+    "ref": "FAA: 5×GS ≈ 600"
+   }
+  ]
+ },
+ "Navigation (1-in-60, rhumb, GC, compass)": {
+  "p": 6,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "1° lon at equator = 60 nm (rhumb)",
+    "got": "60.000",
+    "exp": "60 ±0.01",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "GC equator",
+    "got": "60.000",
+    "exp": "60 ±0.01",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "FAOR–FACT rhumb≈GC",
+    "got": "0.204",
+    "exp": "0 ±2",
+    "ref": "Second method"
+   },
+   {
+    "ok": true,
+    "name": "Max drift 20/100 = 12°",
+    "got": "12.000",
+    "exp": "12 ±0",
+    "ref": "1-in-60 rule"
+   },
+   {
+    "ok": true,
+    "name": "TH100 var 20W(-20) dev+2 → MH 120",
+    "got": "120.000",
+    "exp": "120 ±0",
+    "ref": "\"East is least, West is best\""
+   },
+   {
+    "ok": true,
+    "name": "WMM2025 FAOR variation ≈ −20.8",
+    "got": "-20.821",
+    "exp": "-20.8 ±0.6",
+    "ref": "NOAA WMM2025 calculator"
+   }
+  ]
+ },
+ "Weather (cloud base, freezing, RH, QFE, MSA)": {
+  "p": 6,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "Cloud base 20/10 = 4000 ft",
+    "got": "4000.000",
+    "exp": "4000 ±1e-9",
+    "ref": "FAA AC 00-6B: spread/2.5×1000"
+   },
+   {
+    "ok": true,
+    "name": "Freezing level",
+    "got": "12558.000",
+    "exp": "12558 ±1e-9",
+    "ref": "2 °C/1000 ft lapse"
+   },
+   {
+    "ok": true,
+    "name": "RH 20/10 Magnus 52.5%",
+    "got": "52.541",
+    "exp": "52.5 ±0.5",
+    "ref": "WMO Magnus formula (Alduchov–Eskridge)"
+   },
+   {
+    "ok": true,
+    "name": "RH T=Td 100%",
+    "got": "100.000",
+    "exp": "100 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "QFE FAOR exact",
+    "got": "831.044",
+    "exp": "831 ±1",
+    "ref": "ICAO Doc 7488 Standard Atmosphere table"
+   },
+   {
+    "ok": true,
+    "name": "MSA rounds up",
+    "got": "6300.000",
+    "exp": "6300 ±0",
+    "ref": "SACAA: obstacle+1000 ft rounded up"
+   }
+  ]
+ },
+ "Take-off / landing (UK CAA SSL 09 factors)": {
+  "p": 19,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "SSL worked example TODR",
+    "got": "790.810",
+    "exp": "791 ±1",
+    "ref": "UK CAA Safety Sense 07/09 worked example: 390×1.2×1.1×1.05×1.1×1.33 = 791 m"
+   },
+   {
+    "ok": true,
+    "name": "SSL sea-level hard dry: 390×1.33 = 519 m",
+    "got": "518.700",
+    "exp": "519 ±1",
+    "ref": "UK CAA SSL 07/09 example"
+   },
+   {
+    "ok": true,
+    "name": "Tailwind = 10% Vlof → ×1.20",
+    "got": "120.000",
+    "exp": "120 ±1e-9",
+    "ref": "AIC 173/2024 5.4.1"
+   },
+   {
+    "ok": true,
+    "name": "Landing wet grass ×1.35 ×1.43",
+    "got": "193.050",
+    "exp": "193.05 ±1e-9",
+    "ref": "SSL 09 table + 1.43 factor"
+   },
+   {
+    "ok": true,
+    "name": "Landing 1000 ft & +10 °C ×1.05×1.05",
+    "got": "110.250",
+    "exp": "110.25 ±1e-9",
+    "ref": "AIC 173/2024 7.2.1, 7.3.1"
+   },
+   {
+    "ok": true,
+    "name": "Weight +10% TO ×1.20",
+    "got": "120.000",
+    "exp": "120 ±1e-9",
+    "ref": "AIC 173/2024 5.1.1"
+   },
+   {
+    "ok": true,
+    "name": "EXCEEDS only when required > available",
+    "got": "",
+    "exp": "",
+    "ref": "SSL 09: TODR must not exceed TORA"
+   },
+   {
+    "ok": true,
+    "name": "Perf base=NaN -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf base=0 -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf base=-5 -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf avail=NaN -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf avail=0 -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf avail=-5 -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf unknown surface -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf no mode -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf tailwind without speed -> ERROR",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf chart mode: PA/temp factors are 1",
+    "got": "100.000",
+    "exp": "100 ±1e-9",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf does not mutate input",
+    "got": "",
+    "exp": "",
+    "ref": "A2"
+   },
+   {
+    "ok": true,
+    "name": "Perf ISA mode at ISA temp: only PA factor (3000 ft ×1.30)",
+    "got": "130.000",
+    "exp": "130 ±1e-9",
+    "ref": "A2"
+   }
+  ]
+ },
+ "Weight & balance": {
+  "p": 3,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "CG 101367/2413",
+    "got": "42.009",
+    "exp": "42.009 ±0.01",
+    "ref": "FAA-H-8083-1B W&B handbook method"
+   },
+   {
+    "ok": true,
+    "name": "Shift formula 100 lb×50/2000",
+    "got": "2.500",
+    "exp": "2.5 ±1e-9",
+    "ref": "FAA-H-8083-1B weight-shift formula"
+   },
+   {
+    "ok": true,
+    "name": "%MAC",
+    "got": "16.667",
+    "exp": "16.667 ±0.001",
+    "ref": "FAA-H-8083-1B"
+   }
+  ]
+ },
+ "Sunrise / sunset (NOAA)": {
+  "p": 7,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "FAOR 21 Dec rise 03:11:39Z",
+    "got": "3.194",
+    "exp": "3.194166666666667 ±0.03333333333333333",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "FAOR set 16:58:25Z",
+    "got": "16.974",
+    "exp": "16.973666666666666 ±0.03333333333333333",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "FACT 21 Jun rise 05:50:42Z",
+    "got": "5.845",
+    "exp": "5.845 ±0.03333333333333333",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "FACT civil dusk 16:11:47Z",
+    "got": "16.197",
+    "exp": "16.19633333333333 ±0.03333333333333333",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "Equator equinox rise 06:04:03Z",
+    "got": "6.069",
+    "exp": "6.0675 ±0.03333333333333333",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "Marion Is. 46.9S rise 01:55:19Z",
+    "got": "1.917",
+    "exp": "1.9216666666666666 ±0.05",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28)"
+   },
+   {
+    "ok": true,
+    "name": "Tromsø midnight sun → no sunrise",
+    "got": "",
+    "exp": "",
+    "ref": "NOAA algorithm via api.sunrise-sunset.org (fetched 2026-10-28) (day_length 0 flag)"
+   }
+  ]
+ },
+ "Unit conversions (round-trip)": {
+  "p": 42,
+  "f": 0,
+  "cases": [
+   {
+    "ok": true,
+    "name": "alt -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "alt 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "alt 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "alt 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "alt 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "alt 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "press 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "spd 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "temp 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "mass 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol -40 round-trip",
+    "got": "-40.000",
+    "exp": "-40 ±4e-8",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol 0 round-trip",
+    "got": "0.000",
+    "exp": "0 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol 1 round-trip",
+    "got": "1.000",
+    "exp": "1 ±1e-9",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol 5558 round-trip",
+    "got": "5558.000",
+    "exp": "5558 ±0.000005558",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol 1013.25 round-trip",
+    "got": "1013.250",
+    "exp": "1013.25 ±0.00000101325",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "vol 123456.789 round-trip",
+    "got": "123456.789",
+    "exp": "123456.789 ±0.00012345678900000002",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "1 ft = 0.3048 m",
+    "got": "0.305",
+    "exp": "0.3048 ±1e-12",
+    "ref": "ICAO Annex 5"
+   },
+   {
+    "ok": true,
+    "name": "29.92 inHg = 1013.2 hPa",
+    "got": "1013.207",
+    "exp": "1013.2 ±0.1",
+    "ref": "ICAO Annex 5"
+   },
+   {
+    "ok": true,
+    "name": "−40 °C = −40 °F",
+    "got": "-40.000",
+    "exp": "-40 ±1e-12",
+    "ref": "Analytic identity"
+   },
+   {
+    "ok": true,
+    "name": "1 USG = 3.78541 L",
+    "got": "3.785",
+    "exp": "3.78541 ±0.0001",
+    "ref": "NIST"
+   },
+   {
+    "ok": true,
+    "name": "1 kt = 1.852 km/h",
+    "got": "1.852",
+    "exp": "1.852 ±1e-9",
+    "ref": "ICAO Annex 5"
+   },
+   {
+    "ok": true,
+    "name": "1 lb = 0.45359237 kg",
+    "got": "0.454",
+    "exp": "0.45359237 ±1e-9",
+    "ref": "NIST (exact definition)"
+   }
+  ]
+ }
+}

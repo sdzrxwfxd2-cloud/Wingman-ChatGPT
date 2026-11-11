@@ -1,0 +1,1 @@
+export const onRequest = () => new Response(JSON.stringify({ error: "not on the Cloudflare copy yet", see: "/dashboard" }), { status: 501, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });

@@ -1,0 +1,16 @@
+// go-around-weather: companion Worker for the Cloudflare Pages copy (cloudflare/README.md).
+// Cron every 10 min = 144 runs/day (free plan: 5 cron triggers per account, 10 ms CPU per run, 50 subrequests per run).
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "go-around-weather",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-04",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "alias": { "@netlify/blobs": "./src/no-blobs.mjs" },
+  "triggers": { "crons": ["*/10 * * * *"] },
+  "kv_namespaces": [{ "binding": "WX", "id": "912c064767eb444191012c1fa4392ccf" }],
+  "observability": { "enabled": true, "traces": { "enabled": true } }
+  // Secret (optional, paid Open-Meteo plan only): wrangler secret put OPEN_METEO_KEY
+}

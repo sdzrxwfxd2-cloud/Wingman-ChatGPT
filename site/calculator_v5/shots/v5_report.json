@@ -1,0 +1,88 @@
+{
+ "desktop1440_pearl": {
+  "L": [
+   124,
+   125.375,
+   586,
+   523.75
+  ],
+  "R": [
+   730,
+   125.375,
+   586,
+   523.75
+  ],
+  "gap": 20,
+  "lm": 124,
+  "rm": 124,
+  "da": "731",
+  "src": "METAR \u00b7 observed 2026-10-28 16:00 SAST (42 min ago)"
+ },
+ "desktop1440_midnight": {
+  "L": [
+   124,
+   125.375,
+   586,
+   523.75
+  ],
+  "R": [
+   730,
+   125.375,
+   586,
+   523.75
+  ],
+  "gap": 20,
+  "lm": 124,
+  "rm": 124,
+  "da": "731",
+  "src": "METAR \u00b7 observed 2026-10-28 16:00 SAST (43 min ago)"
+ },
+ "ipad1024_pearl": {
+  "L": [
+   24,
+   125.375,
+   478,
+   523.75
+  ],
+  "R": [
+   522,
+   125.375,
+   478,
+   523.75
+  ],
+  "gap": 20,
+  "lm": 24,
+  "rm": 24,
+  "da": "731",
+  "src": "METAR \u00b7 observed 2026-10-28 16:00 SAST (43 min ago)"
+ },
+ "ipad1024_midnight": {
+  "L": [
+   24,
+   125.375,
+   478,
+   523.75
+  ],
+  "R": [
+   522,
+   125.375,
+   478,
+   523.75
+  ],
+  "gap": 20,
+  "lm": 24,
+  "rm": 24,
+  "da": "731",
+  "src": "METAR \u00b7 observed 2026-10-28 16:00 SAST (43 min ago)"
+ },
+ "manual_phone": {
+  "rh0": "1 809",
+  "rh100": "2 347",
+  "sub": "+2 347 ft above field \u00b7 OAT 30 \u00b0C \u00b7 QNH 1013 hPa \u00b7 elev 0 ft \u00b7 RH 100% (+538 ft humidity)"
+ },
+ "manual_desktop1440": {
+  "rh0": "1 809",
+  "rh100": "2 347",
+  "sub": "+2 347 ft above field \u00b7 OAT 30 \u00b0C \u00b7 QNH 1013 hPa \u00b7 elev 0 ft \u00b7 RH 100% (+538 ft humidity)"
+ }
+}

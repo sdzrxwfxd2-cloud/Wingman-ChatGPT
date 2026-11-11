@@ -1,0 +1,468 @@
+<!doctype html><html lang="en" data-theme="night"><head>
+<meta name="robots" content="noindex,nofollow">
+<script src="switch.js"></script>
+<script src="wire.js" defer></script><meta charset="utf-8"><script src="/wm-model.js?v=a22fd95d59"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FACT · Cape Town International — Go Around (concept v2)</title>
+<script>if(location.hash)document.documentElement.dataset.theme=location.hash.slice(1);if(location.search.indexOf('full')>-1)document.documentElement.classList.add('full')</script>
+<style>
+@font-face{font-family:'Clash Display';font-weight:600;src:url(../../fonts/clash-display-600.woff2) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:400;src:url(../../fonts/satoshi-400.woff2) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:500;src:url(../../fonts/satoshi-500.woff2) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:700;src:url(../../fonts/satoshi-700.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:400;src:url(../../fonts/jetbrains-mono-400.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:500;src:url(../../fonts/jetbrains-mono-500.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:600;src:url(../../fonts/jetbrains-mono-600.woff2) format('woff2')}
+:root{--go:#22C55E;--cau:#FF8A00;--nogo:#F80F3B;--gold:#D4A017;--ease:cubic-bezier(.22,.8,.2,1);--slide:cubic-bezier(.32,.72,0,1);--r:26px;
+--fd:'Clash Display',-apple-system,sans-serif;--fb:'Satoshi',-apple-system,BlinkMacSystemFont,sans-serif;--fm:'JetBrains Mono',ui-monospace,Menlo,monospace}
+[data-theme=night]{--bg:#000;--tx:#F5F5F7;--tx2:rgba(245,245,247,.64);--tx3:rgba(245,245,247,.40);--gl:rgba(28,28,30,.55);--gl2:rgba(255,255,255,.055);--ln:rgba(255,255,255,.10);--hl:rgba(255,255,255,.14);--acc:#7D88FF;--tint:rgba(125,136,255,.06);--sh:0 20px 50px rgba(0,0,0,.6);--glow1:rgba(40,60,255,.22);--glow2:rgba(120,60,255,.12);--asph:#1d1d22;--paint:rgba(255,255,255,.8)}
+[data-theme=purple]{--bg:#0B0716;--tx:#F7F4FF;--tx2:rgba(236,228,255,.64);--tx3:rgba(236,228,255,.40);--gl:rgba(40,26,74,.48);--gl2:rgba(200,170,255,.07);--ln:rgba(210,190,255,.13);--hl:rgba(230,215,255,.2);--acc:#A493FF;--tint:rgba(170,140,255,.08);--sh:0 20px 50px rgba(5,0,20,.6);--glow1:rgba(120,60,255,.30);--glow2:rgba(255,80,200,.10);--asph:#251a3d;--paint:rgba(255,255,255,.8)}
+[data-theme=day]{--bg:#F2F2F5;--tx:#111114;--tx2:rgba(17,17,20,.64);--tx3:rgba(17,17,20,.42);--gl:rgba(255,255,255,.66);--gl2:rgba(17,17,40,.035);--ln:rgba(0,0,0,.07);--hl:rgba(255,255,255,.95);--acc:#0019C9;--tint:rgba(0,25,201,.03);--sh:0 14px 40px rgba(30,20,60,.10);--glow1:rgba(80,100,255,.16);--glow2:rgba(170,120,255,.12);--asph:#3a3a44;--paint:#fff}
+[data-theme=beige]{--bg:#F4EEE3;--tx:#1C1814;--tx2:rgba(28,24,20,.64);--tx3:rgba(28,24,20,.42);--gl:rgba(255,251,243,.68);--gl2:rgba(90,60,20,.04);--ln:rgba(60,40,10,.08);--hl:rgba(255,253,248,.95);--acc:#6E531F;--tint:rgba(176,130,47,.05);--sh:0 14px 40px rgba(70,50,20,.10);--glow1:rgba(212,160,23,.16);--glow2:rgba(230,150,90,.10);--asph:#4a4136;--paint:#fff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;color:var(--tx);font:400 15px/1.55 var(--fb);-webkit-font-smoothing:antialiased;background:
+ radial-gradient(900px 600px at 85% -5%,var(--glow1),transparent 60%),radial-gradient(700px 600px at -10% 40%,var(--glow2),transparent 60%),var(--bg);background-repeat:no-repeat;min-height:100vh}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
+.glass{background:linear-gradient(155deg,var(--tint),transparent 55%),var(--gl);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border-radius:var(--r);position:relative;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh)}
+.mono{font-family:var(--fm)}
+/* top bar (site shell) */
+.top{position:fixed;inset:0 0 auto;z-index:20;height:64px;display:flex;align-items:center;gap:10px;padding:0 16px;background:color-mix(in srgb,var(--bg) 55%,transparent);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:.5px solid var(--ln)}
+.top img{height:30px}.top .sp{flex:1}
+.ib{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;border:0}
+.clock{height:40px;padding:0 14px;border-radius:20px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;font:600 13px/1.1 var(--fm)}
+.clock small{font:500 9.5px/1 var(--fm);color:var(--tx3);letter-spacing:.06em;margin-top:2px}
+svg.i{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:1240px;margin:0 auto;padding:76px 14px 140px}
+/* hero */
+.hero{position:relative;height:380px;border-radius:32px;overflow:hidden;box-shadow:var(--sh),inset 0 0 0 .5px var(--ln)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transform:scale(1.04)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.82) 100%)}
+.hero .in{position:absolute;inset:auto 0 0;z-index:2;padding:22px 20px 50px;color:#fff}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 11px/1 var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+.eyebrow::before{content:"";width:18px;height:1px;background:currentColor;opacity:.7}
+.hero .eyebrow{color:rgba(255,255,255,.8)}
+.hero h1{margin:12px 0 10px;font:600 40px/.98 var(--fd);letter-spacing:-.025em;text-wrap:balance}
+.hero .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 13px/1.3 var(--fb);color:rgba(255,255,255,.78)}
+.hero .meta b{font-weight:700;color:#fff}
+.tags{position:absolute;top:16px;left:16px;right:16px;z-index:2;display:flex;gap:6px;flex-wrap:wrap}
+.tag{height:26px;padding:0 10px;border-radius:13px;display:inline-flex;align-items:center;gap:6px;font:600 10.5px/1 var(--fm);letter-spacing:.08em;color:#fff;background:rgba(20,20,24,.38);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.22)}
+.credit{display:none;position:absolute;right:18px;bottom:16px;z-index:2;font:500 10px/1 var(--fb);color:rgba(255,255,255,.55)}
+/* verdict ribbon that overlaps the hero */
+.verdict{margin:-34px 10px 0;z-index:3;padding:16px 18px;display:flex;align-items:center;gap:14px}
+.vd{width:52px;height:52px;border-radius:26px;flex:none;display:grid;place-items:center;background:color-mix(in srgb,var(--go) 16%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--go) 45%,transparent)}
+.vd i{width:12px;height:12px;border-radius:6px;background:var(--go);box-shadow:0 0 0 5px color-mix(in srgb,var(--go) 22%,transparent);animation:pulse 2.6s var(--ease) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--go) 50%,transparent)}70%,100%{box-shadow:0 0 0 10px transparent}}
+.verdict h3{margin:0;font:600 21px/1.05 var(--fd);letter-spacing:-.01em}
+.verdict h3 em{font-style:normal;color:var(--go)}
+.glance{display:flex;gap:12px;white-space:nowrap;margin-top:9px;font:600 12.5px/1 var(--fm);color:var(--tx)}.glance small{font-size:10px;color:var(--tx3);margin-left:2px}.glance b{color:var(--acc);font-weight:600}.glance span+span{padding-left:12px;border-left:.5px solid var(--ln)}
+.verdict p{margin:3px 0 0;font-size:13px;color:var(--tx2);line-height:1.35}
+.live{display:inline-flex;align-items:center;gap:6px;font:600 10px/1 var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--go)}
+.live::before{content:"";width:6px;height:6px;border-radius:3px;background:currentColor}
+.live.mdl{color:var(--acc)}.live.st{color:var(--tx3)}
+/* segmented (master .wseg slide) */
+.wseg{position:sticky;top:72px;z-index:10;margin:22px 0 6px;display:grid;grid-template-columns:repeat(5,1fr);padding:4px;border-radius:24px;height:48px;--ix:0}
+.wseg .ind{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:20px;background:color-mix(in srgb,var(--tx) 10%,transparent);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);transform:translateX(calc(var(--ix)*100%));transition:transform .45s cubic-bezier(.32,.72,0,1)}
+.wseg button{position:relative;border:0;background:none;font:600 13px/1 var(--fb);color:var(--tx3);border-radius:20px;transition:transform .45s cubic-bezier(.32,.72,0,1),color .3s}
+.wseg button:active{transform:scale(.92)}.wseg button.on{color:var(--tx)}
+/* chapters */
+.ch{margin-top:46px}
+.ch>header{margin:0 4px 16px}
+.ch h2{margin:10px 0 6px;font:600 30px/1.04 var(--fd);letter-spacing:-.02em;text-wrap:balance}
+.ch h2 .dim{color:var(--tx3)}
+.ch .lede{margin:0;color:var(--tx2);font-size:14.5px;max-width:560px}
+.card{padding:18px}
+.src{display:flex;justify-content:space-between;align-items:center;gap:10px;font:500 11px/1.3 var(--fm);color:var(--tx3);letter-spacing:.02em}
+.raw{margin-top:14px;padding:12px 14px;border-radius:16px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);font:500 12.5px/1.6 var(--fm);color:var(--tx2);word-break:break-word}
+.raw b{color:var(--tx);font-weight:600}
+/* now: compass + figures */
+.now{display:grid;gap:16px}
+.compass{width:100%;max-width:250px;margin:4px auto 0;display:block}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;margin-top:4px}
+.fig small{display:block;font:600 10px/1 var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:7px}
+.fig b{font:600 26px/1 var(--fd);letter-spacing:-.01em}
+.fig b sub{font:500 12px var(--fb);color:var(--tx2);vertical-align:baseline;margin-left:3px;bottom:0}
+.fig span{display:block;font-size:12px;color:var(--tx2);margin-top:5px}
+.hr{height:.5px;background:var(--ln);margin:18px 0}
+/* next 3 h timeline */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);position:relative;margin-top:6px}
+.tl::before{content:"";position:absolute;left:12.5%;right:12.5%;top:47px;height:2px;border-radius:1px;background:linear-gradient(90deg,var(--go),var(--go))}
+.tl div{text-align:center;position:relative}
+.tl time{display:block;font:600 11px/1 var(--fm);color:var(--tx3);letter-spacing:.06em}
+.tl .h{display:block;font:600 18px/1 var(--fd);margin:6px 0 9px}
+.tl .dot{width:14px;height:14px;margin:0 auto;border-radius:7px;background:var(--bg);box-shadow:inset 0 0 0 3px var(--go)}
+.tl div:first-child .dot{background:var(--go);box-shadow:0 0 0 5px color-mix(in srgb,var(--go) 22%,transparent)}
+.tl .cat{display:block;margin-top:9px;font:600 11px/1 var(--fm);color:var(--go);letter-spacing:.08em}
+.tl p{margin:6px 0 0;font-size:12px;line-height:1.35;color:var(--tx2)}
+.callout{margin-top:16px;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--cau) 9%,transparent);box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--cau) 35%,transparent);font-size:13px;color:var(--tx2)}
+.callout b{color:var(--tx)}.callout i{flex:none;width:8px;height:8px;border-radius:4px;background:var(--cau);margin-top:6px}
+/* day ahead */
+.chart{width:100%;height:auto;display:block;margin-top:10px}
+.ribbon{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-top:8px}
+.ribbon i{height:8px;border-radius:4px;background:var(--go)}
+.ribbon i.c{background:var(--cau)}.ribbon i.n{background:var(--nogo)}
+.ticks{display:flex;justify-content:space-between;margin-top:8px;font:500 10.5px/1 var(--fm);color:var(--tx3)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--tx2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:14px;height:3px;border-radius:2px;background:var(--acc)}
+.legend i.g{background:color-mix(in srgb,var(--acc) 35%,transparent);height:8px}
+/* runways */
+.rwy{padding:18px}
+.rwy+.rwy{margin-top:12px}
+.strip{position:relative;height:46px;margin:14px 0 16px;border-radius:6px;background:var(--asph);box-shadow:inset 0 0 0 .5px var(--ln),0 10px 30px rgba(0,0,0,.25);overflow:hidden}
+.strip::before{content:"";position:absolute;left:18%;right:18%;top:50%;height:2px;margin-top:-1px;background:repeating-linear-gradient(90deg,var(--paint) 0 14px,transparent 14px 26px);opacity:.8}
+.strip .pk{position:absolute;top:8px;bottom:8px;width:16px;background:repeating-linear-gradient(180deg,var(--paint) 0 3px,transparent 3px 6px);opacity:.9}
+.strip .pk.l{left:8px}.strip .pk.r{right:8px}
+.strip b{position:absolute;top:50%;transform:translateY(-50%);font:600 15px/1 var(--fm);color:var(--paint)}
+.strip b.l{left:32px}.strip b.r{right:32px}
+.rh{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.rh h3{margin:0;font:600 28px/1 var(--fd);letter-spacing:-.01em}
+.pill{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:11px;font:600 10.5px/1 var(--fb);letter-spacing:.03em;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);color:var(--tx2);white-space:nowrap}
+.pill.go{color:var(--go);background:color-mix(in srgb,var(--go) 11%,transparent)}
+.pill.acc{color:var(--acc);background:color-mix(in srgb,var(--acc) 11%,transparent)}
+.rf{display:flex;gap:22px;flex-wrap:wrap}
+.rf .fig b{font-size:22px}
+.decl{margin-top:16px;display:grid;grid-template-columns:auto repeat(4,1fr);gap:8px 10px;font:500 12px/1 var(--fm);color:var(--tx2)}
+.decl span{color:var(--tx3);font-size:10px;letter-spacing:.1em}
+.decl i{font-style:normal}.decl b{font-weight:600;color:var(--tx)}
+/* radio */
+.radio{padding:6px 18px}
+.fq{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:.5px solid var(--ln)}
+.fq:first-child{border:0}
+.fq .n{flex:1}.fq .n b{display:block;font:600 15px/1.2 var(--fb)}.fq .n small{font-size:12px;color:var(--tx3)}
+.fq .f{font:600 19px/1 var(--fm);letter-spacing:.01em}
+.fq.key .f{color:var(--acc)}
+.fq .cp{width:34px;height:34px;border-radius:17px;display:grid;place-items:center;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);color:var(--tx3)}
+.fq .cp svg{width:15px;height:15px}
+/* sun */
+.sun svg{width:100%;height:auto;display:block}
+.suntimes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;text-align:center}
+.suntimes small{display:block;font:600 9.5px/1 var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--tx3)}
+.suntimes b{font:600 18px/1.4 var(--fd)}
+/* before you go */
+.warn{padding:18px 18px 16px;overflow:hidden}
+.warn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(70% 120% at 0% 0%,color-mix(in srgb,var(--cau) 16%,transparent),transparent 60%);pointer-events:none}
+.warn .h{position:relative;font:600 11px/1 var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--cau);display:flex;gap:8px;align-items:center}
+.warn ul{position:relative;margin:12px 0 0;padding:0;list-style:none}
+.warn li{padding:11px 0;border-top:.5px solid var(--ln);font-size:14px;color:var(--tx2)}
+.warn li:first-child{border:0}.warn li b{color:var(--tx);display:block;font-weight:700;margin-bottom:2px}
+.btns{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{height:40px;padding:0 16px;border-radius:20px;display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--fb);background:var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln)}
+.btn.p{background:color-mix(in srgb,var(--acc) 18%,var(--gl));color:var(--tx);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px color-mix(in srgb,var(--acc) 50%,transparent)}
+/* charts covers (library B language) */
+.covers{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:12px;overflow-x:auto;margin:0 -14px;padding:2px 14px 14px;scrollbar-width:none}
+.cv{border-radius:22px;overflow:hidden;padding:0 0 12px}
+.cv .art{position:relative;height:150px;margin:6px;border-radius:17px;padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));overflow:hidden}
+.cv .art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 1px,transparent 1px 14px),radial-gradient(80% 60% at 100% 0%,rgba(255,255,255,.25),transparent 60%)}
+.cv .art small{position:relative;z-index:1;font:600 9.5px/1 var(--fm);letter-spacing:.12em;opacity:.85}
+.cv .art b{position:relative;z-index:1;font:600 34px/1 var(--fd);letter-spacing:-.02em}
+.cv p{margin:8px 12px 0;font:600 13px/1.3 var(--fb)}
+.cv span{display:block;margin:5px 12px 0;font:500 10.5px/1 var(--fm);color:var(--tx3)}
+.g-ad{--a1:#0d5c3a;--a2:#2aa26a}.g-gr{--a1:#103d7a;--a2:#3f7fe0}.g-ap{--a1:#4a1c7c;--a2:#9a5cf0}.g-ar{--a1:#7a3a0d;--a2:#e08b3f}.g-ot{--a1:#30343c;--a2:#6b7280}
+.aiprow{display:flex;align-items:center;gap:14px;margin-top:4px;padding:14px 18px}
+.aiprow .ic{width:44px;height:56px;border-radius:8px;background:linear-gradient(160deg,#f7f7f9,#d9dbe3);box-shadow:0 6px 16px rgba(0,0,0,.3);position:relative;flex:none}
+.aiprow .ic::after{content:"";position:absolute;inset:10px 8px auto;height:22px;background:repeating-linear-gradient(180deg,#9aa0ae 0 1.5px,transparent 1.5px 5px)}
+.aiprow div{flex:1}.aiprow b{display:block;font:600 15px/1.25 var(--fb)}.aiprow small{color:var(--tx3);font-size:12px}
+/* people */
+.ppl{padding:4px 18px}
+.pr{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:.5px solid var(--ln)}.pr:first-child{border:0}
+.av{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;font:600 14px/1 var(--fd);color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));flex:none}
+.pr div{flex:1;min-width:0}.pr b{display:block;font:600 14.5px/1.25 var(--fb)}.pr small{font:500 11px/1 var(--fm);color:var(--tx3)}
+.sub{margin:18px 4px 8px;font:600 11px/1 var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+/* traffic tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{height:150px;border-radius:22px;overflow:hidden;position:relative;display:flex;align-items:flex-end;padding:14px;color:#fff;box-shadow:var(--sh),inset 0 0 0 .5px var(--ln)}
+.tile img,.tile svg.bgm{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.75))}
+.tile div{position:relative;z-index:1}.tile b{display:block;font:600 16px/1.2 var(--fd)}.tile small{font-size:11.5px;opacity:.75}
+/* facts */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;padding:6px 18px}
+.facts div{padding:13px 0;border-top:.5px solid var(--ln)}
+.facts div:nth-child(-n+2){border:0}
+.facts small{display:block;font:600 9.5px/1 var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.facts b{font:600 14.5px/1.3 var(--fb)}
+footer{margin:40px 4px 0;font-size:12px;color:var(--tx3);line-height:1.6}
+/* bottom nav */
+.nav{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;height:62px;padding:6px;border-radius:31px;display:flex;gap:2px;align-items:center}
+.nav a{height:50px;min-width:50px;border-radius:25px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--tx3);padding:0 14px}
+.nav a.on{color:var(--tx);background:color-mix(in srgb,var(--tx) 9%,transparent);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);font:600 14px/1 var(--fb)}
+.lay>*{min-width:0}
+/* tablet */
+@media(min-width:700px){
+ .wrap{padding:84px 28px 150px}
+ .hero{height:440px}.hero .in{padding:30px 32px 62px}.hero h1{font-size:60px}
+ .verdict{margin:-40px 24px 0;padding:20px 24px}
+ .now{grid-template-columns:240px 1fr;align-items:center}
+ .ch h2{font-size:36px}
+ .tl p{font-size:12.5px}
+ .covers{grid-auto-flow:row;grid-template-columns:repeat(5,1fr);grid-auto-columns:auto;overflow:visible;margin:0;padding:0}
+ .tiles{grid-template-columns:1fr 1fr}.tile{height:190px}
+ .facts{grid-template-columns:repeat(4,1fr)}.facts div:nth-child(-n+4){border:0}
+ .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+ .two .ch{margin-top:46px}
+}
+@media(min-width:700px){.credit.pc{display:block;bottom:auto;top:20px;right:22px}}
+.full body{position:relative}.full .nav{position:absolute;top:auto;bottom:24px}.full .wseg{position:relative;top:0}
+/* desktop */
+@media(min-width:1180px){
+ .wrap{padding:96px 40px 160px}
+ .hero{height:420px;border-radius:36px}.hero .in{padding:36px 48px 64px;max-width:900px}.hero h1{font-size:72px}
+ .hero .meta{font-size:15px}
+ .verdict{margin:-46px 48px 0;max-width:640px}
+ .wseg{max-width:640px;margin-top:28px}
+ .rail{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:24px;align-items:stretch}
+ .rail .ch{margin-top:34px;display:flex;flex-direction:column}
+ .rail .ch>.card{flex:1}
+ .rail .ch h2{font-size:28px;min-height:2.1em}
+ .rail .lede{display:none}
+ .rail .now{grid-template-columns:1fr}
+ .rail .compass{max-width:210px}
+ .dk{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start}
+ .two{gap:24px}
+ .covers{grid-template-columns:repeat(5,1fr)}
+ .ch{margin-top:56px}
+ .ch h2{font-size:40px}
+}
+</style><link rel="stylesheet" href="../../wm-glass.css?v=8150980665">
+</head><body>
+<header class="top">
+ <img src="../../logo-mark.png" alt="Go Around">
+ <span class="sp"></span>
+ <a class="ib glass" aria-label="Back"><svg class="i" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+ <div class="clock glass">12:12:04Z<small>SAST 14:12</small></div>
+ <a class="ib glass"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg></a>
+ <a class="ib glass"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></svg></a>
+</header>
+
+<div class="wrap">
+ <section class="hero">
+  <img src="img/fact_0.jpeg" alt="Cape Town International terminal">
+  <span class="credit pc">Photo · BlogDeBanderas · CC BY-SA 4.0</span><div class="tags"><span class="tag">INTL</span><span class="tag">ATC</span><span class="tag">ILS</span><span class="tag">AIRLINE</span></div>
+  <div class="in">
+   <span class="eyebrow">FACT · CPT · Aerodrome</span>
+   <h1>Cape Town International</h1>
+   <div class="meta"><span><b>Western Cape</b></span><span>Elev <b>151 ft</b></span><span>Cape Town FIR</span></div>
+  </div>
+ </section>
+
+ <div class="verdict glass">
+  <div class="vd"><i></i></div>
+  <div style="flex:1;min-width:0">
+   <h3><em>Go.</em> Runway 19, into wind.</h3>
+   <p>VFR · light-aircraft minimums met</p>
+   <div class="glance"><span>180°/16<small>kt</small></span><span>Q1016</span><span>TWR <b>118.100</b></span></div>
+  </div>
+ </div>
+
+ <nav class="wseg glass" style="--ix:0">
+  <span class="ind"></span>
+  <button class="on">Now</button><button>Runways</button><button>Radio</button><button>Charts</button><button>People</button>
+ </nav>
+
+ <div class="lay">
+ <!-- LIVE RAIL (first on phone, sticky right on desktop) -->
+ <div class="rail">
+  <section class="ch" id="now">
+   <header><span class="eyebrow">01 · Right now</span>
+    <h2>Southerly at 16 knots, <span class="dim">clear and 21°.</span></h2></header>
+   <div class="card glass">
+    <div class="src"><span class="live">METAR · 12 min ago</span><span>aviationweather.gov</span></div>
+    <div class="now">
+     <svg class="compass" viewBox="0 0 240 240" aria-label="Runways and wind">
+      <defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--acc)" stop-opacity=".10"/><stop offset="1" stop-color="var(--acc)" stop-opacity="0"/></radialGradient>
+      <linearGradient id="wa" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--acc)" stop-opacity="0"/><stop offset="1" stop-color="var(--acc)"/></linearGradient></defs>
+      <circle cx="120" cy="120" r="104" fill="url(#cg)"/>
+      <circle cx="120" cy="120" r="104" fill="none" stroke="var(--ln)" stroke-width="1"/>
+      <circle cx="120" cy="120" r="78" fill="none" stroke="var(--ln)" stroke-width="1" stroke-dasharray="2 5"/>
+      <g stroke="var(--tx3)" stroke-width="1">
+       <path d="M120 16v8M120 216v8M16 120h8M216 120h8"/>
+      </g>
+      <g font-family="JetBrains Mono" font-size="10" font-weight="600" fill="var(--tx3)" text-anchor="middle">
+       <text x="120" y="12">N</text><text x="120" y="236">S</text><text x="232" y="124">E</text><text x="8" y="124">W</text></g>
+      <!-- 16/34 -->
+      <g transform="rotate(160 132 124)"><rect x="126" y="70" width="12" height="108" rx="2" fill="var(--asph)" stroke="var(--ln)"/>
+       <path d="M132 80v88" stroke="var(--paint)" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/></g>
+      <!-- 01/19 best -->
+      <g transform="rotate(10 120 120)"><rect x="112" y="40" width="16" height="160" rx="3" fill="var(--asph)" stroke="var(--go)" stroke-width="1.5"/>
+       <path d="M120 54v132" stroke="var(--paint)" stroke-width="1.2" stroke-dasharray="6 5" opacity=".7"/></g>
+      <g font-family="JetBrains Mono" font-size="11" font-weight="600" text-anchor="middle">
+       <text x="137" y="34" fill="var(--go)">19</text><text x="103" y="216" fill="var(--tx2)">01</text>
+       <text x="168" y="72" fill="var(--tx3)">34</text><text x="96" y="182" fill="var(--tx3)" opacity="0">16</text></g>
+      <!-- wind from 180 -->
+      <path d="M120 238 V196" stroke="url(#wa)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M112 202 L120 188 L128 202" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+     </svg>
+     <div>
+      <div class="figs">
+       <div class="fig"><small>Wind</small><b>180°<sub>16 kt</sub></b><span>Head 16 · cross 3</span></div>
+       <div class="fig"><small>QNH</small><b>1016<sub>hPa</sub></b><span>Altimeter 30.00</span></div>
+       <div class="fig"><small>Visibility</small><b>10+<sub>km</sub></b><span>Few clouds 3000 ft</span></div>
+       <div class="fig"><small>Temp / dew</small><b>21°<sub>/ 11°</sub></b><span>Density alt 800 ft</span></div>
+      </div>
+     </div>
+    </div>
+    <div class="raw"><b>FACT</b> 301200Z 18016KT 9999 FEW030 21/11 Q1016 NOSIG</div>
+   </div>
+  </section>
+
+  <section class="ch" id="next">
+   <header><span class="eyebrow">02 · Next three hours</span>
+    <h2>Steady until the evening.</h2>
+    <p class="lede">From the tower's own reports and TAF, which always beat a model.</p></header>
+   <div class="card glass">
+    <div class="src"><span class="live">TAF · issued 13:00 SAST</span><span>priority source</span></div>
+    <div class="tl" style="margin-top:16px">
+     <div><time>NOW</time><span class="h">14:00</span><div class="dot"></div><span class="cat">VFR</span><p>180° 16 kt<br>10 km+</p></div>
+     <div><time>13Z</time><span class="h">15:00</span><div class="dot"></div><span class="cat">VFR</span><p>170° 15 kt<br>CAVOK</p></div>
+     <div><time>14Z</time><span class="h">16:00</span><div class="dot"></div><span class="cat">VFR</span><p>170° 15 kt<br>CAVOK</p></div>
+     <div><time>15Z</time><span class="h">17:00</span><div class="dot"></div><span class="cat">VFR</span><p>170° 17 kt<br>CAVOK</p></div>
+    </div>
+    <div class="callout"><i></i><span><b>Mist later tonight.</b> TAF TEMPO 22–24Z (00:00–02:00 SAST): 2 000 m in mist, broken cloud at 600 ft.</span></div>
+    <div class="raw">TAF FACT 301100Z 3012/3118 17015KT CAVOK TEMPO 3122/3124 2000 BR BKN006</div>
+   </div>
+  </section>
+
+  <section class="ch" id="ahead">
+   <header><span class="eyebrow">03 · The day ahead</span>
+    <h2>Wind builds to 25 kt <span class="dim">by 20:00, mist after midnight.</span></h2></header>
+   <div class="card glass">
+    <div class="src"><span class="live mdl">Model · updated 12:30 SAST</span><span>next 18:30</span></div>
+    <svg class="chart" viewBox="0 0 340 130" preserveAspectRatio="none">
+     <defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc)" stop-opacity=".32"/><stop offset="1" stop-color="var(--acc)" stop-opacity="0"/></linearGradient></defs>
+     <g stroke="var(--ln)" stroke-width="1"><path d="M0 30H340M0 65H340M0 100H340"/></g>
+     <g font-family="JetBrains Mono" font-size="9" fill="var(--tx3)"><text x="2" y="26">30 kt</text><text x="2" y="61">20</text><text x="2" y="96">10</text></g>
+     <path d="M0 64 C26 61 26 58 52 55 S78 46 104 40 S130 30 156 29 S182 34 208 42 S234 58 260 66 S286 76 312 82 S330 84 340 85 L340 130 L0 130Z" fill="url(#ar)"/>
+     <path d="M0 47 C26 44 26 40 52 36 S78 26 104 19 S130 10 156 9 S182 14 208 24 S234 40 260 50 S286 60 312 66 S330 68 340 69" fill="none" stroke="var(--acc)" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="3 4"/>
+     <path d="M0 64 C26 61 26 58 52 55 S78 46 104 40 S130 30 156 29 S182 34 208 42 S234 58 260 66 S286 76 312 82 S330 84 340 85" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round"/>
+     <rect x="0" y="0" width="26" height="130" fill="var(--go)" opacity=".07"/>
+     <circle cx="156" cy="29" r="4.5" fill="var(--bg)" stroke="var(--acc)" stroke-width="2.5"/>
+    </svg>
+    <div class="ribbon"><i></i><i></i><i></i><i></i><i class="c"></i><i class="c"></i><i class="c"></i><i></i><i></i><i class="c"></i><i class="n"></i><i class="n"></i><i class="c"></i></div>
+    <div class="ticks"><span>14:00</span><span>17:00</span><span>20:00</span><span>23:00</span><span>03:00</span></div>
+    <div class="legend"><span><i></i>Wind</span><span><i style="background:none;border-top:2px dashed var(--acc);height:0;opacity:.6"></i>Gusts</span><span><i style="background:var(--go)"></i>Go</span><span><i style="background:var(--cau)"></i>Caution</span><span><i style="background:var(--nogo)"></i>No-go</span></div>
+    <p style="margin:12px 0 0;font-size:12px;color:var(--tx3)">Open-Meteo model, refreshed every 6 h after each run lands (06:30 · 12:30 · 18:30 · 00:30 SAST). The first hour blends from the TAF. Weather data by Open-Meteo.com, CC BY 4.0.</p>
+   </div>
+  </section>
+
+ </div>
+
+ <!-- REFERENCE COLUMN -->
+ <div class="refc">
+  <div class="dk">
+  <section class="ch" id="rwy">
+   <header><span class="eyebrow">04 · Runways</span><h2>Two runways, <span class="dim">one ILS to CAT III.</span></h2></header>
+   <article class="rwy glass">
+    <div class="rh"><h3>01 / 19</h3><span class="pill go">Into wind · 19</span></div>
+    <div class="strip"><i class="pk l"></i><i class="pk r"></i><b class="l">01</b><b class="r">19</b></div>
+    <div class="rf"><div class="fig"><small>Length</small><b>3 201<sub>m</sub></b></div><div class="fig"><small>Width</small><b>61<sub>m</sub></b></div><div class="fig"><small>Surface</small><b>ASPH</b></div><div class="fig"><small>Approach</small><b>ILS<sub>CAT III</sub></b></div></div>
+    <div class="decl"><span></span><span>TORA</span><span>TODA</span><span>ASDA</span><span>LDA</span><b>01</b><i>3201</i><i>3501</i><i>3201</i><i>3201</i><b>19</b><i>3201</i><i>3501</i><i>3201</i><i>3021</i></div>
+   </article>
+   <article class="rwy glass">
+    <div class="rh"><h3>16 / 34</h3><span class="pill">Cross 5 kt</span></div>
+    <div class="strip" style="width:53%"><i class="pk l"></i><i class="pk r"></i><b class="l">16</b><b class="r">34</b></div>
+    <div class="rf"><div class="fig"><small>Length</small><b>1 701<sub>m</sub></b></div><div class="fig"><small>Width</small><b>46<sub>m</sub></b></div><div class="fig"><small>Surface</small><b>ASPH</b></div><div class="fig"><small>Lights</small><b>PAPI<sub>3° LHS</sub></b></div></div>
+   </article>
+   <p class="src" style="margin:10px 6px 0">AIP AD 2.12–2.14 · AMDT 4/26 · tap a runway for slope, strip, RESA and lights</p>
+  </section>
+
+  <section class="ch" id="radio">
+   <header><span class="eyebrow">05 · Radio</span><h2>In the order <span class="dim">you'll call them.</span></h2></header>
+   <div class="radio glass">
+    <div class="fq"><div class="n"><b>ATIS</b><small>H24</small></div><span class="f">127.000</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+    <div class="fq"><div class="n"><b>Delivery</b><small>Cape Town Delivery</small></div><span class="f">122.100</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+    <div class="fq"><div class="n"><b>Ground</b><small>Cape Town Ground</small></div><span class="f">121.900</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+    <div class="fq key"><div class="n"><b>Tower</b><small>Cape Town Tower · H24</small></div><span class="f">118.100</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+    <div class="fq"><div class="n"><b>Approach</b><small>Cape Town Approach</small></div><span class="f">119.700</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+    <div class="fq"><div class="n"><b>Information</b><small>Cape Town Information West</small></div><span class="f">131.125</span><span class="cp"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2.5"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/></svg></span></div>
+   </div>
+   <p class="src" style="margin:10px 6px 0"><span>Circuit 1 500 ft ALT · call Tower 30 min before</span><span>AIP AD 2.18</span></p>
+  </section>
+
+  </div>
+  <div class="two">
+  <section class="ch" id="notes">
+   <header><span class="eyebrow">06 · Before you go</span><h2>Read these <span class="dim">before you file.</span></h2></header>
+   <div class="warn glass">
+    <div class="h">Notices &amp; local rules</div>
+    <ul>
+     <li><b>SUP S075-26</b>Active until 17 Mar 2027.</li>
+     <li><b>High bird activity</b>October to March, mostly near the 01 threshold.</li>
+     <li><b>Always check NOTAMs</b>Wingman doesn't show NOTAMs. Open the official summary.</li>
+    </ul>
+    <div class="btns"><a class="btn p">SACAA NOTAM summary ↗</a><a class="btn">FAA NOTAM search ↗</a></div>
+   </div>
+  </section>
+
+  <section class="ch sun" id="sun">
+   <header><span class="eyebrow">07 · Light</span><h2>5 h 09 min <span class="dim">of daylight left.</span></h2></header>
+   <div class="card glass">
+    <svg viewBox="0 0 340 120"><defs><linearGradient id="sk" x1="0" x2="1"><stop offset="0" stop-color="var(--gold)" stop-opacity=".0"/><stop offset=".5" stop-color="var(--gold)" stop-opacity=".9"/><stop offset="1" stop-color="var(--gold)" stop-opacity="0"/></linearGradient></defs>
+     <path d="M10 104 H330" stroke="var(--ln)"/>
+     <path d="M30 104 Q170 -40 310 104" fill="none" stroke="url(#sk)" stroke-width="2"/>
+     <path d="M30 104 Q170 -40 310 104" fill="none" stroke="var(--tx3)" stroke-width="1" stroke-dasharray="2 5"/>
+     <circle cx="228" cy="52" r="9" fill="var(--gold)"/><circle cx="228" cy="52" r="18" fill="var(--gold)" opacity=".18"/>
+    </svg>
+    <div class="suntimes"><div><small>First light</small><b>05:20</b></div><div><small>Sunrise</small><b>05:47</b></div><div><small>Sunset</small><b>19:21</b></div><div><small>Last light</small><b>19:48</b></div></div>
+    <div class="src" style="margin-top:12px"><span>Waxing gibbous · 82 % · moonrise 16:58</span><span>computed · SAST</span></div>
+   </div>
+  </section>
+  </div>
+  <section class="ch" id="charts">
+   <header><span class="eyebrow">08 · Charts &amp; AIP</span><h2>30 charts, <span class="dim">straight from SACAA.</span></h2></header>
+   <div class="covers">
+    <a class="cv glass"><div class="art g-ad"><small>AERODROME</small><b>AD</b></div><p>Aerodrome chart</p><span>AD 2-FACT-01</span></a>
+    <a class="cv glass"><div class="art g-gr"><small>GROUND</small><b>GM</b></div><p>Ground movement</p><span>AD 2-FACT-02</span></a>
+    <a class="cv glass"><div class="art g-ap"><small>APPROACH</small><b>ILS</b></div><p>ILS Z RWY 01</p><span>AD 2-FACT-41</span></a>
+    <a class="cv glass"><div class="art g-ap"><small>APPROACH</small><b>RNP</b></div><p>RNP RWY 19</p><span>AD 2-FACT-52</span></a>
+    <a class="cv glass"><div class="art g-ar"><small>ARRIVAL</small><b>STAR</b></div><p>ERDAS 1C</p><span>AD 2-FACT-31</span></a>
+   </div>
+   <a class="aiprow glass"><span class="ic"></span><div><b>AIP AD 2 · FACT</b><small>18 pages · PDF · AIRAC 10/26</small></div><span class="pill acc">+25 charts</span></a>
+  </section>
+
+  <div class="two">
+  <section class="ch" id="people">
+   <header><span class="eyebrow">09 · People</span><h2>Who trains here.</h2></header>
+   <div class="ppl glass">
+    <div class="pr"><span class="av" style="--a1:#0d5c3a;--a2:#2aa26a">CT</span><div><b>Civair Training</b><small>ATO 1116 · valid to 08/2027</small></div><span class="pill go">ATO</span></div>
+    <div class="pr"><span class="av" style="--a1:#103d7a;--a2:#3f7fe0">DA</span><div><b>Deal Alliance Aviation Training</b><small>ATO 1550</small></div><span class="pill go">ATO</span></div>
+    <div class="pr"><span class="av" style="--a1:#4a1c7c;--a2:#9a5cf0">FA</span><div><b>Fantini Aviation FTS</b><small>ATO 1657</small></div><span class="pill go">ATO</span></div>
+   </div>
+   <div class="sub">DFEs · Western Cape</div>
+   <div class="ppl glass"><div class="pr"><span class="av" style="--a1:#7a3a0d;--a2:#e08b3f">12</span><div><b>12 examiners nearby</b><small>PPL · CPL · IR · instructor ratings</small></div><span class="pill">View</span></div></div>
+  </section>
+
+  <section class="ch" id="traffic">
+   <header><span class="eyebrow">10 · Around the field</span><h2>Traffic &amp; maps.</h2></header>
+   <div class="tiles">
+    <a class="tile"><img src="../../live_fr24_generic.jpg" alt=""><div><b>Live traffic</b><small>Tap to load · adsb.lol</small></div></a>
+    <a class="tile" style="background:#0e1a24"><svg class="bgm" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#13222f"/><path d="M0 110 C40 100 60 120 100 105 S160 80 200 95 V150 H0Z" fill="#0f3550"/><g stroke="#2c4458" stroke-width="1" fill="none"><path d="M0 40 L200 70M30 0 L80 150M140 0 L120 150M0 80 L200 30"/></g><g transform="rotate(10 100 70)"><rect x="97" y="35" width="6" height="70" fill="#56657a"/></g><g transform="rotate(160 110 74)"><rect x="107" y="50" width="5" height="40" fill="#56657a"/></g></svg><div><b>Windy &amp; map</b><small>Tap to load</small></div></a>
+   </div>
+  </section>
+  </div>
+
+  <section class="ch" id="facts">
+   <header><span class="eyebrow">11 · Field facts</span><h2>The details.</h2></header>
+   <div class="facts glass">
+    <div><small>Position</small><b class="mono">33°58′S 018°36′E</b></div>
+    <div><small>Elevation</small><b>151 ft</b></div>
+    <div><small>Mag variation</small><b>25° W</b></div>
+    <div><small>Ref. temp</small><b>27 °C</b></div>
+    <div><small>Fuel</small><b>Jet A-1 · Avgas 100LL</b></div>
+    <div><small>Hours</small><b>H24</b></div>
+    <div><small>Operator</small><b>ACSA</b></div>
+    <div><small>FIR</small><b>Cape Town</b></div>
+   </div>
+  </section>
+
+  <footer>Static data: SACAA AIP AD 2 (AIRAC 10/26), SACAA ATO and DFE registers. Live: METAR/TAF via aviationweather.gov, model by Open-Meteo.com (CC BY 4.0). Photo: BlogDeBanderas, Wikimedia Commons, CC BY-SA 4.0. Not for navigation; always check NOTAMs and official sources. Concept mock-up, sample values.</footer>
+ </div>
+ </div>
+</div>
+
+<nav class="nav glass">
+ <a class="on"><svg class="i" viewBox="0 0 24 24"><path d="M9 21h6M10 21l1-9h2l1 9M7 8h10l-1.5 4h-7z M12 3v5"/></svg>Aerodromes</a>
+ <a><svg class="i" viewBox="0 0 24 24"><path d="M7 17a4 4 0 1 1 .8-7.9A5 5 0 0 1 17.5 10 3.5 3.5 0 0 1 17 17z"/></svg></a>
+ <a><svg class="i" viewBox="0 0 24 24"><path d="M4 20v-8a8 8 0 0 1 16 0v8M8 20v-5h8v5"/></svg></a>
+ <a><svg class="i" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 12l2 2 4-4"/></svg></a>
+ <a><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18a6 6 0 0 1 11 0"/></svg></a>
+</nav>
+</body></html>

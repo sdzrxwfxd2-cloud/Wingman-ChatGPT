@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="black">
+<head>
+<meta charset="utf-8"><script src="/wm-model.js?v=a22fd95d59"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Go Around · Ops status</title>
+<link rel="icon" href="/favicon-32.png">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme'),L=localStorage,H=document.documentElement;
+var m={black:['night','black'],midnight:['night','black'],white:['day','white']};
+var t=m[q]||m[L.getItem('wm-ops-theme')]||null;if(!t){var th=L.getItem('wm-theme')==='day'?'day':'night';t=[th,th==='day'?'white':'black']}
+H.dataset.theme=t[0];H.dataset.pal=t[1]}catch(e){}})();</script>
+<link rel="stylesheet" href="ops.css?v=7c78f045b8">
+<link rel="stylesheet" href="wm-glass.css?v=8150980665">
+</head>
+<body>
+<div class="bgfx" aria-hidden="true"></div>
+<header class="top glass">
+  <a class="back" href="/index.html#aero" aria-label="Back to Go Around">‹</a>
+  <div class="ttl"><h1>Ops status</h1><p id="sub">Private · checking…</p></div>
+  <div class="thm" role="group" aria-label="Theme">
+    <button data-t="black" title="Dark"></button><button data-t="white" title="Light"></button>
+  </div>
+  <button id="re" class="btn" title="Check again">↻</button>
+</header>
+<div id="alert" class="alert" hidden></div>
+<main id="grid">
+  <section class="card glass" id="s-health"><h2><i class="dot"></i>Site health</h2><div class="body">…</div></section>
+  <section class="card glass" id="s-vis"><h2><i class="dot"></i>Visitors</h2><div class="body">…</div></section>
+  <section class="card glass" id="s-wx"><h2><i class="dot"></i>Weather feed</h2><div class="body">Loading the aerodrome page in the background…</div></section>
+  <section class="card glass" id="s-cnt"><h2><i class="dot"></i>GO · CAUTION · NO-GO</h2><div class="body">…</div></section>
+  <section class="card glass tap" id="s-wt" role="link" tabindex="0" aria-label="Open Weather Test"><h2><i class="dot"></i>Weather Test <span class="go-arr">›</span></h2><div class="body">Waiting for the aerodrome page…</div></section>
+  <section class="card glass" id="s-data"><h2><i class="dot"></i>Data freshness</h2><div class="body">…</div></section>
+  <section class="card glass wide" id="s-prob"><h2><i class="dot"></i>Cards with problems</h2><div class="body">…</div></section>
+</main>
+<p class="foot">Private admin page · not linked from the site · guidance only, the pilot in command decides.</p>
+<dialog id="login" class="glass">
+  <form method="dialog" id="lf"><h2>Admin password</h2><p>Site health and visitors need the admin password. Weather, counts and data freshness show without it.</p>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="Admin password" required>
+  <p id="lerr" class="bad"></p>
+  <div class="row"><button type="button" class="btn ghost" id="lskip">Skip</button><button class="btn">Unlock</button></div></form>
+</dialog>
+<iframe id="mainf" title="Aerodromes (hidden, for live counts)" aria-hidden="true" tabindex="-1"></iframe>
+<script src="ops.js?v=668595168b"></script>
+<script src="/wm-beacon.js?v=d3dbe10882" defer></script>
+</body>
+</html>

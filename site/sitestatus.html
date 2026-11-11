@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="black">
+<head>
+<meta charset="utf-8"><script src="/wm-model.js?v=a22fd95d59"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Go Around · Site status</title>
+<link rel="icon" href="/favicon-32.png">
+<script>(function(){try{var L=localStorage,H=document.documentElement,q=new URLSearchParams(location.search).get('pal');
+var map={black:'night',purple:'night',white:'day',beige:'day'},p=map[q]?q:null;
+if(!p){var d=L.getItem('wm-theme')==='day';p=d?(L.getItem('wm-pal-day')==='beige'?'beige':'white'):(L.getItem('wm-pal')==='purple'?'purple':'black')}
+H.dataset.pal=p;H.dataset.theme=map[p]}catch(e){}})();</script>
+<style>
+html[data-pal=black]{--bg:#07090F;--card:rgba(255,255,255,.055);--tx:#F2F3F7;--tx2:#9096A6;--ln:rgba(255,255,255,.08);--acc:#E6EEFF;--pill:rgba(30,32,40,.52);--hair:rgba(255,255,255,.10);--sh1:rgba(0,0,0,.35);--sh2:rgba(0,0,0,.65);--rim:rgba(255,255,255,.34);--fx1:rgba(90,110,255,.16);--fx2:rgba(160,170,200,.08)}
+html[data-pal=purple]{--bg:#140A26;--card:rgba(220,200,255,.07);--tx:#F3ECFF;--tx2:#A99BC8;--ln:rgba(220,200,255,.10);--acc:#D9C6FF;--pill:rgba(46,26,84,.52);--hair:rgba(220,200,255,.12);--sh1:rgba(5,0,20,.40);--sh2:rgba(5,0,20,.70);--rim:rgba(235,220,255,.38);--fx1:rgba(150,90,255,.22);--fx2:rgba(255,120,220,.08)}
+html[data-pal=white]{--bg:#F2F3F6;--card:rgba(255,255,255,.82);--tx:#14161B;--tx2:#5E6472;--ln:rgba(20,22,27,.08);--acc:#0019C9;--pill:rgba(250,251,255,.62);--hair:rgba(20,30,70,.10);--sh1:rgba(20,30,70,.06);--sh2:rgba(20,30,70,.16);--rim:rgba(255,255,255,.9);--fx1:rgba(0,25,201,.08);--fx2:rgba(120,140,200,.08)}
+html[data-pal=beige]{--bg:#F4EEE3;--card:rgba(253,247,234,.92);--tx:#1C1814;--tx2:#8A8378;--ln:rgba(60,45,20,.08);--acc:#8A5A12;--pill:rgba(252,245,233,.62);--hair:rgba(90,70,35,.10);--sh1:rgba(80,60,25,.06);--sh2:rgba(80,60,25,.16);--rim:rgba(255,255,255,.9);--fx1:rgba(200,150,60,.12);--fx2:rgba(160,120,60,.06)}
+:root{--go:#1FA35B;--ca:#E5A100;--ng:#E5484D;--none:#868C99;--ease:cubic-bezier(.22,.61,.36,1)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx)}
+body{font:14px/1.45 Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;padding:calc(env(safe-area-inset-top) + 12px) 14px 40px}
+.bgfx{position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 40% at 15% 0%,var(--fx1),transparent 70%),radial-gradient(50% 40% at 100% 20%,var(--fx2),transparent 70%)}
+.glass{background:var(--card);-webkit-backdrop-filter:blur(26px) saturate(1.8);backdrop-filter:blur(26px) saturate(1.8);border:.5px solid var(--hair);box-shadow:inset 0 .5px 0 var(--rim),0 1px 2px var(--sh1),0 12px 32px -14px var(--sh2)}
+.top{position:sticky;top:calc(env(safe-area-inset-top) + 8px);z-index:5;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:22px;max-width:1360px;margin:0 auto 14px;background:var(--pill)}
+.back{color:var(--tx);text-decoration:none;font-size:26px;line-height:1;width:28px;text-align:center}
+.ttl{flex:1;min-width:0}.ttl h1{margin:0;font:700 19px/1.15 Satoshi,-apple-system,system-ui,sans-serif;letter-spacing:-.02em}.ttl p{margin:1px 0 0;color:var(--tx2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thm{display:flex;gap:6px}.thm button{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--hair);cursor:pointer;padding:0}
+.thm [data-p=black]{background:#07090F}.thm [data-p=purple]{background:#3A1F6B}.thm [data-p=white]{background:#F2F3F6}.thm [data-p=beige]{background:#E9DCC2}
+.thm button.on{outline:2px solid var(--acc);outline-offset:1px}
+.btn{font:600 17px Inter,system-ui,sans-serif;color:var(--tx);background:var(--card);border:.5px solid var(--hair);border-radius:999px;width:36px;height:36px;cursor:pointer;transition:transform .2s var(--ease)}
+.btn:active{transform:scale(.94)}.spin{animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.alert{max-width:1360px;margin:0 auto 14px;padding:12px 16px;border-radius:18px;font-weight:600}
+.alert.bad{background:rgba(229,72,77,.16);border:.5px solid rgba(229,72,77,.55)}.alert.ok{background:rgba(31,163,91,.14);border:.5px solid rgba(31,163,91,.5)}
+.alert ul{margin:6px 0 0;padding-left:18px;font-weight:500}
+main{max-width:1360px;margin:0 auto;display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){main{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+@media(min-width:1200px){main{grid-template-columns:repeat(3,1fr)}}
+.card{border-radius:22px;padding:14px 16px 16px;animation:in .35s var(--ease) both;min-width:0}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.card{animation:none}}
+.card h2{margin:0 0 10px;font:700 15px/1.2 Satoshi,-apple-system,system-ui,sans-serif;display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--none);flex:none}
+.card.ok .dot{background:var(--go);box-shadow:0 0 8px rgba(31,163,91,.6)}.card.warn .dot{background:var(--ca)}.card.bad .dot{background:var(--ng);box-shadow:0 0 8px rgba(229,72,77,.6)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.kpi{border-radius:14px;padding:8px 10px;background:var(--ln)}.kpi b{display:block;font:700 20px/1.1 Satoshi,system-ui,sans-serif}.kpi span{color:var(--tx2);font-size:11.5px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px 4px;border-bottom:.5px solid var(--ln);text-align:left;vertical-align:top}th{color:var(--tx2);font-weight:600;font-size:12px}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.m{color:var(--tx2);font-size:12px}.ok-t{color:var(--go);font-weight:600}.bad-t{color:var(--ng);font-weight:600}.warn-t{color:var(--ca);font-weight:600}
+.bar{height:6px;border-radius:3px;background:var(--ln);overflow:hidden;margin-top:3px}.bar i{display:block;height:100%;background:var(--acc);opacity:.75;border-radius:3px}
+.vt{max-height:480px;overflow:auto;-webkit-overflow-scrolling:touch}.vt table{min-width:640px}.vt tr.tst td{opacity:.5}.tag{font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--ln);color:var(--tx2);margin-left:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{padding:3px 9px;border-radius:999px;background:var(--ln);font-size:12px}
+h3{font:600 12px Inter,system-ui,sans-serif;color:var(--tx2);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+</style>
+<link rel="stylesheet" href="wm-glass.css?v=8150980665">
+</head>
+<body>
+<div class="bgfx" aria-hidden="true"></div>
+<header class="top glass">
+  <a class="back" href="/index.html#aero" aria-label="Back to Go Around">‹</a>
+  <div class="ttl"><h1>Site status</h1><p id="sub">Checking live…</p></div>
+  <div class="thm" role="group" aria-label="Theme"><button data-p="black" title="Midnight"></button><button data-p="purple" title="Amethyst"></button><button data-p="white" title="Pearl"></button><button data-p="beige" title="Champagne"></button></div>
+  <button id="re" class="btn" title="Check again" aria-label="Check again">↻</button>
+</header>
+<div id="alert" class="alert" hidden></div>
+<main>
+  <section class="card glass" id="c-site"><h2><i class="dot"></i>Site &amp; deploy</h2><div class="b m">Checking…</div></section>
+  <section class="card glass" id="c-metar"><h2><i class="dot"></i>METAR vs official source</h2><div class="b m">Checking…</div></section>
+  <section class="card glass" id="c-taf"><h2><i class="dot"></i>TAF vs official source</h2><div class="b m">Checking…</div></section>
+  <section class="card glass" id="c-model"><h2><i class="dot"></i>Weather model (Open-Meteo)</h2><div class="b m">Checking…</div></section>
+  <section class="card glass" id="c-pages"><h2><i class="dot"></i>Main pages (15)</h2><div class="b m">Checking…</div></section>
+  <section class="card glass" id="c-vis"><h2><i class="dot"></i>Visitors</h2><div class="b m">Loading…</div></section>
+  <section class="card glass" id="c-dev"><h2><i class="dot"></i>Devices &amp; places</h2><div class="b m">Loading…</div></section>
+  <section class="card glass wide" id="c-recent"><h2><i class="dot"></i>All recent visits</h2><div class="b m">Loading…</div></section>
+</main>
+<p class="m" style="max-width:1360px;margin:14px auto 0">Live every time you open or refresh this page. Official source: aviationweather.gov. Visits come from the site's own private log (city-level location, no IPs stored). Times in SAST. <a href="/visitor-log.html" style="color:var(--acc)">Open the full visitor log ›</a></p>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},H=document.documentElement;
+var PAGES=['/','/index.html','/main.html','/status.html','/c/app.html','/fact.html','/calculator.html','/pilot.html','/library.html','/logbook.html','/brief.html','/chart_v2/Wingman_Chart_v2.html','/ops-stamp.json'];
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var sast=function(t){if(!t)return'—';var d=new Date(t);return isNaN(d)?'—':d.toLocaleString('en-ZA',{timeZone:'Africa/Johannesburg',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})};
+var dur=function(ms){if(ms<0||!isFinite(ms))return'—';var m=Math.floor(ms/6e4),d=Math.floor(m/1440),h=Math.floor(m%1440/60);return(d?d+'d ':'')+(d||h?h+'h ':'')+(m%60)+'m'};
+var set=function(id,cls,html){var c=$(id);c.className='card glass'+(c.classList.contains('wide')?' wide':'')+(cls?' '+cls:'');c.querySelector('.b').className='b';c.querySelector('.b').innerHTML=html};
+function theme(p){H.dataset.pal=p;H.dataset.theme=(p==='white'||p==='beige')?'day':'night';document.querySelectorAll('.thm button').forEach(function(b){b.classList.toggle('on',b.dataset.p===p)})}
+document.querySelectorAll('.thm button').forEach(function(b){b.onclick=function(){theme(b.dataset.p)}});theme(H.dataset.pal);
+function list(rows,max){var tot=rows.reduce(function(a,r){return a+r[1]},0)||1;return rows.slice(0,max||6).map(function(r){return'<div style="margin:5px 0"><div style="display:flex;justify-content:space-between"><span>'+esc(r[0])+'</span><span class="m">'+r[1]+' · '+Math.round(r[1]*100/tot)+'%</span></div><div class="bar"><i style="width:'+(r[1]*100/tot)+'%"></i></div></div>'}).join('')||'<p class="m">No visits logged yet.</p>'}
+function wxCard(id,x,kind){
+  var probs=[];if(x.site.s!==200)probs.push('Site '+kind+' feed HTTP '+x.site.s);if(x.up.s!==200)probs.push('Official '+kind+' source did not answer (HTTP '+x.up.s+'), comparison skipped');
+  var real=x.behind.filter(function(r){return r.up-r.site>5*6e4});
+  var cls=x.site.s!==200||x.missing.length>3?'bad':(real.length||x.site.src==='stale'||x.up.s!==200)?'warn':'ok';
+  var h='<div class="kpis"><div class="kpi"><b>'+x.match+'/'+(x.total)+'</b><span>stations match</span></div><div class="kpi"><b>'+x.behind.length+'</b><span>behind official</span></div><div class="kpi"><b>'+x.missing.length+'</b><span>missing on site</span></div></div>';
+  h+='<table><tr><td>Site feed</td><td>'+(x.site.s===200?'<span class="ok-t">OK</span>':'<span class="bad-t">HTTP '+x.site.s+'</span>')+' in '+x.site.ms+' ms'+(x.site.src==='stale'?' · <span class="warn-t">serving saved copy ('+Math.round((x.site.ageSec||0)/60)+'m old)</span>':'')+'</td></tr>';
+  h+='<tr><td>Official</td><td>'+(x.up.s===200?'<span class="ok-t">OK</span>':'<span class="bad-t">HTTP '+x.up.s+'</span>')+' in '+x.up.ms+' ms · '+x.up.n+' stations</td></tr></table>';
+  if(x.behind.length)h+='<h3>Not yet updated on site</h3><div class="chips">'+x.behind.map(function(r){return'<span class="chip" title="site '+sast(r.site)+' / official '+sast(r.up)+'">'+esc(r.id)+' · '+Math.round((r.up-r.site)/6e4)+'m behind</span>'}).join('')+'</div><p class="m">Up to ~3 min behind is normal (the site caches the feed for 150 s).</p>';
+  if(x.missing.length)h+='<h3>Missing on site</h3><div class="chips">'+x.missing.map(function(i){return'<span class="chip">'+esc(i)+'</span>'}).join('')+'</div>';
+  if(x.old.length)h+='<h3>Old reports (not issued recently at source)</h3><div class="chips">'+x.old.slice(0,40).map(function(r){return'<span class="chip">'+esc(r.id)+' · '+dur(r.ageMin*6e4)+'</span>'}).join('')+'</div>';
+  set(id,cls,h);return{cls:cls,probs:probs.concat(real.length?[real.length+' '+kind+' report(s) not yet updated on site']:[])};
+}
+function pagesCard(pg){
+  var res=(pg&&pg.list)||[],badN=res.filter(function(r){return r.s!==200||!r.complete||r.clash});
+  set('#c-pages',badN.length?'bad':'ok','<div class="kpis"><div class="kpi"><b>'+(res.length-badN.length)+'/'+res.length+'</b><span>pages OK</span></div><div class="kpi"><b>'+Math.round(res.reduce(function(a,r){return a+r.ms},0)/Math.max(1,res.length))+' ms</b><span>avg load</span></div><div class="kpi"><b>'+Math.round((pg.cachedAge||0)/60)+'m</b><span>check age</span></div></div><table><tr><th>Page</th><th>State</th><th class="n">Time</th><th class="n">Size</th></tr>'+res.map(function(r){var ok=r.s===200&&r.complete&&!r.clash;return'<tr><td>'+esc(r.p)+'</td><td>'+(ok?'<span class="ok-t">OK</span>':'<span class="bad-t">'+(r.clash?'clash marker':r.s!==200?'HTTP '+r.s:'cut off')+'</span>')+'</td><td class="n">'+r.ms+' ms</td><td class="n">'+r.kb+' KB</td></tr>'}).join('')+'</table><p class="m">Checked by the server every 5 min (cached). These checks are not counted as visits, except the home page.</p>');
+  return badN.map(function(r){return'Broken page '+r.p+' ('+(r.clash?'clash marker':r.s!==200?'HTTP '+r.s:'cut off')+')'});
+}
+function modelCard(om){
+  if(!om)return[];var cls=om.s===200?'ok':om.limited?'bad':'warn';
+  set('#c-model',cls,'<div class="kpis"><div class="kpi"><b>'+(om.s===200?'OK':om.limited?'Limit hit':'Error')+'</b><span>HTTP '+om.s+'</span></div><div class="kpi"><b>'+om.ms+' ms</b><span>response</span></div><div class="kpi"><b>'+Math.round((om.cachedAge||0)/60)+'m</b><span>check age</span></div></div>'+(om.reason?'<p class="m">'+esc(om.reason)+'</p>':'')+'<p class="m">Checked at most every 10 min (cached). When the daily limit is hit, model-based screens (status, phone main page) can fail.</p>');
+  return om.s===200?[]:[om.limited?'Weather model (Open-Meteo) daily limit hit (HTTP 429): model screens can fail':'Weather model (Open-Meteo) error HTTP '+om.s];
+}
+async function run(){
+  var re=$('#re');re.classList.add('spin');$('#sub').textContent='Checking live…';
+  var t0=performance.now(),probs=[];
+  var stampP=fetch('/ops-stamp.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null});
+  try{
+    modelCard(null);var r=await fetch('/sitestatus-data',{cache:'no-store',credentials:'same-origin'});if(!r.ok)throw new Error('HTTP '+r.status);var d=await r.json();
+    var stamp=await stampP,now=Date.parse(d.now);
+    var since=d.visitors&&d.visitors.all&&d.visitors.all.since;
+    set('#c-site','ok','<div class="kpis"><div class="kpi"><b>Up</b><span>site responding</span></div><div class="kpi"><b>'+(stamp&&stamp.built?dur(now-Date.parse(stamp.built)):'—')+'</b><span>since last build stamp</span></div><div class="kpi"><b>'+(since?dur(now-Date.parse(since)):'—')+'</b><span>since visit log start</span></div></div><table>'+
+      '<tr><td>Deploy</td><td>'+esc(d.deploy.id?d.deploy.id.slice(0,24):'—')+(d.deploy.context?' <span class="m">('+esc(d.deploy.context)+')</span>':'')+'</td></tr>'+
+      (stamp?'<tr><td>Built</td><td>'+sast(stamp.built)+' · commit '+esc(stamp.commit)+'</td></tr><tr><td>AIP edition</td><td>'+esc(stamp.aipEdition)+'</td></tr><tr><td>SACAA data</td><td>'+esc(stamp.sacaaGenerated)+' · '+esc(stamp.atoCount)+' ATOs · '+esc(stamp.dfeCount)+' DFEs</td></tr>':'')+
+      '<tr><td>Checked</td><td>'+sast(d.now)+'</td></tr></table>');
+    probs=probs.concat(modelCard(d.openMeteo),pagesCard(d.pages));
+    var a=wxCard('#c-metar',d.metar,'METAR'),b=wxCard('#c-taf',d.taf,'TAF');probs=probs.concat(a.probs,b.probs);
+    var v=d.visitors;
+    if(v&&!v.error){
+      set('#c-vis','ok','<div class="kpis"><div class="kpi"><b>'+v.today.views+'</b><span>views today</span></div><div class="kpi"><b>'+v.today.unique+'</b><span>visitors today</span></div><div class="kpi"><b>'+v.week.views+'</b><span>views · 7 days</span></div></div>'+
+        '<table><tr><th>Day (UTC)</th><th class="n">Views</th><th class="n">Unique</th></tr>'+v.byDay.map(function(x){return'<tr><td>'+x.d+'</td><td class="n">'+x.views+'</td><td class="n">'+x.unique+'</td></tr>'}).join('')+'</table>'+
+        '<p class="m">'+v.all.views+' views in total since '+sast(v.all.since)+'.</p><h3>Top pages · 7 days</h3>'+list(v.top,10));
+      set('#c-dev','ok','<p class="m">'+v.realN+' real visits of the last '+v.sample+' logged (7 days); '+v.testN+' test/check visits left out.</p><h3>Devices</h3>'+list(v.devices,10)+'<h3>Systems (OS)</h3>'+list(v.os,10)+'<h3>Browsers</h3>'+list(v.browsers,10)+'<h3>Countries</h3>'+list(v.countries,10)+'<h3>Cities</h3>'+list(v.cities,10));
+      var miss=['screen size','referrer','session length','IP address'];
+      set('#c-recent','','<p class="m">Every logged visit, newest first ('+v.recent.length+'). <span class="tag">test</span> = our own checks (Portland / headless Linux / server). Logged fields: '+esc((v.fields||[]).join(', '))+'. Not recorded by the visit log: '+miss.join(', ')+' (no IP is stored, so none is shown).</p><div class="vt"><table><tr><th>Time (SAST)</th><th>Page</th><th>Device</th><th>OS</th><th>Browser</th><th>Country</th><th>City</th></tr>'+v.recent.map(function(x){var dv=x.os==='iPhone'||x.os==='Android'?'Phone':x.os==='iPad'?'iPad':x.os==='Other'||!x.os?'Other':'Desktop';return'<tr'+(x.test?' class="tst"':'')+'><td>'+sast(x.t)+(x.test?'<span class="tag">test</span>':'')+'</td><td>'+esc(x.path)+'</td><td>'+dv+'</td><td>'+esc(x.os)+'</td><td>'+esc(x.browser)+'</td><td>'+esc(x.country||'—')+'</td><td>'+esc([x.city,x.region].filter(Boolean).join(', ')||'—')+'</td></tr>'}).join('')+'</table></div>');
+    }else{['#c-vis','#c-dev','#c-recent'].forEach(function(i){set(i,'warn','<p class="m">Visit log unavailable: '+esc(v&&v.error)+'</p>')})}
+  }catch(e){probs.push('Status data failed: '+e.message);set('#c-site','bad','<p>Could not load status data ('+esc(e.message)+').</p>')}
+    var al=$('#alert');al.hidden=false;al.className='alert '+(probs.length?'bad':'ok');
+  al.innerHTML=probs.length?'Needs attention<ul>'+probs.map(function(p){return'<li>'+esc(p)+'</li>'}).join('')+'</ul>':'All checks passed. No broken pages.';
+  $('#sub').textContent='Live · checked '+sast(new Date())+' SAST · '+Math.round(performance.now()-t0)+' ms';re.classList.remove('spin');
+}
+$('#re').onclick=run;run();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/* WDS 1810 — dfe_smooth demo: Apple-smooth ATO/DFE. Existing glass/colour tokens only. */
+:root{--wds-e:cubic-bezier(.16,1,.3,1);--wds-t:520ms}
+/* 1. no sideways sword glare; no per-card delayed fade */
+html body section:is(#ato,#dfe) .grid>.c.wx::after{display:none!important;animation:none!important}
+html body section:is(#ato,#dfe) .grid>.c.wx{opacity:1;transition:box-shadow .25s ease!important;transition-delay:0s!important;will-change:auto}
+html body section:is(#ato,#dfe) .grid>.c.wx,html body section:is(#ato,#dfe) .grid>.c.wx.tilt,html body section:is(#ato,#dfe) .grid>.c.wx.in:hover{transform:none!important}
+/* 2. open/close motion lives in wx-motion.js */
+section:is(#ato,#dfe) .wx-chev{transition:transform var(--wds-t) var(--wds-e)!important}
+html body section:is(#ato,#dfe) .grid>.c.wx.open{grid-column:1/-1!important}
+html body section:is(#ato,#dfe) .grid{grid-auto-flow:row dense;align-items:start!important}
+/* 3. stagger in (GPU: transform + opacity) */
+@keyframes wdsIn{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+html body section:is(#ato,#dfe) .grid>.c.wx.wds-a{animation:wdsIn 460ms var(--wds-e) both;animation-delay:var(--d,0ms)}
+html body section:is(#ato,#dfe) .grid>.c.wx.wds-h{display:none!important}
+/* 4. pager (same look as aerodromes .wpager) */
+.wds-pg{display:flex;flex-direction:column;align-items:center;gap:10px;margin:26px 0 6px;grid-column:1/-1}
+.wds-pg .row{display:flex;align-items:center;gap:4px;padding:5px;border-radius:22px;background:var(--gl);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),0 8px 24px -18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);position:relative;isolation:isolate}
+.wds-pg button{position:relative;z-index:1;min-width:36px;height:36px;padding:0 10px;border:0;border-radius:18px;background:none;color:var(--tx2);font:600 14px/1 Satoshi,-apple-system,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:color .25s ease,transform .2s var(--wds-e);-webkit-tap-highlight-color:transparent}
+.wds-pg button:active{transform:scale(.94)}
+.wds-pg button.on{color:var(--tx)}
+.wds-pg .row>i{position:absolute;z-index:0;top:50%;margin-top:-18px;left:0;height:36px;border-radius:18px;background:var(--bg);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),0 4px 12px -6px rgba(0,0,0,.3);transition:transform var(--wds-t) var(--wds-e),width var(--wds-t) var(--wds-e)}
+.wds-pg button[disabled]{opacity:.35;cursor:default}
+.wds-pg .dots{color:var(--tx3);padding:0 2px}
+.wds-pg .lbl{font:500 12px/1 Satoshi,-apple-system,sans-serif;color:var(--tx3);font-variant-numeric:tabular-nums}
+.wds-pg .pp small{font:600 10.5px/1 Satoshi,-apple-system,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);padding:0 6px 0 8px}
+html[data-theme=night] .wds-pg .row>i{background:rgba(255,255,255,.12)}
+/* 5. symmetric spacing */
+@media (max-width:767px){html body section:is(#ato,#dfe) .grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important}html body section:is(#ato,#dfe) .grid>.c.wx{margin:0!important}}
+@media (min-width:768px){html:not(#w1):not(#w2) body section:is(#ato,#dfe) .grid{gap:20px!important}}
+/* ATO course tags: one calm glass pill, icon + text; PPL/CPL soft gold */
+section#ato .wx-chip{--fc:var(--tx2)!important;color:var(--tx2)!important;background:var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln)!important;-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);opacity:1!important}
+section#ato .wx-chip::before{content:"";flex:none;width:12px;height:12px;background:currentColor;opacity:.7;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 9l10-5 10 5-10 5z'/%3E%3Cpath d='M6 11v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 9l10-5 10 5-10 5z'/%3E%3Cpath d='M6 11v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E") center/contain no-repeat}
+section#ato .wx-chip.wds-gold{color:var(--f-lic)!important;background:color-mix(in srgb,var(--f-lic) 10%,var(--gl2))!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px color-mix(in srgb,var(--f-lic) 30%,transparent)!important}
+section#ato .wx-chip.wds-gold::before{opacity:.9}
+section#ato .wx-legend .wx-lg{--fc:var(--tx3)!important}
+section#ato .wx-legend .wx-lg[data-f=lic]{--fc:var(--f-lic)!important}
+/* Province / city */
+section#ato .wq-loc .wq-chip{transition:color .25s ease,box-shadow .25s ease,transform .2s var(--wds-e)}
+section#ato .wq-loc .wq-chip:active{transform:scale(.95)}
+section#ato .wq-loc .wq-chip.wds-near::before{content:"";width:11px;height:11px;background:currentColor;opacity:.75;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 3L3 10.5l7.5 3L13.5 21z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 3L3 10.5l7.5 3L13.5 21z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat}
+.wds-cw{display:grid;grid-template-rows:0fr;opacity:0;translate:0 -6px;transition:opacity .36s var(--wds-e),translate var(--wds-t) var(--wds-e)}
+.wds-cw>div{min-height:0;overflow:hidden}
+.wds-cw.on{grid-template-rows:1fr;opacity:1;translate:0 0}
+.wds-cw .wq-lbl{margin-top:8px!important}
+.wds-cw.on .wq-chip{animation:wdsIn 360ms var(--wds-e) both}
+/* pinned province header */
+.wds-ph{position:sticky;top:calc(66px + env(safe-area-inset-top));z-index:25;display:flex;justify-content:center;height:0;pointer-events:none}
+.wds-ph span{transform:translateY(4px);display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 14px;border-radius:15px;font:600 12.5px/1 Satoshi,-apple-system,sans-serif;color:var(--tx);background:var(--gl);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh);opacity:0;transition:opacity .3s ease,transform .3s var(--wds-e)}
+.wds-ph.on span{opacity:1;transform:translateY(10px)}
+.wds-ph small{color:var(--tx3);font-weight:600;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){section:is(#ato,#dfe) .wx-body,section:is(#ato,#dfe) .wx-chev,.wds-cw,.wds-pg .row>i,.wds-ph span{transition:none!important}html body section:is(#ato,#dfe) .grid>.c.wx.wds-a,.wds-cw.on .wq-chip{animation:none!important}}
+@media (min-width:768px){html body section#ato .bar>.wq-loc{grid-column:1/-1;order:9;min-width:0}}
+
+/* WDS-STACK 1832: filters stacked like DFE — search, province, city (slides), other filters + Show N */
+html body section:is(#ato,#dfe) .bar.wds-stack{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;grid-template-columns:none!important}
+html body section:is(#ato,#dfe) .bar.wds-stack>*{width:100%!important;max-width:none!important;grid-column:auto!important;order:0!important;margin:0!important}
+html body section:is(#ato,#dfe) .bar.wds-stack>select[style*="none"]{display:none!important}
+html body section#ato .bar.wds-stack>.wq-loc{display:flex;flex-direction:column;gap:0}
+section#ato .wq-loc .wq-row{padding:2px 0}
+.wds-fr{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.wds-fr>label{margin:0!important}
+.wds-show{position:relative}
+.wds-sb{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 16px;border:0;border-radius:999px;background:var(--gl);color:var(--tx2);font:600 12.5px/1 Satoshi,-apple-system,sans-serif;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);cursor:pointer;transition:transform .2s var(--wds-e);-webkit-tap-highlight-color:transparent}
+.wds-sb b{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums}
+.wds-sb svg{width:12px;height:12px;transition:transform var(--wds-t) var(--wds-e)}
+.wds-show.on .wds-sb svg{transform:rotate(180deg)}
+.wds-sb:active{transform:scale(.95)}
+.wds-sm{position:absolute;right:0;top:calc(100% + 8px);z-index:40;display:flex;flex-direction:column;min-width:160px;padding:6px;border-radius:18px;background:var(--gl);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh);opacity:0;transform:translateY(-6px) scale(.96);transform-origin:top right;pointer-events:none;transition:opacity .2s ease,transform var(--wds-t) var(--wds-e)}
+.wds-show.on .wds-sm{opacity:1;transform:none;pointer-events:auto}
+.wds-sm button{height:40px;padding:0 14px;border:0;border-radius:12px;background:none;text-align:left;color:var(--tx2);font:600 13.5px/1 Satoshi,-apple-system,sans-serif;cursor:pointer}
+.wds-sm button.on{color:var(--tx);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+@media (prefers-reduced-motion:reduce){.wds-sm,.wds-sb svg{transition:none!important}}
+html body section:is(#ato,#dfe) .bar.wds-stack>*{flex:none!important}
+html body section:is(#ato,#dfe) .bar.wds-stack>input,html body section:is(#ato,#dfe) .bar.wds-stack>select{height:46px!important;min-height:0!important}
+html body section:is(#ato,#dfe) .bar.wds-stack{position:relative;z-index:30}
+.wds-show{z-index:50}.wds-show .wds-sm{z-index:60}
+@media (max-width:767px){section#ato .wds-fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}section#ato .wds-fr>label:first-child{grid-column:1/-1}section#ato .wds-fr>*{width:100%;justify-content:flex-start}section#ato .wds-fr .wds-sb{width:100%;justify-content:center}section#ato .wds-show .wds-sm{left:0;right:0;min-width:0}}
+html body section#ato .bar.wds-stack{z-index:80!important}
+section#ato .wds-sm{background:color-mix(in srgb,var(--bg) 88%,transparent)!important}
+html body section#ato .bar.wds-stack{position:relative!important}
+/* WDS-MF 1842: Province / City / Courses multi-select chips (ATO only) */
+html body section#ato .bar.wds-stack>.wq-loc{display:flex!important;flex-direction:column;gap:10px}
+section#ato .wds-fl{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:768px){section#ato .wds-fl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+section#ato .wds-fl .wds-show{width:100%}
+section#ato .wds-fl .wds-sb{width:100%;justify-content:space-between;padding:0 16px 0 18px}
+section#ato .wds-fl .wds-sb .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+section#ato .wds-sb.on .t{color:var(--tx)}
+section#ato .wds-fa{display:flex;gap:10px;flex-wrap:wrap}
+section#ato .wds-fa .wq-chip{display:inline-flex;align-items:center;gap:6px;padding:0 16px;border:0;cursor:pointer}
+section#ato .wds-fa .wq-chip.on{color:var(--tx)!important;box-shadow:inset 0 0 0 1px var(--tx2)!important}
+section#ato .wds-fa .wds-clr[disabled]{opacity:.45;cursor:default}
+section#ato .wds-mm{left:0;right:0;min-width:0;max-height:min(360px,60vh);overflow:auto;overscroll-behavior:contain;padding:6px;gap:0;display:block}
+@media (min-width:768px){section#ato .wds-mm{min-width:280px}}
+.wds-ck,.wds-ckh{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 12px;border-radius:12px;cursor:pointer;color:var(--tx2);font:600 13.5px/1.2 Satoshi,-apple-system,sans-serif}
+.wds-ck:hover{background:var(--gl2)}
+.wds-ck span,.wds-ckh span{flex:1;min-width:0}
+.wds-ck small{color:var(--tx3);font-weight:600;font-variant-numeric:tabular-nums}
+.wds-ck:has(input:checked){color:var(--tx);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+.wds-ckh{min-height:34px;margin-top:4px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.wds-grp+.wds-grp{border-top:.5px solid var(--ln);margin-top:4px;padding-top:2px}
+.wds-ck input,.wds-ckh input{flex:none;width:18px;height:18px;margin:0;accent-color:var(--tx)}
+.wds-ck.wds-gold span{color:var(--f-lic)}
+.wds-none{margin:0;padding:12px;color:var(--tx3);font:500 13px/1.3 Satoshi,-apple-system,sans-serif}
+/* 1846 open menu above sibling chips */
+#ato .wds-fl .wds-dd{position:relative;z-index:1}#ato .wds-fl .wds-dd.on{z-index:95}#ato .wds-fl .wds-dd.on .wds-mm{z-index:96}
+#ato .wds-fl .wds-mm{background:rgba(18,18,22,.97)!important;-webkit-backdrop-filter:blur(28px) saturate(170%)!important;backdrop-filter:blur(28px) saturate(170%)!important}
+html:not([data-theme=night]) #ato .wds-fl .wds-mm,body.day #ato .wds-fl .wds-mm{background:rgba(252,252,253,.97)!important}
+/* 1900 DFE Show chip, same as ATO */
+html body section#dfe .bar{position:relative!important;z-index:80}
+html body section#dfe .bar>.wds-dshow{position:relative!important;flex:none!important;width:auto!important}
+html body section#dfe .wds-dshow .wds-sm{position:absolute!important;left:0!important;right:auto!important;top:calc(100% + 8px)!important;min-width:170px;background:rgba(252,252,253,.97)!important}
+html[data-theme=night] body section#dfe .wds-dshow .wds-sm{background:rgba(18,18,22,.97)!important}
+/* ===== 1906 Mockup A applied — ATO only ===== */
+html body section#ato .wds-fl{display:flex!important;flex-direction:column!important;gap:0!important;padding:4px 14px!important;border-radius:22px;background:var(--wds-pn,rgba(255,255,255,.6));box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 .5px rgba(0,0,0,.08);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%)}
+html[data-theme=night] body section#ato .wds-fl{--wds-pn:rgba(255,255,255,.045);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 0 .5px rgba(255,255,255,.10)}
+html body section#ato .wds-fl>.wds-dd{display:grid!important;grid-template-columns:92px 1fr;align-items:center;gap:12px;min-height:62px;width:100%!important;border-bottom:1px solid rgba(127,127,140,.14)}
+html body section#ato .wds-fl>.wds-dd:last-child{border-bottom:0}
+section#ato .wds-fl>.wds-dd::before{font:600 10.5px/1 Satoshi,-apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+section#ato .wds-fl>.wds-dd[data-dd=p]::before{content:"Province"}
+section#ato .wds-fl>.wds-dd[data-dd=c]::before{content:"City"}
+section#ato .wds-fl>.wds-dd[data-dd=k]::before{content:"Courses"}
+@media(min-width:768px){html body section#ato .wds-fl>.wds-dd{grid-template-columns:120px 1fr}}
+html body section#ato .wds-fl .wds-dd .wds-mm{left:104px!important;right:0!important;top:calc(100% - 4px)!important}
+@media(min-width:768px){html body section#ato .wds-fl .wds-dd .wds-mm{left:132px!important}}
+/* options: no dots/boxes, dim unselected, frosted blue-tint selected */
+section#ato .wds-mm .wds-ck,section#ato .wds-mm .wds-ckh{position:relative;border-radius:12px;transition:background .25s,color .25s,box-shadow .25s}
+section#ato .wds-mm .wds-ck input,section#ato .wds-mm .wds-ckh input{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;opacity:0!important;cursor:pointer;z-index:2}
+section#ato .wds-mm .wds-ck span{color:color-mix(in srgb,currentColor 100%,transparent);opacity:.58;font-weight:450}
+section#ato .wds-mm .wds-ck small{opacity:.55}
+section#ato .wds-mm .wds-ck:has(input:checked){background:linear-gradient(180deg,rgba(0,25,201,.11),rgba(0,25,201,.06))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 1px rgba(0,25,201,.18)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+section#ato .wds-mm .wds-ck:has(input:checked) span{opacity:1;font-weight:600}
+section#ato .wds-mm .wds-ck:has(input:checked) small{opacity:1;color:#0019C9!important;font-weight:700}
+html[data-theme=night] section#ato .wds-mm .wds-ck:has(input:checked){background:linear-gradient(180deg,rgba(40,70,255,.20),rgba(0,25,201,.12))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 0 0 1px rgba(80,100,255,.30)!important}
+html[data-theme=night] section#ato .wds-mm .wds-ck:has(input:checked) small{color:#8f9cff!important}
+section#ato .wds-mm .wds-ckh:has(input:checked){color:#0019C9}
+html[data-theme=night] section#ato .wds-mm .wds-ckh:has(input:checked){color:#8f9cff}
+/* tags grey, no gold */
+section#ato{--f-lic:#8a8a93}
+section#ato .wx-chip,section#ato .wx-chip.wds-gold{color:rgba(90,90,98,.95)!important;background:rgba(0,0,0,.055)!important;box-shadow:none!important}
+html[data-theme=night] section#ato .wx-chip,html[data-theme=night] section#ato .wx-chip.wds-gold{color:#b9b9c2!important;background:rgba(255,255,255,.08)!important}
+section#ato .wx-chip::before{display:none!important}
+section#ato .wds-ck.wds-gold span{color:inherit}
+html body section#ato .wds-fl{position:relative!important;z-index:20}
+html body section#ato .wds-fl:has(.wds-dd.on){z-index:120!important}
+html body section#ato .wds-fl .wds-mm{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:2px!important;padding:6px!important;grid-template-columns:none!important;border-radius:18px!important}
+html body section#ato .wds-fl .wds-mm .wds-ck{display:flex!important;align-items:center!important;width:100%!important;min-height:42px;padding:0 14px!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:0!important;border-radius:12px!important;font-size:14.5px}
+html body section#ato .wds-fl .wds-mm .wds-ck small{margin-left:auto!important;font-variant-numeric:tabular-nums}
+html body section#ato .wds-fl .wds-mm .wds-ckh{width:100%!important;padding:10px 14px 4px!important;background:transparent!important;box-shadow:none!important}
+
+html body section#ato .wds-fl .wds-mm .wds-ck:has(input:checked){background:linear-gradient(180deg,rgba(0,25,201,.11),rgba(0,25,201,.06))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 1px rgba(0,25,201,.18)!important}
+html[data-theme=night] body section#ato .wds-fl .wds-mm .wds-ck:has(input:checked){background:linear-gradient(180deg,rgba(40,70,255,.20),rgba(0,25,201,.12))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 0 0 1px rgba(80,100,255,.30)!important}
+/* ATO course chips wear the DFE rating chip design (MT t1731). CSS only: same per-theme --f-dfe colour, tint, 0.5px ring, font, radius, size; no icon. Search handlers and data-q/data-f untouched. */
+html body section#ato .wx-chip.wx-chip,html body section#ato .wx-chip.wx-chip.wds-gold,html[data-theme] body section#ato .wx-chip.wx-chip{--fc:var(--f-dfe)!important;color:var(--fc)!important;background:color-mix(in srgb,var(--fc) calc(var(--f-a)*100%),transparent)!important;box-shadow:inset 0 0 0 .5px color-mix(in srgb,var(--fc) 24%,transparent)!important;-webkit-backdrop-filter:none;backdrop-filter:none;opacity:1!important}
+html body section#ato .wx-chip.wx-chip:hover{background:color-mix(in srgb,var(--fc) calc(var(--f-a)*180%),transparent)!important}
+html body section#ato .wx-chip.wx-chip::before{display:none!important}
+
+/* t1761: the OLD header line ("N of M DFEs · k filters", .wmvh p, same code + theme ink) sits under the filter.
+   The pager keeps its own 'Page x of y' label. The list's own "N ATOs" line is a duplicate, so it is hidden. */
+section:is(#ato,#dfe)>.bar>.wmvh.wmf-cl{order:99;grid-column:1/-1;align-self:stretch;width:100%;max-width:none;box-sizing:border-box;margin:0;padding:8px 6px 0}
+html[data-theme] body section:is(#ato,#dfe)>.bar>.wmvh.wmf-cl p{margin:0}
+section:is(#ato,#dfe) .wx-count{display:none!important}

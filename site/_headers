@@ -1,0 +1,113 @@
+# HTML always revalidates (no-cache): every page, with or without .html (the
+# /ad/ and /c/ad/ aerodrome pages are linked as .html), so a new deploy is seen on the next load.
+# Versioned and static assets cache for a year (immutable). Their ?v= is the
+# content hash written by tools/version_assets.js; npm test fails if one is stale.
+# Page rules never overlap asset rules, so Netlify never merges two Cache-Control values.
+/
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/*.html
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/index
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/app
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/main
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/calculator
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/library
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/logbook
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/pilot
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/ops
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/ops-weather
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/dashboard
+  Cache-Control: no-cache, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive
+/fact
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/brief
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/status
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/c/
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/c/app
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/c/main
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/appdata/*
+  Cache-Control: public, max-age=31536000, immutable
+/rwy/*
+  Cache-Control: public, max-age=31536000, immutable
+/aip/*
+  Cache-Control: public, max-age=31536000, immutable
+/aipcharts/*
+  Cache-Control: public, max-age=31536000, immutable
+/aipcharts_t/*
+  Cache-Control: public, max-age=31536000, immutable
+/aipx/*
+  Cache-Control: public, max-age=31536000, immutable
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+/photos/*
+  Cache-Control: public, max-age=31536000, immutable
+/wst/*
+  Cache-Control: public, max-age=31536000, immutable
+/fs/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/preview-qt83xae1/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# Anti-scraping / hardening (#59, MT 6 Nov 2026). Header-only: no Cache-Control here, so no rule merges with the cache rules above.
+# X-Frame-Options SAMEORIGIN (not DENY): app pages embed same-site pages in iframes.
+# CSP intentionally not added yet: it needs a Report-Only trial first.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), payment=(), geolocation=(self)
+# Keep search engines and AI crawlers out of app data, assets and the API.
+/app/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/fs/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/rwy/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/wst/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/appdata/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+/api/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/admin
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+/admin/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+/privacy
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/privacy.html
+  Cache-Control: no-cache, max-age=0, must-revalidate

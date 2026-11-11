@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"><title>Pilot profile - D2 with licence badges</title><script src="theme.js"></script><link rel="stylesheet" href="pp.css"><link rel="stylesheet" href="fx.css"><style>
+.passes{margin-top:30px;display:grid;gap:0}
+.pass{border-radius:22px;padding:20px;margin-top:-34px;min-height:120px;transition:transform .5s cubic-bezier(.22,.8,.2,1)}
+.pass:first-child{margin-top:0}.pass:hover{transform:translateY(-10px)}
+.pass .ph{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:10px}
+.p1{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 55%,var(--gl)),var(--gl))!important}
+.p2{background:linear-gradient(135deg,rgba(212,160,23,.45),var(--gl))!important}
+.lic{min-height:250px}
+.colD{display:grid;gap:14px;margin-top:18px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:900px){.wrap{display:grid;grid-template-columns:420px minmax(0,1fr);gap:28px;align-items:start}.passes{position:sticky;top:30px}.colD{margin-top:30px;grid-template-columns:repeat(2,minmax(0,1fr))}.colD .full{grid-column:span 2}}
+
+@font-face{font-family:Clash;src:url(../fonts/app/clash-display-600.e748ea11.woff2) format("woff2");font-weight:600}
+@font-face{font-family:ClashR;src:url(../fonts/app/clash-display-400.34b7af35.woff2) format("woff2")}
+@font-face{font-family:Nippo;src:url(../fonts/app/nippo-500.c793aaa1.woff2) format("woff2");font-weight:500}
+@font-face{font-family:Satoshi;src:url(../fonts/app/satoshi-500.af02a722.woff2) format("woff2");font-weight:500}
+@font-face{font-family:GSans;src:url(../fonts/app/general-sans-600.94a2a0e1.woff2) format("woff2");font-weight:600}
+:root{--ok:color-mix(in srgb,var(--tx) 78%,var(--acc));--due:color-mix(in srgb,var(--tx) 55%,#C9A24A)}
+.av{background:none!important;padding:0!important;box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 0 0 .5px var(--hl)}
+.av i{background:linear-gradient(160deg,var(--gl2),var(--bg2))!important;box-shadow:inset 0 0 0 .5px var(--ln);font-family:Clash,system-ui;font-weight:600!important;letter-spacing:.02em!important}
+.pass{margin-top:-18px!important;padding-bottom:34px!important;min-height:0!important}.pass:first-child{margin-top:0!important}
+.pass{box-shadow:0 1px 0 var(--hl) inset,0 30px 60px -30px rgba(0,0,0,.45),var(--sh)}
+.pass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.09) 48%,transparent 60%);background-size:250% 100%;animation:sheen 7s ease-in-out infinite}
+@keyframes sheen{0%,60%{background-position:120% 0}100%{background-position:-120% 0}}
+.cur-t{display:grid;gap:14px;margin-top:4px}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.dot.g{background:var(--ok)!important}.dot.a{background:var(--due)!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.ttl{font-family:Nippo,system-ui;font-weight:500;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--tx2);margin-top:8px}
+h1{font-family:Satoshi,system-ui;font-weight:500;letter-spacing:-.02em;font-size:27px}
+.strp{display:grid;grid-template-columns:repeat(3,1fr);border-top:.5px dashed var(--ln);margin-top:6px;padding-top:12px}
+.strp>div{padding:0 12px;border-left:.5px solid var(--ln);animation:up .9s cubic-bezier(.22,.8,.2,1) both}
+.strp>div:first-child{border-left:0;padding-left:0}.strp>div:nth-child(2){animation-delay:.12s}.strp>div:nth-child(3){animation-delay:.24s}
+.strp .l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3)}
+.strp b{display:block;font-family:Nippo,system-ui;font-weight:500;font-size:30px;letter-spacing:.02em;line-height:1.1;margin-top:4px;color:var(--ok)}
+.strp .due b{color:var(--due)}
+.strp .u{font-size:11px;color:var(--tx2)}
+
+/* No Logbook yet: hide hours and currency */
+.pass:has(>.ph>span:first-child:is(.x,*)):has(.strp),section.card:has(>h2:first-child):is(.hide-nolog){display:none!important}
+.bdg-brk{flex-basis:100%;height:0}
+.tag.lic-main{padding:5px 12px 5px 9px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+ background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 70%,#fff) 0%,var(--acc) 45%,color-mix(in srgb,var(--acc) 70%,#000) 100%);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 0 0 .5px rgba(255,255,255,.25),0 6px 16px -6px color-mix(in srgb,var(--acc) 70%,transparent);position:relative;overflow:hidden}
+.tag.lic-main svg{width:13px;height:13px;fill:currentColor}
+.tag.lic-main::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);background-size:250% 100%;animation:sheen 6s ease-in-out infinite}
+.pact{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:.5px dashed var(--ln)}
+.pbtn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;border:0;font-family:inherit;font-weight:600;font-size:12.5px;color:var(--tx);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln),inset 0 1px 0 var(--hl);cursor:pointer}
+.pbtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pbtn.pri{color:#fff;background:var(--acc);box-shadow:0 4px 12px -4px color-mix(in srgb,var(--acc) 70%,transparent)}
+.chip.empty{opacity:.7;background:transparent;border:1px dashed var(--ln)}
+.tag.lic-main::after{content:none!important;animation:none!important}.tag.lic-main{padding:5px 12px!important}
+.shv{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:none;align-items:flex-end}.shv.on{display:flex}
+.sheet{width:100%;box-sizing:border-box;border-radius:24px 24px 0 0;padding:10px 20px 34px;background:var(--bg2,var(--gl2));backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);box-shadow:0 -10px 40px rgba(0,0,0,.25),inset 0 .5px 0 var(--hl);color:var(--tx)}
+.sheet .grab{width:38px;height:5px;border-radius:3px;background:var(--ln);margin:0 auto 14px}
+.sheet .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.sheet .top b{font-size:17px}
+.sheet .lnk{background:none;border:0;font:inherit;font-size:16px;color:var(--tx2)}.sheet .lnk.sv{color:var(--acc);font-weight:700}
+.fld{margin-bottom:16px}.fld label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.fld .in{height:46px;border-radius:14px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+.fld .in.focus{box-shadow:inset 0 0 0 1.5px var(--acc)}
+.fld .in.lock{opacity:.55}.fld .hint{font-size:12px;color:var(--tx3);margin-top:6px}
+.fld .in svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+</style></head><body><div class="prev">Design preview D2 - Wallet, boarding-pass strip, Nippo - sample data, not live</div><i class="blob" style="width:420px;height:420px;left:-120px;top:-80px;background:var(--orb1)"></i><i class="blob" style="width:380px;height:380px;right:-100px;top:45%;background:var(--orb2);animation-delay:-6s"></i><div class="wrap"><div class="passes">
+<div class="pass lg tilt lic p1 rv"><div class="ph"><span>Wingman pilot pass</span><span>CPL(A) - ZA</span></div><div class="row" style="gap:14px"><div class="av"><i>MT</i></div><div><h1>@capecpl_mt</h1><div class="ttl">Commercial Pilot</div><div class="muted" style="font-size:13px;margin-top:2px">Cape Town</div><div class="row dim" style="gap:6px;margin-top:4px"><svg class="pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Home <span class="icao" style="color:var(--tx)">FACT</span></div></div></div><div class="row" style="flex-wrap:wrap;gap:6px;margin-top:14px"><span class="tag gold">FOUNDING MEMBER</span><span class="bdg-brk"></span><span class="tag lic-main" data-lic><span class="lic-t">CPL (A)</span></span><span class="bdg-brk"></span><span class="tag">Night rating</span><span class="tag">Instrument rating</span><span class="tag">Grade 3 Instructor</span><span class="tag">Grade 2 Instructor</span></div><div class="pact"><button class="pbtn pri"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Edit</button><button class="pbtn"><svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>Share card</button></div></div>
+<div class="pass lg tilt p2 rv"><div class="ph"><span>Membership</span><span>No. 0007</span></div><div class="row" style="justify-content:space-between;align-items:flex-start"><div><div class="dim">Wingman Pro</div><div style="font-size:20px;font-weight:750;margin-top:2px">Founding member</div><div class="muted" style="font-size:13.5px">R149 / month - price locked for life</div></div><span class="tag gold">No. 0007</span></div>
+<p class="note" style="margin-top:10px">Or R1,490 / year. Member since Nov 2026. Members can vote on ATO reviews.</p></div>
+<div class="pass lg tilt rv"><div class="ph"><span>Currency</span><span>Tap for detail</span></div><div class="strp"><div class=""><span class="l">Day</span><b>OK</b><span class="u">62 days</span></div><div class=""><span class="l">Night</span><b>45</b><span class="u">days left</span></div><div class="due"><span class="l">IR</span><b>41</b><span class="u">days left</span></div></div></div>
+</div>
+<div class="colD"><section class="card lg rv full hide-nolog"><h2>Hours</h2><div class="strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"><div class="stat"><b class="mono">412.6</b><span>Total hrs</span></div><div class="stat"><b class="mono">38.2</b><span>Last 90 days</span></div><div class="stat"><b class="mono">112</b><span>Night hrs</span></div><div class="stat"><b class="mono">46</b><span>Aerodromes</span></div></div></section><section class="card lg rv full"><h2>My ATO reviews<a>See all 4</a></h2><div class="rev"><div class="row" style="justify-content:space-between"><span class="t">Cape Town Flight Training (sample)</span><span class="mono" style="color:var(--gold);font-weight:700">4.6 / 5</span></div>
+<div class="row" style="gap:6px;margin:6px 0;flex-wrap:wrap"><span class="tag">PPL - 2025</span><span class="tag acc">Real cost to finish: R178k - R192k</span></div>
+<p class="muted" style="font-size:14px">Aircraft always serviced on time, instructors patient. Booking got tight in winter.</p>
+<div class="row" style="margin-top:10px;justify-content:space-between"><span class="vote"><button class="on"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>38</button><button><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>4</button></span><span class="dim">38 of 42 members agree</span></div></div><div class="rev"><div class="row" style="justify-content:space-between"><span class="t">Stellenbosch Aviation (sample)</span><span class="mono" style="color:var(--gold);font-weight:700">3.9 / 5</span></div>
+<div class="row" style="gap:6px;margin:6px 0;flex-wrap:wrap"><span class="tag">PPL - 2025</span><span class="tag" style="color:var(--cau)">Incentivised review</span></div>
+<p class="muted" style="font-size:14px">Good value, but expect weather holds. Admin replies slowly.</p>
+<div class="row" style="margin-top:10px;justify-content:space-between"><span class="vote"><button class="on"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>21</button><button><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>6</button></span><span class="dim">21 of 27 members agree</span></div></div></section><section class="card lg rv hide-nolog"><h2>Currency detail</h2><div class="cur"><span><span class="dot g"></span>Passenger currency (day)</span><span class="dim">3 T/O + LDG in 90 days - OK</span></div>
+<div class="cur"><span><span class="dot g"></span>Night currency</span><span class="dim">OK until 14 Dec</span></div>
+<div class="cur"><span><span class="dot a"></span>Instrument rating revalidation</span><span class="dim">Due in 41 days</span></div>
+<div class="cur"><span><span class="dot g"></span>Class 1 medical</span><span class="dim">Valid to 03 Jun 2027</span></div>
+<p class="note" style="margin-top:8px">Pulled from your Logbook later. Private by default. Always check your own licence and medical dates.</p></section><section class="card lg rv"><h2>Saved <span class="dim" style="float:right;font-weight:500;letter-spacing:0">4 / 5</span></h2><div class="chip"><span><span class="icao">FACT</span> <span class="muted">Cape Town Intl</span></span><span class="dim">Home</span></div><div class="chip"><span><span class="icao">FASH</span> <span class="muted">Stellenbosch</span></span><span class="dim">Saved</span></div><div class="chip"><span><span class="icao">FAGG</span> <span class="muted">George</span></span><span class="dim">Saved</span></div><div class="chip"><span><span class="icao">FAOH</span> <span class="muted">Oudtshoorn</span></span><span class="dim">Saved</span></div><div class="chip empty"><span><span class="icao">+</span> <span class="muted">Add an aerodrome</span></span><span class="dim">Slot 5</span></div></section><section class="card lg rv full"><h2>What others see</h2><div class="priv"><span>Show licence type and ratings</span><span class="sw on"></span></div>
+<div class="priv"><span>Show home aerodrome</span><span class="sw"></span></div>
+<div class="priv"><span>Link my reviews to this profile</span><span class="sw"></span></div>
+<p class="note" style="margin-top:8px">Reviews are anonymous by default: they show your handle only. Your verified email stays private. We never ask for a photo of your licence (POPIA). Licence-number check (one account per licence) comes later.</p></section></div></div><script src="fx.js"></script><script>(function(){var l=new URLSearchParams(location.search).get("lic");var m={cpl:"CPL (A)",ppl:"PPL (A)",spl:"SPL (A)"};if(l&&m[l])document.querySelectorAll(".lic-t").forEach(function(e){e.textContent=m[l]})})()</script><div class="shv" id="editSheet"><div class="sheet"><div class="grab"></div><div class="top"><button class="lnk">Cancel</button><b>Edit profile</b><button class="lnk sv">Save</button></div>
+<div class="fld"><label>Display name</label><div class="in focus">MT</div><div class="hint">Shown on your pass and share card.</div></div>
+<div class="fld"><label>Handle</label><div class="in lock"><span>@capecpl_mt</span><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div><div class="hint">Your handle cannot be changed.</div></div>
+</div></div><script>if(new URLSearchParams(location.search).get("sheet")==="edit")document.getElementById("editSheet").classList.add("on");document.querySelectorAll(".pbtn.pri").forEach(function(b){b.onclick=function(){document.getElementById("editSheet").classList.add("on")}});document.querySelectorAll("#editSheet .lnk").forEach(function(b){b.onclick=function(){document.getElementById("editSheet").classList.remove("on")}})</script></body></html>

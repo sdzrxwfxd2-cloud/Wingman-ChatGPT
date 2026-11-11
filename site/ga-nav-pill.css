@@ -1,0 +1,123 @@
+/* Go Around - phone nav pill: zoom-out into one glass orb on the 6th slot.
+   Additive file. Does NOT edit wm-shell.css. Phone only (<=767px).
+   Motion: transform + opacity only.
+   v3: the glass blur is NEVER switched on/off during a morph. It lives on its own layer
+   (.gnp-bg, and .gnp-orb-glass) at full strength all the time; those layers only fade with
+   their OWN opacity (never a parent's opacity, which would cut the blur off) and move with transform.
+   All colours come from the theme tokens already set on #wmC by wm-shell.css
+   (--pill --hair --rimTop --rimBot --sh1 --sh2 --kb1 --kb2 --kbrim --kbhair --acc --glow). */
+
+#wmC.wcdock{overflow:visible}
+
+/* Real pill hidden (not animated) while the ghost/orb take over. */
+#wmC.gnp-morph > .wcpill:not(.gnp-ghost),
+#wmC.gnp-collapsed > .wcpill:not(.gnp-ghost){opacity:0 !important;pointer-events:none !important}
+
+/* Ghost = static clone of the real pill: rim, sheen, knob and icons only.
+   Its own glass is hidden; the glass is drawn by .gnp-bg underneath (full blur). */
+#wmC > .gnp-ghost{
+  position:absolute;margin:0;z-index:60;pointer-events:none;opacity:0;
+  transform:translate3d(0,0,0) scale(1);
+  -webkit-backdrop-filter:none !important;backdrop-filter:none !important;
+}
+#wmC > .gnp-ghost .wcglass{visibility:hidden !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+#wmC > .gnp-ghost *{transition:none !important}
+#wmC.gnp-morph > .gnp-ghost{will-change:transform,opacity}
+
+/* Glass layer for the morph = the same .wcglass look (tokens, shadows, blur 26px/180%).
+   Always in the DOM, blur always on, so the first frame of a morph is fully formed.
+   Hidden at rest with its own opacity (0). Only transform + its own opacity animate. */
+#wmC > .gnp-bg{
+  position:absolute;margin:0;z-index:59;pointer-events:none;opacity:0;border-radius:999px;
+  transform:translate3d(0,0,0) scale(1);
+  background:var(--pill);
+  -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+  box-shadow:
+    inset 0 0 0 .5px var(--hair),
+    inset 0 .5px 0 var(--rimTop),
+    inset 0 -.5px 0 var(--rimBot),
+    inset 0 -10px 18px -14px rgba(0,0,0,.18),
+    0 1px 2px var(--sh1),0 8px 18px -8px var(--sh1),0 24px 48px -18px var(--sh2);
+}
+#wmC.gnp-morph > .gnp-bg{will-change:transform}
+
+/* Orb = one glass circle sitting exactly on the 6th slot. */
+#wmC > .gnp-orb{
+  position:absolute;z-index:61;width:var(--gnp-size,64px);height:var(--gnp-size,64px);
+  left:0;top:0;padding:0;margin:0;border:0;background:none;border-radius:50%;
+  opacity:0;pointer-events:none;transform:translate3d(0,0,0) scale(1);transform-origin:50% 50%;
+  -webkit-tap-highlight-color:transparent;cursor:pointer;
+}
+/* While morphing, the orb box stays opacity 1 (a fading parent would cut its blur off);
+   its three layers fade one by one with their own opacity. Only transform on the box. */
+#wmC.gnp-morph > .gnp-orb{opacity:1;will-change:transform}
+#wmC .gnp-orb-glass{
+  position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:var(--pill);
+  box-shadow:
+    inset 0 0 0 .5px var(--hair),
+    inset 0 .5px 0 var(--rimTop),
+    inset 0 -.5px 0 var(--rimBot),
+    inset 0 -10px 18px -14px rgba(0,0,0,.18),
+    0 1px 2px var(--sh1),0 8px 18px -8px var(--sh1),0 24px 48px -18px var(--sh2);
+}
+/* 0.5px top-lit rim, same as .wcpill::after */
+#wmC .gnp-orb-glass::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:.5px;pointer-events:none;
+  background:linear-gradient(180deg,var(--rimTop),rgba(255,255,255,0) 45%,var(--rimBot));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+}
+/* Blur always on at full strength (never toggled, so no re-render hitch at the start of a morph). */
+#wmC .gnp-orb-glass{
+  -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+}
+/* Liquid-glass highlight = the same knob look as .wckb (.wcl/.wcm/.wcr), as a round 52px lens. */
+#wmC .gnp-orb-kb{
+  position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;
+  pointer-events:none;background:linear-gradient(180deg,var(--kb1),var(--kb2));
+  box-shadow:
+    inset .5px .5px 0 var(--kbrim),inset -.5px .5px 0 var(--kbrim),
+    inset 0 -.5px 0 var(--kbhair),inset .5px 0 0 var(--kbhair),inset -.5px 0 0 var(--kbhair);
+}
+/* Selected slot icon (a clone of the real .wctab.on so the shell icon styles apply). */
+#wmC .gnp-orb-ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--acc)}
+#wmC .gnp-orb-ic > .wctab{
+  position:absolute !important;inset:0 !important;left:0 !important;top:0 !important;width:100% !important;height:100% !important;
+  margin:0 !important;padding:0 !important;transform:none !important;opacity:1 !important;
+  display:flex !important;align-items:center;justify-content:center;color:var(--acc);
+}
+#wmC .gnp-orb-ic > .wctab > :not(svg){display:none !important}
+#wmC .gnp-orb-ic svg{position:static !important;margin:0 !important;transform:none !important}
+#wmC .gnp-orb-ic svg{width:22px;height:22px;filter:drop-shadow(0 0 5px var(--glow))}
+#wmC .gnp-orb:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+#wmC.gnp-collapsed:not(.gnp-morph){pointer-events:none}
+#wmC.gnp-collapsed:not(.gnp-morph) > .gnp-orb{opacity:1;pointer-events:auto}
+
+@media (min-width:768px){
+  #wmC > .gnp-ghost,#wmC > .gnp-orb,#wmC > .gnp-bg{display:none !important}
+  #wmC.gnp-morph > .wcpill:not(.gnp-ghost),#wmC.gnp-collapsed > .wcpill:not(.gnp-ghost){opacity:1 !important;pointer-events:auto !important}
+  #wmC.gnp-collapsed{pointer-events:auto}
+}
+
+/* ---------- Day/night Weather icon: STATIC per theme inside the orb and the ghost ----------
+   wm-shell.css shows sun OR moon only through a 0.45s CSS keyframe animation with fill:both.
+   A freshly cloned SVG restarts that animation; iOS WebKit often never ticks it (new node inside
+   an opacity:0 / composited / backdrop-filter layer), so it freezes on the FIRST keyframe:
+   night -> sun visible + moon hidden (wrong icon), day -> the opposite. Fix: no keyframes on
+   clones, state comes from plain rules keyed on html[data-theme]. Theme switch = opacity/transform
+   transition (allowed properties only). */
+#wmC .gnp-orb .wx .wsun,#wmC .gnp-orb .wx .wmoon,
+#wmC .gnp-ghost .wx .wsun,#wmC .gnp-ghost .wx .wmoon{
+  animation:none !important;
+  transform-box:view-box;transform-origin:9px 9px;
+  transition:opacity .32s cubic-bezier(.32,.72,0,1),transform .32s cubic-bezier(.32,.72,0,1);
+}
+html[data-theme=day] #wmC .gnp-orb .wx .wsun,html[data-theme=day] #wmC .gnp-ghost .wx .wsun,
+html[data-theme=night] #wmC .gnp-orb .wx .wmoon,html[data-theme=night] #wmC .gnp-ghost .wx .wmoon{opacity:1;transform:none}
+html[data-theme=day] #wmC .gnp-orb .wx .wmoon,html[data-theme=day] #wmC .gnp-ghost .wx .wmoon{opacity:0;transform:rotate(-30deg) scale(.6)}
+html[data-theme=night] #wmC .gnp-orb .wx .wsun,html[data-theme=night] #wmC .gnp-ghost .wx .wsun{opacity:0;transform:rotate(30deg) scale(.6)}
+@media (prefers-reduced-motion:reduce){
+  #wmC .gnp-orb .wx .wsun,#wmC .gnp-orb .wx .wmoon,#wmC .gnp-ghost .wx .wsun,#wmC .gnp-ghost .wx .wmoon{transition:none}
+}

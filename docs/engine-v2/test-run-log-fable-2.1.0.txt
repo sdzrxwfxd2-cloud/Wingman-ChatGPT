@@ -1,0 +1,5 @@
+Run at: 2026-11-10 22:12:30 UTC (sandbox clock)
+Source: ga-core-v2.js rebuilt from pack copy of 7eee9d6f + 2.1.0 changes (not a git checkout)
+Command: node tests/engine-v2/run.js
+OK 132 rule cases (73 locked rules + 57 wind / model / freshness cases) plus lock and night-definition checks
+Rule pack 2.1.0 checksum ef71783ed09f41c0f932426a090aefa88e34132c8a754980bfd5bb32dd654d5b

@@ -1,0 +1,36 @@
+/* Top bar logo gap (feature/topbar-logo-gap). Layout only, no theme values.
+   Phones (<700px): aerodrome + ATO school page get back chevron left, 4 right controls, original 34px logo centred in the gap.
+   iPad/desktop (>=700px): nothing applies; the top bar is identical to main (logo at screen centre). */
+@media (max-width:699.98px){
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z){display:grid!important;grid-template-columns:auto 1fr auto!important;column-gap:0}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.logo{justify-self:center}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.tbtn{justify-self:end}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.back{grid-column:1}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.logo{grid-column:2}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.tbtn{grid-column:3}
+ html:not(.wmfr) body header.topbar>.back:not(#z),html body .wmtop>.wmback:not(#z){width:38px!important;min-width:38px!important;max-width:38px!important;height:38px!important;padding:0!important;border-radius:19px!important;justify-content:center;justify-self:start;gap:0!important}
+ html:not(.wmfr) body header.topbar>.back:not(#z) svg,html body .wmtop>.wmback:not(#z) svg{width:13px!important;height:13px!important;margin:0!important}
+ html:not(.wmfr) body header.topbar:has(>.back):not(#z)>.logo img{width:34px!important;height:34px!important}
+ /* ATO school page (app.html#school=...) */
+ html.wm-school body .wmtop:not(#z){grid-template-columns:auto 1fr auto!important}
+ html.wm-school body .wmtop:not(#z)>.wmlogo{justify-self:center}
+ html.wm-school body .wmtop:not(#z)>.wmlogo img{width:34px!important;height:34px!important}
+ html:not(.wm-school) body .wmtop>.wmback,html:not(.wm-school) body .wmtop>.wmrf{display:none!important}
+ html body .wmtop>.wmback:not(#z){display:inline-flex;align-items:center;text-decoration:none}
+ html body .wmtop>.wmback svg{stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+ .wmicb.wmrf svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .wmicb.wmrf:not(#z){border:0;padding:0;font:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
+ html.wm-school body .wmtop:not(#z)>.wmback+span:empty{display:none!important}
+}
+@media (min-width:700px){html body .wmtop>.wmback,html body .wmtop .wmrf{display:none!important}}
+
+
+/* GA solid logo: subtle brightness on dark themes only (SU-MT / t825–828) */
+html[data-theme=night] header.topbar > .logo img,
+html[data-theme=night] .wmlogo img,
+html[data-theme=night] img.zlogo,
+html[data-theme=night] .hero-logo,
+html[data-theme=night] .hbrand img{
+  filter:brightness(1.22) contrast(1.05);
+  -webkit-filter:brightness(1.22) contrast(1.05);
+}

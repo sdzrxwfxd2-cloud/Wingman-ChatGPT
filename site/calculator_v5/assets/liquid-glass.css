@@ -1,0 +1,18 @@
+/* MT 31 Oct 2026: calculator morphism ("liquid glass" selected state, same as the aerodrome filter chips),
+   applied ONLY to the parts that were solid white/black before: the selected Group chip and the "Show N calculators" button.
+   Segment thumbs, toggles, picker rows and round buttons are back to their look before PR #181. Layout and formulas untouched. */
+:root{--lg-fill:var(--gl2);--lg-hl:var(--hl);--lg-ring:var(--tx3);--lg-fade:.3s;--lg-ease:var(--ease,cubic-bezier(.32,.72,0,1));
+ --lg-press:.94;--lg-press-big:.97;--lg-blur:blur(18px) saturate(1.6);--lg-drop:0 8px 24px -14px rgba(0,0,0,.35)}
+/* tapped chips (Group filter) */
+.mcf-c{transition:transform .25s var(--lg-ease),background-color var(--lg-fade),background var(--lg-fade),box-shadow var(--lg-fade),color var(--lg-fade);-webkit-tap-highlight-color:transparent}
+.mcf-c:active{transform:scale(var(--lg-press))}
+.mcf-c.on{background:var(--lg-fill);box-shadow:inset 0 1px 0 var(--lg-hl),inset 0 0 0 1px var(--lg-ring);color:var(--tx);font-weight:600}
+.mcf-c.on small{background:none;color:var(--tx2)}
+/* primary action = same glass as the filter's "Show N aerodromes".
+   MT t2132 fix: more.css styles ".mcf-ft button.mcf-ap" (higher specificity) with --mc-glow/--mc-gt, which more-old-look.css sets
+   to --tx for Midnight and Pearl only, so the button was a solid --tx block with --tx text (blank pill) in those two themes.
+   Match that selector so the glass wins in all four themes. */
+.mcf-ap,.mcf-ft button.mcf-ap{background:var(--lg-fill)!important;box-shadow:inset 0 1px 0 var(--lg-hl),inset 0 0 0 1px var(--lg-ring),var(--lg-drop)!important;color:var(--tx)!important;
+ -webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur);transition:transform .25s var(--lg-ease),background var(--lg-fade),box-shadow var(--lg-fade)}
+.mcf-ap:active{transform:scale(var(--lg-press-big))}
+@media (prefers-reduced-motion:reduce){.mcf-c,.mcf-ap{transition:none!important}.mcf-c:active,.mcf-ap:active{transform:none!important}}

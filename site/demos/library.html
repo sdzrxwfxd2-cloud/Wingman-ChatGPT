@@ -1,0 +1,28 @@
+<!doctype html><html lang="en" data-theme="night" data-pal="black"><head><meta charset="utf-8"><script src="/wm-model.js?v=a22fd95d59"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Go Around · Library previews</title><link rel="stylesheet" href="../fonts/wm-fonts.css?v=630c9d0277">
+<script>(function(){var H=document.documentElement,L=localStorage,t=L.getItem('wm-theme')||'night';t=(t==='day'||t==='light')?'day':'night';H.dataset.theme=t;H.dataset.pal=t==='day'?(L.getItem('wm-pal-day')==='beige'?'beige':'white'):(L.getItem('wm-pal')==='purple'?'purple':'black')})()</script>
+<style>
+:root{--bg:#07080b;--bg2:#12141a;--tx:#f4f5f7;--mu:#9aa0ab;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);--ac:#cfd6e4}
+[data-pal=purple]{--bg:#120c1f;--bg2:#21163a;--tx:#f5f0ff;--mu:#b6a8d6;--card:rgba(183,156,255,.09);--bd:rgba(214,198,255,.2);--ac:#e7b9a5}
+[data-pal=white]{--bg:#f4f5f8;--bg2:#ffffff;--tx:#14161b;--mu:#636a76;--card:rgba(255,255,255,.75);--bd:rgba(0,0,0,.09);--ac:#3a4252}
+[data-pal=beige]{--bg:#f3ebdc;--bg2:#fbf6ec;--tx:#2b2114;--mu:#7a6a52;--card:rgba(255,250,240,.7);--bd:rgba(90,66,24,.16);--ac:#7e6230}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:Nippo,-apple-system,system-ui,sans-serif;color:var(--tx);background:radial-gradient(120% 70% at 50% -10%,var(--bg2),var(--bg));min-height:100vh;padding:calc(22px + env(safe-area-inset-top)) 18px calc(30px + env(safe-area-inset-bottom));transition:background .4s,color .4s}
+.w{max-width:760px;margin:0 auto}h1{font-size:28px;margin:6px 0 4px;letter-spacing:-.01em}p.s{color:var(--mu);margin:0 0 20px;font-size:14px;line-height:1.45}
+.th{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 22px}.th button{font:600 12px/1 inherit;font-family:inherit;padding:9px 13px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--tx);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:transform .2s}
+.th button.on{background:var(--tx);color:var(--bg)}.th button:active{transform:scale(.96)}
+.g{display:grid;gap:14px}@media(min-width:700px){.g{grid-template-columns:repeat(3,1fr)}}
+a.c{display:block;text-decoration:none;color:inherit;padding:20px 18px;border-radius:22px;background:var(--card);border:1px solid var(--bd);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 10px 30px rgba(0,0,0,.12);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+a.c:active{transform:scale(.98)}.c b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--tx);color:var(--bg);font-size:18px;margin-bottom:12px}
+.c h2{margin:0 0 4px;font-size:18px}.c span{color:var(--mu);font-size:13.5px;line-height:1.45;display:block}.c i{font-style:normal;color:var(--ac);font-size:13px;font-weight:600;display:block;margin-top:12px}
+.f{color:var(--mu);font-size:12px;margin-top:22px;text-align:center}
+</style><link rel="stylesheet" href="../wm-glass.css?v=8150980665">
+</head><body><div class="w">
+<h1>Library previews</h1><p class="s">Two designs for the new pilot library. Tap one to browse it, then use the button at the bottom to come back. Private preview, the real Library page is unchanged.</p>
+<div class="th" id="th"><button data-t="night" data-p="black">Midnight</button><button data-t="day" data-p="white">Pearl</button><button data-t="day" data-p="beige">Champagne</button><button data-t="night" data-p="purple">Amethyst</button></div>
+<div class="g">
+<a class="c" href="library-a.html?solo=1"><b>A</b><h2>Glass shelves</h2><span>Resources grouped on frosted glass shelves you scroll through.</span><i>Open design A →</i></a>
+<a class="c" href="library-b.html?solo=1"><b>B</b><h2>Cover tiles</h2><span>Each resource as a cover tile in a grid, like a bookshelf.</span><i>Open design B →</i></a>
+</div><p class="f">Wingman · preview only</p></div>
+<script>(function(){var H=document.documentElement,bs=[].slice.call(document.querySelectorAll('#th button'));function mark(){bs.forEach(function(b){b.classList.toggle('on',b.dataset.t===H.dataset.theme&&b.dataset.p===H.dataset.pal)})}
+bs.forEach(function(b){b.onclick=function(){var t=b.dataset.t,p=b.dataset.p;localStorage.setItem('wm-theme',t);localStorage.setItem(t==='day'?'wm-pal-day':'wm-pal',p);H.dataset.theme=t;H.dataset.pal=p;mark()}});mark()})()</script>
+</body></html>

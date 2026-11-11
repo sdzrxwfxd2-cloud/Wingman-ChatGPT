@@ -1,0 +1,149 @@
+/* Phone-only top bar hide-on-scroll + aerodrome sticky status.
+   Additive: does NOT edit wm-shell.css. Transform + opacity only on the bar. */
+
+:root{
+  --ga-tb-hide-ms:240ms;
+  --ga-tb-hide-ease:cubic-bezier(.32,.72,0,1);
+  --ga-tb-stick-ms:220ms;
+}
+
+/* Keep sticky layout; hide by translating the painted bar up (no height collapse = no jump). */
+@media (max-width:767px){
+  html.ga-tb-ready:not(.ga-tb-aero) body>header.topbar{
+    will-change:transform,opacity;
+    transition:transform var(--ga-tb-hide-ms) var(--ga-tb-hide-ease),
+                opacity var(--ga-tb-hide-ms) var(--ga-tb-hide-ease);
+    transform:translate3d(0,0,0);
+    opacity:1;
+  }
+  html.ga-tb-ready:not(.ga-tb-aero) body>header.topbar.ga-tb-hidden{
+    transform:translate3d(0,calc(-100% - env(safe-area-inset-top,0px)),0);
+    opacity:0;
+    pointer-events:none;
+  }
+  /* While hidden, do not trap taps on the sticky slot */
+  html.ga-tb-ready:not(.ga-tb-aero) body>header.topbar.ga-tb-hidden a,
+  html.ga-tb-ready:not(.ga-tb-aero) body>header.topbar.ga-tb-hidden button{
+    pointer-events:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.ga-tb-ready:not(.ga-tb-aero) body>header.topbar{
+    transition:none !important;
+  }
+}
+
+@media (min-width:768px){
+  html.ga-tb-ready body>header.topbar{
+    transform:none !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+  }
+  html.ga-tb-ready body>header.topbar.ga-tb-hidden{
+    transform:none !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+  }
+}
+
+/* ---- Aerodrome detail: slim status + Land/Depart stick under topbar ---- */
+.ga-ad-stick{
+  position:fixed;
+  left:0;right:0;
+  top:0;
+  z-index:29; /* under topbar (z 30), above page */
+  pointer-events:none;
+  opacity:0;
+  transform:translate3d(0,-8px,0);
+  transition:opacity var(--ga-tb-stick-ms) var(--ga-tb-hide-ease),
+              transform var(--ga-tb-stick-ms) var(--ga-tb-hide-ease);
+  padding:0;
+  /* sit just under the live topbar height (JS sets --ga-tb-h) */
+  margin-top:var(--ga-tb-h, calc(58px + env(safe-area-inset-top,0px)));
+}
+.ga-ad-stick.is-on{
+  opacity:1;
+  transform:translate3d(0,0,0);
+  pointer-events:auto;
+}
+.ga-ad-stick-inner{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 16px 10px;
+  /* Match header.topbar glass; opaque enough that page stickies (fs-bar) do not bleed through */
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  border-bottom:.5px solid var(--ln);
+  box-shadow:none;
+}
+/* wm-glass uses 7 ID-level specificity (#_g* + :not(:is(#wmC…))); match it to restore blur */
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6):not(#_gaTb) body .ga-ad-stick,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6):not(#_gaTb) body .ga-ad-stick .ga-ad-stick-inner{
+  -webkit-backdrop-filter:blur(20px) saturate(180%) !important;
+  backdrop-filter:blur(20px) saturate(180%) !important;
+  background:color-mix(in srgb,var(--bg) 92%,transparent) !important;
+}
+/* When stuck, fade the topbar's own hairline so there is one seam only */
+html.ga-ad-stuck body>header.topbar{
+  border-bottom-color:transparent !important;
+}
+/* While our status strip is docked, tuck the flight-strip sticky so it does not share the slot */
+html.ga-ad-stuck .fs-bar{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateY(-6px);
+}
+
+.ga-ad-stick .ga-ad-stat{
+  font:700 13px/1.1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:.02em;
+  color:var(--tx);
+  min-width:3.2em;
+}
+.ga-ad-stick .ga-ad-stat[data-s="go"]{color:var(--go,#22C55E)}
+.ga-ad-stick .ga-ad-stat[data-s="caution"]{color:var(--caution,#F5A524)}
+.ga-ad-stick .ga-ad-stat[data-s="nogo"]{color:var(--nogo,#FF453A)}
+.ga-ad-ld{
+  display:flex;
+  gap:6px;
+  margin-left:auto;
+}
+.ga-ad-ld > span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border-radius:999px;
+  font:600 11px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--tx);
+  background:color-mix(in srgb,var(--tx) 6%,transparent);
+  box-shadow:inset 0 0 0 .5px var(--ln);
+}
+.ga-ad-ld > span > i{
+  width:6px;height:6px;border-radius:50%;
+  background:currentColor;
+  opacity:.85;
+  flex:none;
+}
+.ga-ad-ld > span[data-s="go"]{color:var(--go,#22C55E)}
+.ga-ad-ld > span[data-s="caution"]{color:var(--caution,#F5A524)}
+.ga-ad-ld > span[data-s="nogo"]{color:var(--nogo,#FF453A)}
+.ga-ad-ld > span[data-s="none"]{color:var(--tx3,#8E8E93)}
+
+
+.ga-ad-ld > span.is-active{
+  background:color-mix(in srgb,var(--tx) 12%,transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tx) 28%,transparent);
+}
+.ga-ad-stat[data-s="none"],
+.ga-ad-ld > span[data-s="none"]{color:var(--tx3,#8E8E93)}
+
+@media (prefers-reduced-motion:reduce){
+  .ga-ad-stick{transition:none !important}
+}
+@media (min-width:768px){
+  .ga-ad-stick{display:none !important}
+}

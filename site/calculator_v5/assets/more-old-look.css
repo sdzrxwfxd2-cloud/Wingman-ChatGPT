@@ -1,0 +1,22 @@
+/* Calculator part 2 kept, old (pre-#148) look restored (MT, 30 Oct 2026).
+ * Loaded after more.css. Only visuals change: colours, card style, fonts, backgrounds
+ * return to the old v3.css "More calculators" look (.glass cards, neutral chips, old type sizes).
+ * Layout and behaviour (search, filter, expandable cards, memory) stay from part 2. */
+.mc,html[data-theme] .mc{--mc-card:var(--gl);--mc-shell:var(--gl);--mc-tint:transparent;--mc-glow:var(--tx);--mc-gr:transparent;--mc-gt:var(--tx);
+ --mc-b1:var(--tx);--mc-b2:var(--tx);--mc-bn:var(--bg);--mc-br:var(--bg);--mc-thumb:var(--gl)}
+.mc-head .more{font:600 22px/1 var(--fd)}
+.mc-sub b{color:var(--tx)}
+.mcf-sh,.mcf[data-s=open] .mcf-sh{background:var(--gl);-webkit-backdrop-filter:blur(30px) saturate(160%);backdrop-filter:blur(30px) saturate(160%);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh)}
+.mcf-sp,.mcf-fb{background:var(--gl2)!important;box-shadow:inset 0 0 0 .5px var(--ln)}
+.mcf-c{padding:9px 15px;font:600 13.5px/1 var(--fs);color:var(--tx2);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+.mcf-c.on,.mcf-c.on small{color:var(--bg);background:var(--tx);box-shadow:none}
+.mcf-ap{background:var(--tx)!important;color:var(--bg)!important;box-shadow:none}
+.mcc{border-radius:22px;background:var(--gl);-webkit-backdrop-filter:blur(30px) saturate(160%);backdrop-filter:blur(30px) saturate(160%);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh);contain:layout}
+.mcc-hd{padding:14px 14px 12px}
+.mcc-t b{font:700 14.5px/1.2 var(--fs);letter-spacing:-.005em}
+.mcc-pv{color:var(--tx);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+.mcc-bd{padding:0 14px 12px}
+.mcc .big b{font-size:22px}
+.mcc .fld input,.mcc .fld select{font-size:15px}
+.mcc .row{font-size:12.5px;padding:3px 0}
+.mseg button.on{color:var(--tx)!important}

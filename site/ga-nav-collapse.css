@@ -1,0 +1,141 @@
+/* Phone-only nav pill collapse — additive; does not edit wm-shell.css.
+   Layers live on #wmC (NOT inside .wcpill) so hiding the pill never hides the circle.
+   Animate transform + opacity on wrappers only; never on backdrop-filter boxes. */
+
+#wmC.wcdock{
+  --wm-coll-size:64px;
+  --wm-coll-side:16px;
+  --wm-coll-open-ms:300ms;
+  --wm-coll-close-ms:220ms;
+  --wm-coll-ease:cubic-bezier(.32,.72,0,1);
+  overflow:visible;
+}
+
+/* Hide the whole real .wcpill (incl. ::before/::after chrome). Safe: layers are on #wmC, not inside .wcpill. */
+#wmC.is-collapsed .wcpill,
+#wmC.is-morphing .wcpill{
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Wrappers on #wmC — we animate these (transform/opacity). Glass children: no transitions. */
+#wmC > .wm-coll-pill-wrap,
+#wmC > .wm-coll-circle-wrap{
+  position:absolute;
+  z-index:60;
+  pointer-events:none;
+  opacity:0;
+  transform:translate3d(0,0,0) scale(1);
+  will-change:auto;
+}
+#wmC > .wm-coll-pill-wrap{
+  inset:0;
+  transform-origin:100% 50%;
+}
+#wmC > .wm-coll-pill-wrap.is-animating,
+#wmC > .wm-coll-circle-wrap.is-animating{
+  will-change:transform,opacity;
+}
+
+#wmC .wm-coll-pill-glass{
+  position:absolute;inset:0;
+  border-radius:999px;
+  pointer-events:none;
+  /* Pre-rendered proxy: no backdrop-filter (never animate a blur box). */
+  background:var(--pill);
+  box-shadow:
+    inset 0 0 0 .5px var(--hair),
+    inset 0 .5px 0 var(--rimTop,rgba(255,255,255,.22)),
+    0 10px 28px rgba(0,0,0,.28);
+}
+#wmC .wm-coll-pill-face{
+  position:absolute;inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  border-radius:999px;
+}
+
+#wmC > .wm-coll-circle-wrap{
+  top:auto;left:auto;
+  right:0;bottom:0;
+  width:var(--wm-coll-size);
+  height:var(--wm-coll-size);
+  border-radius:50%;
+  transform-origin:50% 50%;
+  overflow:visible;
+}
+#wmC .wm-coll-circle-glass{
+  position:absolute;inset:0;
+  border-radius:50%;
+  pointer-events:none;
+  background:var(--pill);
+  box-shadow:
+    inset 0 0 0 .5px var(--hair),
+    inset 0 .5px 0 var(--rimTop,rgba(255,255,255,.22)),
+    0 10px 28px rgba(0,0,0,.28);
+}
+/* Resting circle only: glass blur when NOT mid-animation (filter never transitions). */
+#wmC.is-collapsed:not(.is-morphing) > .wm-coll-circle-wrap .wm-coll-circle-glass{
+  -webkit-backdrop-filter:blur(26px) saturate(180%);
+  backdrop-filter:blur(26px) saturate(180%);
+}
+#wmC .wm-coll-ic{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  color:var(--acc,#E6DEF5);
+}
+#wmC .wm-coll-ic svg{
+  width:22px;height:22px;overflow:visible;
+}
+#wmC .wm-coll-ic svg .s{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#wmC .wm-coll-ic svg .f,#wmC .wm-coll-ic svg .win,#wmC .wm-coll-ic svg .bcn,#wmC .wm-coll-ic svg .led,
+#wmC .wm-coll-ic svg .sunc,#wmC .wm-coll-ic svg .moonc,#wmC .wm-coll-ic svg .mstar{fill:currentColor}
+#wmC .wm-coll-ic svg .bloom,#wmC .wm-coll-ic svg .beam{display:none}
+#wmC .wm-coll-ic svg .cld{fill:color-mix(in srgb,currentColor 14%,transparent);stroke:currentColor;stroke-width:1.6}
+
+#wmC .wm-coll-hit{
+  position:absolute;inset:0;z-index:2;
+  border:0;background:transparent;padding:0;cursor:pointer;
+  pointer-events:none;
+  border-radius:50%;
+}
+
+/* Resting collapsed */
+#wmC.is-collapsed > .wm-coll-circle-wrap{
+  opacity:1;
+  pointer-events:auto;
+}
+#wmC.is-collapsed .wm-coll-hit{pointer-events:auto}
+#wmC.is-collapsed > .wm-coll-pill-wrap{
+  opacity:0;
+  pointer-events:none;
+}
+#wmC.is-morphing > .wm-coll-pill-wrap,
+#wmC.is-morphing > .wm-coll-circle-wrap{
+  pointer-events:none;
+}
+
+/* When collapsed, dock itself shouldn't steal taps outside the circle */
+#wmC.is-collapsed{
+  pointer-events:none;
+}
+#wmC.is-collapsed > .wm-coll-circle-wrap{
+  pointer-events:auto;
+}
+
+@media (prefers-reduced-motion:reduce){
+  #wmC.wcdock{
+    --wm-coll-open-ms:1ms;
+    --wm-coll-close-ms:1ms;
+  }
+}
+
+@media (min-width:768px){
+  #wmC > .wm-coll-pill-wrap,
+  #wmC > .wm-coll-circle-wrap{display:none !important}
+  #wmC.is-collapsed,
+  #wmC.is-morphing{pointer-events:auto}
+  #wmC.is-collapsed .wcpill,
+  #wmC.is-morphing .wcpill{opacity:1 !important;pointer-events:auto !important}
+}

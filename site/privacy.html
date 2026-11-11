@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="purple">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Go Around · Privacy</title>
+<link rel="icon" href="/favicon-32.png">
+<link rel="stylesheet" href="/fonts/wm-fonts.css">
+<link rel="stylesheet" href="/admin/admin.css">
+<script>
+(function(){try{var H=document.documentElement,q=new URLSearchParams(location.search).get('theme');
+var m={midnight:['night','black'],amethyst:['night','purple'],pearl:['day','white'],champagne:['day','beige'],white:['day','white'],beige:['day','beige'],purple:['night','purple'],black:['night','black']};
+var t=m[q]||null;
+if(!t){var th=localStorage.getItem('wm-theme')==='day'?'day':'night';t=th==='day'?['day',localStorage.getItem('wm-pal-day')==='beige'?'beige':'white']:['night',localStorage.getItem('wm-pal')==='purple'?'purple':'black']}
+H.dataset.theme=t[0];H.dataset.pal=t[1]}catch(e){}})();
+</script>
+<style>
+.prose{max-width:720px;margin:0 auto}
+.prose h1{margin:8px 0 8px;font:700 34px/1.1 Satoshi,"Clash Display",system-ui,sans-serif;letter-spacing:-.03em}
+.prose h2{margin:28px 0 8px;font:700 18px/1.25 Satoshi,system-ui,sans-serif}
+.prose p,.prose li{color:var(--tx2)}
+.prose ul{padding-left:1.15em}
+.card.prose{padding:28px 22px;border-radius:28px}
+</style>
+</head>
+<body>
+<header class="top glass">
+  <a class="back" href="/index.html" aria-label="Back to the site">‹</a>
+  <div class="ttl"><h1>Privacy</h1><p>What this site records</p></div>
+</header>
+<article class="card glass prose wrap">
+  <p class="eyebrow">Go Around</p>
+  <h1>Privacy notice</h1>
+  <p>This is a short, plain note about the information this website records when you visit. It is not legal advice, and it does not try to cover every law in every country. South Africa’s Protection of Personal Information Act (POPIA) is the law we have in mind, because that is where the site is run from.</p>
+
+  <h2>What we collect</h2>
+  <p>When a page loads, the site sends a small first-party note to our own servers (not to an advertising network). That note can include:</p>
+  <ul>
+    <li>the time of the visit</li>
+    <li>the page you opened, and the page that referred you here if the browser sends one</li>
+    <li>your IP address</li>
+    <li>country, region and city, as Cloudflare reports them from that IP</li>
+    <li>browser, operating system, device type and, where the browser shares it, the device model (for example “iPhone”)</li>
+    <li>screen size, language, time zone and a rough network type</li>
+    <li>a random session number kept only in this browser tab, so we can see which pages were opened in the same visit</li>
+  </ul>
+  <p>Your name is not collected. Phones and computers do not share the owner’s name with a website, and we do not ask for it in this note.</p>
+  <p>If you tap “Near me” or “Nearest”, your precise location stays on your device so the list can be sorted by distance. That location is not sent to our servers.</p>
+
+  <h2>Why we collect it</h2>
+  <p>So the people who run the site can see that it is working, what is being used, and roughly who is visiting — for running and improving the service, and for basic security (for example spotting unusual traffic).</p>
+
+  <h2>How long we keep it</h2>
+  <p>Visit records are kept for 90 days, then removed.</p>
+
+  <h2>Who can see it</h2>
+  <p>The detailed visitor log sits on a private page that needs an admin password. It is not shown to other visitors.</p>
+
+  <h2>Contact</h2>
+  <p>If you have a question about this notice, or you would like a record removed sooner than 90 days, contact the people who run Go Around through any public channel they publish for the site. This page does not list a personal name.</p>
+  <p><a href="/index.html">Back to Go Around</a></p>
+</article>
+</body>
+</html>

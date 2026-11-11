@@ -1,0 +1,46 @@
+import asyncio,subprocess,time,os,glob
+from playwright.async_api import async_playwright
+srv=subprocess.Popen(['python3','serve.py','8788'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);time.sleep(1)
+U='http://localhost:8788/design_review/zero_c/calculator.html'
+async def main():
+  async with async_playwright() as p:
+    b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
+    # picked-aerodrome Auto state stills
+    for dev,w,h,t,k,v in [('phone',390,844,'day','wm-pal-day','white'),('desktop',1440,900,'night','wm-pal','black')]:
+      ctx=await b.new_context(viewport={'width':w,'height':h},device_scale_factor=2 if w<800 else 1,is_mobile=w<800,has_touch=w<800)
+      await ctx.add_init_script(f"localStorage.setItem('wm-theme','{t}');localStorage.setItem('{k}','{v}')")
+      pg=await ctx.new_page();await pg.goto(U,wait_until='networkidle');await pg.wait_for_timeout(1500);q=pg.frame(url=lambda u:'calculator_v5' in u)
+      await q.fill('#adq','FACT');await pg.wait_for_timeout(400);await q.press('#adq','Enter');await pg.wait_for_timeout(3500)
+      await pg.screenshot(path=f'shots/auto_FACT_{dev}.png',full_page=(w<800));await ctx.close()
+    ctx=await b.new_context(viewport={'width':390,'height':844},device_scale_factor=2,is_mobile=True,has_touch=True,record_video_dir='shots/vid',record_video_size={'width':390,'height':844})
+    await ctx.add_init_script("localStorage.setItem('wm-theme','day');localStorage.setItem('wm-pal-day','white');localStorage.removeItem('wm-da')")
+    pg=await ctx.new_page();errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.on('console',lambda m:m.type=='error' and errs.append(m.text))
+    await pg.goto(U,wait_until='networkidle');await pg.wait_for_timeout(2500);q=pg.frame(url=lambda u:'calculator_v5' in u)
+    cdp=await ctx.new_cdp_session(pg)
+    async def touch(t,y):await cdp.send('Input.dispatchTouchEvent',{'type':t,'touchPoints':[] if t=='touchEnd' else [{'x':195,'y':y}]})
+    await touch('touchStart',300)
+    for k in range(1,46):await touch('touchMove',300+k*3);await pg.wait_for_timeout(30)
+    await pg.wait_for_timeout(5600);await pg.screenshot(path='shots/pull_hint_phone.png')
+    await touch('touchEnd',0);await pg.wait_for_timeout(1500);await pg.screenshot(path='shots/pull_overlay_phone.png')
+    await pg.keyboard.type('FACT',delay=200);await pg.wait_for_timeout(1500)
+    await pg.evaluate("()=>window.WMFS&&WMFS.close()");await pg.wait_for_timeout(1200)
+    await q.click('#adq');await pg.wait_for_timeout(400)
+    for ch in 'FACT':await pg.keyboard.type(ch);await pg.wait_for_timeout(260)
+    await pg.wait_for_timeout(800);await q.click('#adlist button');await pg.wait_for_timeout(3500)
+    await q.click('#srcSeg button[data-v=taf]');await pg.wait_for_timeout(3000)
+    await q.click('#srcSeg button[data-v=model]');await pg.wait_for_timeout(3000)
+    await q.click('#timeSeg button[data-v=pick]');await pg.wait_for_timeout(1200)
+    await q.evaluate("()=>{const i=document.querySelector('#wtime');const d=new Date(Date.now()+7200e3+86400e3);d.setUTCHours(14,0);i.value=d.toISOString().slice(0,16);i.dispatchEvent(new Event('change'))}");await pg.wait_for_timeout(3000)
+    await q.evaluate("()=>{const i=document.querySelector('#wtime');const d=new Date(Date.now()+7200e3+9*86400e3);i.value=d.toISOString().slice(0,13)+':00';i.dispatchEvent(new Event('change'))}");await pg.wait_for_timeout(3000)
+    await pg.screenshot(path='shots/model_out_of_window.png')
+    await q.click('#timeSeg button[data-v=now]');await pg.wait_for_timeout(2500)
+    for u,vv in [('alt','1'),('temp','1'),('press','1')]:
+      await q.click(f'.units .seg[data-u={u}] button[data-v="{vv}"]');await pg.wait_for_timeout(1300)
+    await pg.screenshot(path='shots/units_m_F_inHg.png')
+    for u in ['alt','temp','press']:await q.click(f'.units .seg[data-u={u}] button[data-v="0"]');await pg.wait_for_timeout(500)
+    await q.click('#modeSeg button[data-v=manual]');await pg.wait_for_timeout(1500)
+    await q.fill('#mOat','35');await pg.wait_for_timeout(1800)
+    await q.click('#daInfo');await pg.wait_for_timeout(2200);await pg.screenshot(path='shots/info_sheet.png')
+    print('errs',errs);v=await pg.video.path();await ctx.close();await b.close()
+  subprocess.run(['ffmpeg','-y','-loglevel','error','-i',v,'-vf','scale=780:1688:flags=lanczos','-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart','shots/calc_v4.mp4']);os.remove(v);os.rmdir('shots/vid')
+asyncio.run(main());srv.terminate()

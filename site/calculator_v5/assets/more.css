@@ -1,0 +1,123 @@
+/* Wingman Calculator, Part 2: "More calculators" (30 Oct 2026).
+ * Layout follows the approved ATO filter (v18 "soft" look, v9 inline expand/collapse):
+ *   - one shell behind the search row grows 7 px up / 9 px out and wraps the panel (0.5 s open, 0.42 s close, 60 ms delay);
+ *   - panel items fade in with a 22 ms stagger; the page below is pushed (no overlay, no scrim) and stays usable;
+ *   - NO backdrop blur anywhere in Part 2: surfaces are flat theme colours (cheap on phones, per MT).
+ * Sliding segmented controls use the "master slide": transform .45s cubic-bezier(.32,.72,0,1),
+ * translateX(calc(var(--ix) * 100%)), thumb scales to .92 while pressed.
+ * Only theme tokens from v3.css plus the per-theme accents below (copied from the ATO filter, wmf9.js). */
+
+/* ---------- per-theme accents (night/black, night/purple, day/white, day/beige) ---------- */
+.mc{--mc-card:rgba(28,28,30,.72);--mc-shell:rgba(28,28,30,.78);--mc-tint:rgba(10,132,255,.10);
+ --mc-glow:linear-gradient(180deg,rgba(40,70,255,.20),rgba(0,25,201,.12));--mc-gr:rgba(80,100,255,.30);--mc-gt:#9DB1FF;
+ --mc-b1:#F5F5F7;--mc-b2:#C9CCD6;--mc-bn:#0B0B12;--mc-br:#000;--mc-thumb:rgba(255,255,255,.14);
+ --mc-ez:cubic-bezier(.32,.72,0,1)}
+html[data-theme=night][data-pal=purple] .mc{--mc-card:rgba(40,26,74,.62);--mc-shell:rgba(40,26,74,.70);--mc-tint:rgba(170,140,255,.14);
+ --mc-glow:linear-gradient(180deg,rgba(170,140,255,.28),rgba(120,80,210,.14));--mc-gr:rgba(196,176,255,.40);--mc-gt:#D9C8FF;
+ --mc-b1:#E6E0FF;--mc-b2:#BFB2FF;--mc-bn:#1A1230;--mc-br:#0B0716;--mc-thumb:rgba(230,215,255,.16)}
+html[data-theme=day] .mc{--mc-card:rgba(255,255,255,.78);--mc-shell:rgba(255,255,255,.82);--mc-tint:rgba(0,25,201,.05);
+ --mc-glow:linear-gradient(180deg,rgba(0,25,201,.11),rgba(0,25,201,.06));--mc-gr:rgba(0,25,201,.18);--mc-gt:#0019C9;
+ --mc-b1:#2438D6;--mc-b2:#0019C9;--mc-bn:#fff;--mc-br:#F2F2F5;--mc-thumb:#fff}
+html[data-theme=day][data-pal=beige] .mc,html[data-theme=day][data-pal=warm] .mc{--mc-card:rgba(255,251,243,.80);--mc-shell:rgba(255,251,243,.86);--mc-tint:rgba(201,150,58,.08);
+ --mc-glow:linear-gradient(180deg,rgba(201,150,58,.17),rgba(168,122,30,.08));--mc-gr:rgba(168,122,30,.28);--mc-gt:#8A6418;
+ --mc-b1:#A88443;--mc-b2:#8E6F33;--mc-bn:#FFF8EA;--mc-br:#F4EEE3;--mc-thumb:#FFFDF8}
+
+.mc{max-width:1240px;margin:0 auto;padding:0 16px calc(24px + env(safe-area-inset-bottom))}
+@media(min-width:700px){.mc{padding-inline:24px}}
+/* low-specificity reset (:where) so component classes below always win */
+:where(.mc) button{font:inherit;color:inherit;background:none;border:0;margin:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mc button:focus-visible{outline:2px solid var(--mc-gt);outline-offset:2px}
+/* inputs: no inner outline — outer .fld ring (v3.css) is the only focus cue */
+.mc input:focus,.mc input:focus-visible,.mc select:focus,.mc select:focus-visible{outline:none!important;box-shadow:none!important;background:transparent!important;caret-color:var(--tx);accent-color:var(--tx)}
+.mc .fld:focus-within{box-shadow:inset 0 0 0 1.5px #22C55E!important}
+.mc-head{text-align:center;margin:40px 0 16px}
+.mc-head .more{margin:0;padding:0}
+/* Same .more title typography; static, centred selection label, never a FLIP mover. */
+.mc-chosen.more{margin:24px 0 16px;padding:0}
+.mc-chosen[hidden]{display:none}
+.mc-sub{margin:8px 0 0;font:500 13.5px/1.3 var(--fs);color:var(--tx2)}
+.mc-sub b{color:var(--mc-gt);font-weight:700}
+
+/* ---------- filter: shell + search pill + filter button (v18 soft) ---------- */
+.mcf{position:relative;z-index:5;padding:4px;margin:0 auto 14px;max-width:720px}
+.mcf-sh{position:absolute;z-index:-1;inset:0 0 auto 0;border-radius:22px;pointer-events:none;background:var(--mc-shell);
+ box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--ln),0 20px 40px -24px rgba(0,0,0,.35)}
+.mcf[data-s=open] .mcf-sh{background:linear-gradient(160deg,var(--mc-tint),transparent 60%),var(--mc-shell)}
+.mcf-row{display:flex;gap:8px;align-items:center}
+.mcf-sp{flex:1;min-width:0;height:36px;border-radius:18px;position:relative;display:flex;align-items:center;
+ background:linear-gradient(180deg,var(--mc-tint),transparent),var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--ln)}
+.mcf-sp svg{position:absolute;left:14px;width:16px;height:16px;opacity:.7;pointer-events:none}
+.mcf-sp input{width:100%;height:100%;border:0;outline:0;background:none;border-radius:18px;padding:0 14px 0 38px;color:var(--tx);font:500 15px var(--fs);-webkit-appearance:none;appearance:none}
+.mcf-sp input::placeholder{color:var(--tx3);font-weight:600}
+.mcf-sp input::-webkit-search-cancel-button{-webkit-appearance:none}
+.mcf-fb{flex:none;width:36px;height:36px;border-radius:18px;display:grid;place-items:center;position:relative;color:var(--tx2);
+ background:linear-gradient(180deg,var(--mc-tint),transparent),var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--ln);transition:transform .25s var(--mc-ez)}
+.mcf-fb:active{transform:scale(.92)}
+.mcf-fb svg{width:20px;height:20px;opacity:.75}
+.mcf[data-f] .mcf-fb{color:var(--mc-gt)}.mcf[data-f] .mcf-fb svg{opacity:1}
+.mcf-bd{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;display:none;place-items:center;
+ background:linear-gradient(180deg,var(--mc-b1),var(--mc-b2));color:var(--mc-bn);font:700 10px/1 var(--fs);box-shadow:0 0 0 2px var(--mc-br)}
+.mcf[data-f] .mcf-bd{display:grid}
+
+/* panel: absolutely placed under the row inside the grown shell; the content below is pushed by FLIP (more.js) */
+.mcf-pn{position:absolute;left:3px;right:3px;top:calc(100% + 6px);padding:6px 4px 4px;visibility:hidden;pointer-events:none}
+.mcf[data-s=open] .mcf-pn{visibility:visible;pointer-events:auto}
+.mcf-it{opacity:0;transform:translateY(-6px);transition:opacity .18s ease,transform .22s ease}
+.mcf[data-s=open] .mcf-it{opacity:1;transform:none;transition:opacity .34s cubic-bezier(.2,.8,.2,1) calc(.14s + var(--d)),transform .44s cubic-bezier(.22,1,.36,1) calc(.14s + var(--d))}
+.mcf-ph{display:flex;justify-content:space-between;align-items:baseline;margin:6px 6px 12px}
+.mcf-ph span{font:600 17px/1 var(--fd);letter-spacing:.01em}.mcf-ph small{font:500 12px var(--fs);color:var(--tx2)}
+.mcf-lab{font:600 11px/1 var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--tx2);margin:14px 6px 7px}
+.mcf-chips{display:flex;flex-wrap:wrap;gap:7px}
+.mcf-c{display:flex;gap:6px;align-items:center;padding:8px 12px;border-radius:999px;font:500 13px/1 var(--fs);color:var(--tx);
+ box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--ln);transition:background .2s,box-shadow .2s,color .2s,transform .2s var(--mc-ez)}
+.mcf-c:active{transform:scale(.95)}
+.mcf-c small{color:var(--tx2);font-size:11.5px}
+.mcf-c.on{background:var(--mc-glow);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--mc-gr),0 6px 16px -10px var(--mc-gr);color:var(--mc-gt);font-weight:700}
+.mcf-c.on small{color:var(--mc-gt)}
+/* Footer: Reset all matches ATO/DFE .wmf-rs (plain text); Show stays small kit pill */
+.mcf-ft{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;margin-inline:4px 2px}
+.mcf-ft button{text-align:center;border-radius:999px}
+.mcf-rs,.mcf-ft button.mcf-rs{flex:none;box-shadow:none!important;padding:0 8px!important;border-radius:0;font:500 14px Satoshi,var(--fs)!important;color:var(--tx2)!important;background:none!important;font-weight:500!important}
+.mcf-ap,.mcf-ft button.mcf-ap{flex:none;padding:8px 12px;font:700 13px/1 var(--fs);background:var(--mc-glow)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--mc-gr);color:var(--mc-gt)!important;font-weight:700}
+
+/* ---------- master slide segmented control ---------- */
+.mseg{--n:2;--ix:0;position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:3px;border-radius:16px;background:var(--gl2);box-shadow:inset 0 0 0 1px var(--ln)}
+.mseg>i{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / var(--n));border-radius:13px;background:var(--mc-thumb);
+ box-shadow:0 2px 8px rgba(0,0,0,.08),inset 0 0 0 .5px var(--ln);
+ transform:translateX(calc(var(--ix) * 100%)) scale(var(--ps,1));transition:transform .45s cubic-bezier(.32,.72,0,1);will-change:transform}
+.mseg.press>i{--ps:.92}
+.mseg button{position:relative;z-index:1;padding:9px 6px;font:700 13px/1.1 var(--fs)!important;color:var(--tx2)!important;transition:color .2s}
+.mseg button.on{color:var(--tx)!important}
+
+/* One content-sized grid: no group headings, orphan rows or hidden-card space. */
+.mc-body{will-change:auto}
+.mc-grp{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);align-items:stretch}
+@media(min-width:700px){.mc-grp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1180px){.mc-grp{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mcc[hidden]{display:none}
+.mcc{border-radius:22px;background:var(--mc-card);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--ln),0 14px 30px -22px rgba(0,0,0,.35);overflow:hidden;contain:layout paint}
+.mcc-hd{display:flex;width:100%;align-items:center;gap:12px;text-align:left;padding:16px 16px 15px 18px}
+.mcc-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.mcc-t b{font:600 16px/1.2 var(--fd);letter-spacing:.005em;color:var(--tx)}
+.mcc-t small{font:500 12.5px/1.35 var(--fs);color:var(--tx2)}
+.mcc-pv{display:inline-flex;align-self:flex-start;margin-top:6px;padding:5px 10px;border-radius:999px;font:600 12px/1 var(--fs);color:var(--mc-gt);box-shadow:inset 0 0 0 1px var(--mc-gr);background:var(--mc-glow)}
+.mcc-pv:empty{display:none}
+.mcc-bd{display:block;padding:0 16px 16px} /* always open: expand/collapse removed 31 Oct 2026 */
+.mcc-hd{cursor:default}
+.mcc .flds{margin-bottom:12px}
+.mcc .fld.wide{grid-column:1/-1}
+.mcc .fld.segf{padding:9px 9px 6px}
+.mcc .fld.segf span{padding-left:3px}
+.mcc .res{padding-top:12px}
+.mcc .big b{font-size:26px}
+.mcc-fx{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 12px;border-radius:999px;font:600 12.5px/1 var(--fs);color:var(--tx2)!important;box-shadow:inset 0 0 0 1px var(--ln)}
+.mcc-fx i{font:italic 600 12px/1 Georgia,serif}
+.mc-empty{text-align:center;color:var(--tx2);font-size:14px;padding:18px 0}
+.mc-note{max-width:720px;margin:22px auto 0;text-align:center;font-size:12.5px;color:var(--tx2)}
+.mc-note b{color:var(--tx)}
+@keyframes mc-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mcc.in{animation:mc-in .4s var(--mc-ez) both}
+@media(max-width:359px){.mcc .flds{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.mc *,.mcf-sh{transition:none!important;animation:none!important}}
+/* emb: shell .wrap already clears the nav pill — no extra empty end */
+html.emb .mc{padding-bottom:12px}

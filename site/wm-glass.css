@@ -1,0 +1,51 @@
+/* wm-glass.css - blur budget (Claude plan step 2, 31 Oct 2026).
+   Real backdrop-filter is kept ONLY on: the top bar (header.topbar / .wmtop), the pill (#wmC, .wcpill,
+   .wcglass, .wmpill, .wmknob, nav.tabbar, nav.lgp, .sheet.mp - untouched, exactly as wm-shell.css draws it)
+   sheets (only one is ever open; capped at 20px), and the density-altitude aerodrome picker (#adlist). Everything else becomes fake glass: its own tint,
+   gradient and inner border stay exactly as before and only the live backdrop blur is switched off. Over
+   the site's flat page background a blurred and an unblurred backdrop look the same, so cards, chips,
+   wx pills and buttons keep their look while iOS stops building hundreds of blur layers.
+   Undo: remove the <link href=".../wm-glass.css"> lines (or empty this file) and run
+   node tools/version_assets.js. Nothing else was changed. */
+
+/* 1. No backdrop blur outside the allowed surfaces (elements and their ::before/::after).
+   The :not(#_g) chain lifts specificity above the strongest existing !important rules. */
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body :not(:is(header.topbar,.wmtop,#wmC,#wmC *,.wcpill,.wcpill *,.wcglass,.wmpill,.wmpill *,.wmknob,nav.tabbar,nav.tabbar *,nav.lgp,nav.lgp *,.sheet.mp,.sheet.glass,.fs-spot,.wmf-sh,.wx-menu,.wds-sm,.ipop,.sug,.wm-tcard,#adlist,.dd.glass)),
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body :not(:is(header.topbar,.wmtop,#wmC,#wmC *,.wcpill,.wcpill *,.wcglass,.wmpill,.wmpill *,.wmknob,nav.tabbar,nav.tabbar *,nav.lgp,nav.lgp *,.sheet.mp,.sheet.glass,.fs-spot,.wmf-sh,.wx-menu,.wds-sm,.ipop,.sug,.wm-tcard,#adlist,.dd.glass))::before,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body :not(:is(header.topbar,.wmtop,#wmC,#wmC *,.wcpill,.wcpill *,.wcglass,.wmpill,.wmpill *,.wmknob,nav.tabbar,nav.tabbar *,nav.lgp,nav.lgp *,.sheet.mp,.sheet.glass,.fs-spot,.wmf-sh,.wx-menu,.wds-sm,.ipop,.sug,.wm-tcard,#adlist,.dd.glass))::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* 2. Sheets keep real blur, capped at 20px (was 24-30px). Blur inside a sheet is removed by rule 1,
+   so blur is never nested. */
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body :is(.sheet.glass,.fs-spot,.wmf-sh,.wx-menu,.wds-sm,.ipop,.sug,.wm-tcard,#adlist,.dd.glass):not(.mp){-webkit-backdrop-filter:blur(20px) saturate(170%)!important;backdrop-filter:blur(20px) saturate(170%)!important}
+
+/* Density altitude aerodrome picker (9 Nov 2026): overlays live controls, so it needs
+   real frost plus a solid backing. Rule 1 used to strip its blur, leaving only --gl
+   (about 48–66% opaque) and the page behind showed through.
+   9 Nov follow-up: rgba(...,.94) plus backdrop-filter:saturate(170%) still left
+   large type readable (O.R. Tambo, Auto/Manual). The selected row used --gl2
+   (Amethyst rgba(200,170,255,.07)), a 7% wash that composited against the
+   frosted backdrop instead of a solid fill. Use opaque theme surfaces and
+   opaque row highlights so nothing behind the list can be read. */
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body #adlist.dd{
+  -webkit-backdrop-filter:blur(20px) saturate(170%)!important;
+  backdrop-filter:blur(20px) saturate(170%)!important;
+  isolation:isolate}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body #adlist.dd.on{opacity:1!important}
+html[data-theme=night][data-pal=purple] #adlist.dd{background:#100a20!important;background-color:#100a20!important}
+html[data-theme=night][data-pal=black] #adlist.dd{background:#0e0e10!important;background-color:#0e0e10!important}
+html[data-theme=day]:not([data-pal=beige]):not([data-pal=warm]) #adlist.dd{background:#fff!important;background-color:#fff!important}
+html[data-theme=day][data-pal=beige] #adlist.dd,html[data-theme=day][data-pal=warm] #adlist.dd{background:#fdf8ee!important;background-color:#fdf8ee!important}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6) body #adlist.dd button{
+  opacity:1!important;
+  background:transparent!important;background-color:transparent!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=night][data-pal=purple] body #adlist.dd button.hi,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=night][data-pal=purple] body #adlist.dd button:hover{background:#2a1848!important;background-color:#2a1848!important}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=night][data-pal=black] body #adlist.dd button.hi,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=night][data-pal=black] body #adlist.dd button:hover{background:#242428!important;background-color:#242428!important}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day]:not([data-pal=beige]):not([data-pal=warm]) body #adlist.dd button.hi,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day]:not([data-pal=beige]):not([data-pal=warm]) body #adlist.dd button:hover{background:#eceaf3!important;background-color:#eceaf3!important}
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day][data-pal=beige] body #adlist.dd button.hi,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day][data-pal=beige] body #adlist.dd button:hover,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day][data-pal=warm] body #adlist.dd button.hi,
+html:not(#_g1):not(#_g2):not(#_g3):not(#_g4):not(#_g5):not(#_g6)[data-theme=day][data-pal=warm] body #adlist.dd button:hover{background:#f3ead8!important;background-color:#f3ead8!important}

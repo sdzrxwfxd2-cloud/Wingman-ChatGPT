@@ -1,0 +1,15 @@
+/* Eye (info) icon, option C (MT t1751/t1752, corrected t1771).
+   Same glyph, same size and same place as before (22x22 in the status bar footer, Snapshot text untouched).
+   The only change is a subtle circle of the aerodrome "Show all" glass (.ap2) behind the glyph, plus one glyph colour per theme. */
+.inote:not(#z):not(#y){
+ --eye:#0019C9;color:var(--eye);border-radius:50%;
+ background:var(--gl2,rgba(255,255,255,.55));
+ box-shadow:inset 0 1px 0 var(--hl,rgba(255,255,255,.95)),inset 0 0 0 1px color-mix(in srgb,var(--tx3,#888) 60%,transparent),0 4px 12px -8px rgba(0,0,0,.35)}
+html[data-pal=beige] .inote:not(#z):not(#y),html.pal-beige:not(.dark) .inote:not(#z):not(#y){--eye:#6E531F}
+html[data-pal=black] .inote:not(#z):not(#y),html.dark:not(.pal-purple) .inote:not(#z):not(#y){--eye:#F5F5F7}
+html[data-pal=purple] .inote:not(#z):not(#y),html.dark.pal-purple .inote:not(#z):not(#y){--eye:#CDB8FF}
+/* the global no-blur guard (html:not(#_g1)…:not(#_g6) body :not(:is(…))) outranks normal rules; out-specify it for this one button only */
+html:not(#e1):not(#e2):not(#e3):not(#e4):not(#e5):not(#e6):not(#e7) body .inote:not(#z):not(#y){-webkit-backdrop-filter:blur(18px) saturate(1.6)!important;backdrop-filter:blur(18px) saturate(1.6)!important}
+/* Info icon unified (MT t1864): every .inote uses this eye C button, one colour per theme, never a per-section colour. Size unchanged. */
+html body .inote:not(#z):not(#y){color:var(--eye)!important}
+html body .inote:not(#z):not(#y) *{color:inherit!important}

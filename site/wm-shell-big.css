@@ -1,0 +1,6 @@
+/* wm-shell-big.css — SWAPPABLE iPad/desktop module (>=768px). Source: merge_28oct/src_bigpill/bottom_big.css, from the MT-approved pill_bottom demo (bottom_patch.py CSS). Every page sits in a bottom pill; Settings gear stays in the top bar. Circle search 38x38 + night-only icon colour rules in wm-shell.css are not overridden here (only background/backdrop/shadow/border). */
+@media (min-width:768px){
+.sheet.mp>.mrow,.sheet.mp>.mrow+hr{display:none!important}
+#wmC.wcdock{position:fixed!important;top:auto!important;bottom:22px!important;left:50%!important;right:auto!important;width:min(744px,calc(100vw - 48px));max-width:calc(100vw - 32px)!important;transform:translate3d(-50%,0,0)!important;z-index:9001}
+.topbar .tbtn{align-items:center}
+}

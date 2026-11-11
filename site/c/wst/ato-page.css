@@ -1,0 +1,159 @@
+/* ATO page, option 2 navy header (MT t1499), preview behind ?rv=1. Theme values unchanged; page colours scoped to .ap. */
+.ap{position:fixed;inset:0;z-index:9000;font-family:'General Sans',Sora,sans-serif;font-weight:500;-webkit-font-smoothing:antialiased;
+ --ap-bg:#F3F4F7;--ap-card:#fff;--ap-ln:#E2E5EB;--ap-tx:#0E1726;--ap-tx2:#3B4454;--ap-tx3:#7A8394;--ap-tx4:#A3AAB6;--ap-ok:#2E7D5B;--ap-link:#0019C9;background:var(--ap-bg);color:var(--ap-tx)}
+html[data-theme=night] .ap{--ap-bg:#05070C;--ap-card:#10151F;--ap-ln:rgba(255,255,255,.08);--ap-tx:#F2F5FA;--ap-tx2:#C3CBD8;--ap-tx3:#8792A6;--ap-tx4:#5F6A7E;--ap-ok:#5FCB97;--ap-link:#3D55FF}
+.ap-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+.ap *{box-sizing:border-box}
+.ap-hero{background:radial-gradient(120% 90% at 80% 0,#1B3A6B,#0B1424 70%);color:#fff;padding:calc(8px + env(safe-area-inset-top)) 24px 32px;border-radius:0 0 32px 32px}
+html[data-theme=night] .ap-hero{background:radial-gradient(120% 90% at 80% 0,#17325E,#070D19 70%);box-shadow:inset 0 -1px 0 rgba(255,255,255,.06)}
+.ap-bar{height:48px;display:flex;align-items:center}
+.ap-back{display:inline-flex;align-items:center;gap:4px;margin-left:-8px;padding:8px;border:0;background:none;color:#C9D3E4;font:600 14px 'General Sans',Sora,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ap-back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ap-k{margin:0;font:600 11px/16px 'General Sans',Sora,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-tx3)}
+.ap-hero .ap-k{color:#8FA3C4}
+.ap-hero h1{font:600 32px/40px 'General Sans',Sora,sans-serif;letter-spacing:-.02em;margin:16px 0 8px}
+.ap-regs{display:flex;flex-wrap:wrap;column-gap:8px;font:500 12px/16px 'General Sans',Sora,sans-serif;letter-spacing:.02em;color:#8FA3C4;font-variant-numeric:tabular-nums}
+.ap-mt{color:#6B7C99;font-size:11px;letter-spacing:.04em}
+.ap-big{display:flex;align-items:flex-end;gap:16px;margin-top:24px}
+.ap-n{font:600 48px/48px 'General Sans',Sora,sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ap-r{padding-bottom:4px;font-size:13px;color:#C9D3E4}.ap-r .ap-st{display:flex;margin-bottom:4px}
+.ap-st{display:inline-flex;gap:2px;vertical-align:middle}.ap-st i{display:block;width:14px;height:14px}.ap-st.lg i{width:20px;height:20px}.ap-st.sm i{width:12px;height:12px}
+.ap-st svg{display:block;width:100%;height:100%;fill:rgba(212,175,55,.28)}.ap-st i.on svg{fill:#FFB800}
+.ap-hero .rv-btn{margin-left:auto;--gl2:rgba(255,255,255,.04)}
+.ap-hero .rv-btn:not(.ghost){color:#fff;--cc:#fff}
+.ap-hero .rv-btn.ghost{color:#C9D3E4;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.ap-body{padding:24px 16px 0}
+.ap-sec{margin:0 8px 8px}
+.ap-card{background:var(--ap-card);border-radius:20px;padding:4px 16px;margin-bottom:24px;box-shadow:inset 0 0 0 .5px var(--ap-ln)}
+.ap-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;font-size:14px;line-height:20px}
+.ap-row+.ap-row{box-shadow:0 -.5px 0 var(--ap-ln)}
+.ap-row span{color:var(--ap-tx3);flex:none}.ap-row em{font-style:normal;color:var(--ap-tx4);margin-left:4px}
+.ap-row b{font-weight:600;text-align:right}.ap-link{color:var(--ap-link)}.ap-ok{color:var(--ap-ok)}.ap-exp{color:var(--ap-tx3)}
+.ap-cm{padding:16px;border-radius:16px;background:var(--ap-card);box-shadow:inset 0 0 0 .5px var(--ap-ln)}.ap-cm+.ap-cm{margin-top:8px}
+.ap-cmh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font:600 13px 'General Sans',Sora,sans-serif;color:var(--ap-tx2)}
+.ap-cm p{margin:0;font-size:14px;line-height:20px;color:var(--ap-tx)}
+.ap-cmf{display:flex;justify-content:space-between;margin-top:12px;font-size:12px;color:var(--ap-tx3)}.ap-rep{color:var(--ap-tx4)}
+.ap-empty{margin:0;padding:16px;border-radius:16px;background:var(--ap-card);box-shadow:inset 0 0 0 .5px var(--ap-ln);font-size:14px;line-height:20px;color:var(--ap-tx3)}
+.ap-gate{margin-top:24px;border-radius:24px;padding:24px;text-align:center;background:var(--ap-card);box-shadow:inset 0 0 0 .5px var(--ap-ln),0 8px 32px rgba(14,23,38,.06)}
+.ap-gate svg{width:20px;height:20px;fill:none;stroke:#0019C9;stroke-width:1.8;stroke-linejoin:round}
+html[data-theme=night] .ap-gate svg{stroke:#3D55FF}
+.ap-gate h5{font:600 18px/24px 'General Sans',Sora,sans-serif;margin:8px 0 4px}
+.ap-gp{font-size:13px;line-height:20px;color:var(--ap-tx3);max-width:280px;margin:0 auto 16px}
+.ap-cta{display:inline-flex;align-items:center;height:40px;padding:0 24px;border-radius:999px;background:var(--ap-tx);color:var(--ap-bg);font:600 14px 'General Sans',Sora,sans-serif}
+.c.wx[data-k="ato"] h3{cursor:pointer}
+@media (prefers-reduced-motion:reduce){.ap{animation:none}}
+/* Four palettes (MT t1549): Pearl (day white), Champagne (day beige), Midnight (night black), Amethyst (night purple). Page-scoped tints only; global theme values untouched. */
+html[data-theme=day][data-pal=beige] .ap{--ap-bg:#F4EEE3;--ap-card:#FFFBF3;--ap-ln:#E6DCC8;--ap-tx:#2A2114;--ap-tx2:#4E4230;--ap-tx3:#857559;--ap-tx4:#AFA084;--ap-ok:#3F7A4E;--ap-link:#0019C9;--ap-hi:#4A3A1A;--ap-lo:#1F180C;--ap-hk:#D8C59C;--ap-hm:#A8956C}
+html[data-theme=night][data-pal=black] .ap{--ap-bg:#000;--ap-card:#111114;--ap-ln:rgba(255,255,255,.09);--ap-tx:#F5F5F7;--ap-tx2:#C9CAD1;--ap-tx3:#8A8C96;--ap-tx4:#5E606A;--ap-ok:#6FD3A0;--ap-link:#7F95FF;--ap-hi:#262A35;--ap-lo:#050608;--ap-hk:#A9AFBE;--ap-hm:#737987}
+html[data-theme=night][data-pal=purple] .ap{--ap-bg:#120B22;--ap-card:#1D1433;--ap-ln:rgba(214,204,255,.10);--ap-tx:#F3EFFF;--ap-tx2:#CFC6EA;--ap-tx3:#9A8FBF;--ap-tx4:#6C6290;--ap-ok:#7FD9AE;--ap-link:#A9B1FF;--ap-hi:#3B2A6B;--ap-lo:#120A24;--ap-hk:#C3B6EC;--ap-hm:#8D80B8}
+html[data-pal] .ap .ap-hero{background:radial-gradient(120% 90% at 80% 0,var(--ap-hi,#1B3A6B),var(--ap-lo,#0B1424) 70%)}
+html[data-theme=day][data-pal=white] .ap .ap-hero,html:not([data-pal]) .ap .ap-hero{background:radial-gradient(120% 90% at 80% 0,#1B3A6B,#0B1424 70%)}
+html[data-pal] .ap .ap-hero .ap-k,html[data-pal] .ap .ap-regs{color:var(--ap-hk,#8FA3C4)}
+html[data-pal] .ap .ap-mt{color:var(--ap-hm,#6B7C99)}
+/* Midnight fix: global night rules painted these values white; force the page colours (text and fill). */
+.ap .ap-row b.ap-link{color:var(--ap-link)!important;-webkit-text-fill-color:var(--ap-link)!important}
+.ap .ap-row b.ap-ok{color:var(--ap-ok)!important;-webkit-text-fill-color:var(--ap-ok)!important}
+.ap .ap-row b.ap-exp{color:var(--ap-tx3)!important;-webkit-text-fill-color:var(--ap-tx3)!important}
+html[data-theme=night] .ap-gate svg{stroke:var(--ap-link)}
+/* Courses: first 3, then Explore all. */
+.ap-crow{flex-wrap:wrap;align-items:flex-start}
+.ap-cl{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;flex:1;min-width:0}
+.ap-cs{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;font:600 12.5px/1 'General Sans',Sora,sans-serif;color:var(--ap-tx);background:color-mix(in srgb,var(--ap-tx) 5%,transparent);box-shadow:inset 0 0 0 .5px var(--ap-ln)}
+.ap-crow:not(.is-open) .ap-more{display:none}
+.ap-xall{flex-basis:100%;margin-top:10px;height:36px;border:0;border-radius:12px;font:600 13px 'General Sans',Sora,sans-serif;color:var(--ap-link);background:color-mix(in srgb,var(--ap-link) 8%,transparent);cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* Vote row (MT t1556): free-standing outline arrows, no glass, no box. Outline: up blue, down red. Selected: arrow fills. Night uses a lighter pill blue for contrast. */
+.ap-cmf{align-items:center}
+.ap{--ap-up:#0019C9;--ap-dn:#D92D20}
+html[data-theme=night] .ap{--ap-up:#5468FF;--ap-dn:#FF5A4E}
+.ap-vote{display:inline-flex;align-items:center;gap:6px;padding:0;background:none;box-shadow:none}
+.ap-vb{width:28px;height:28px;display:grid;place-items:center;border:0;border-radius:8px;background:none;padding:0;color:var(--ap-tx3);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .18s,transform .18s cubic-bezier(.32,.72,0,1)}
+.ap-vb:active{transform:scale(.86)}
+.ap-vb svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;transition:fill .18s}
+.ap-vb:disabled{opacity:.35;cursor:default}
+/* MT t1564: no vote = same grey as the flag; colour only when selected (up filled blue, down filled red). */
+.ap-up,.ap-dn{color:var(--ap-tx3)}.ap-vote.is-up .ap-up{color:var(--ap-up)}.ap-vote.is-dn .ap-dn{color:var(--ap-dn)}
+.ap-net{min-width:18px;text-align:center;font:600 13px/1 'General Sans',Sora,sans-serif;color:var(--ap-tx2);font-variant-numeric:tabular-nums}
+.ap-vote.is-up .ap-up svg{fill:currentColor}.ap-vote.is-up .ap-net{color:var(--ap-up)}
+.ap-vote.is-dn .ap-dn svg{fill:currentColor}.ap-vote.is-dn .ap-net{color:var(--ap-dn)}
+.ap-flag{margin-left:6px;color:var(--ap-tx3)}
+.ap-flag svg{width:15px;height:15px}.ap-flag.is-done{color:var(--ap-tx4)}.ap-flag.is-done svg{fill:currentColor}
+.ap-own{padding:0 10px 0 6px;font-size:11.5px;color:var(--ap-tx4)}
+/* Report sheet */
+.ap-rp-ov{position:fixed;inset:0;z-index:9100;display:flex;align-items:flex-end;background:rgba(0,0,0,0);transition:background .25s}
+.ap-rp-ov.on{background:rgba(0,0,0,.32)}
+.ap-rp{width:100%;background:var(--ap-card);color:var(--ap-tx);border-radius:24px 24px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);box-shadow:0 -8px 32px rgba(0,0,0,.18)}
+.ap-rp-ov.on .ap-rp{transform:none}
+.ap-rp-grab{width:36px;height:5px;border-radius:3px;background:var(--ap-ln);margin:0 auto 16px}
+.ap-rp h4{margin:0 8px 4px;font:600 20px/28px 'General Sans',Sora,sans-serif}
+.ap-rp-sub{margin:0 8px 16px;font-size:13px;line-height:20px;color:var(--ap-tx3)}
+.ap-rp-o{display:flex;justify-content:space-between;align-items:center;width:100%;height:52px;padding:0 16px;margin-bottom:8px;border:0;border-radius:14px;font:500 15px 'General Sans',Sora,sans-serif;color:var(--ap-tx);background:color-mix(in srgb,var(--ap-tx) 4%,transparent);box-shadow:inset 0 0 0 .5px var(--ap-ln);cursor:pointer}
+.ap-rp-o span{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ap-tx4)}
+.ap-rp-o.on{box-shadow:inset 0 0 0 1.5px #0019C9}.ap-rp-o.on span{box-shadow:inset 0 0 0 5px #0019C9}
+html[data-theme=night] .ap-rp-o.on{box-shadow:inset 0 0 0 1.5px var(--ap-link)}html[data-theme=night] .ap-rp-o.on span{box-shadow:inset 0 0 0 5px var(--ap-link)}
+.ap-rp-go{width:100%;height:52px;margin-top:8px;border:0;border-radius:16px;font:600 16px 'General Sans',Sora,sans-serif;color:#fff;background:#0019C9}
+.ap-rp-go:disabled{opacity:.4}
+.ap-rp-x{width:100%;height:44px;margin-top:4px;border:0;background:none;font:600 15px 'General Sans',Sora,sans-serif;color:var(--ap-tx3)}
+@media (min-width:700px){.ap-rp-ov{align-items:center;justify-content:center}.ap-rp{max-width:560px;border-radius:24px;transform:translateY(24px);opacity:0;transition:transform .32s cubic-bezier(.32,.72,0,1),opacity .22s}.ap-rp-ov.on .ap-rp{opacity:1}}
+@media (prefers-reduced-motion:reduce){.ap-rp,.ap-rp-ov,.ap-vb{transition:none}}
+
+/* Courses as small stacked grey pills (MT t1564) */
+.ap-crs{align-items:flex-start}
+.ap-cst{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:1;min-width:0}
+.ap-cp{display:block;max-width:100%;padding:4px 9px;border-radius:999px;font:500 11.5px/1.35 'General Sans',Sora,sans-serif;color:var(--ap-tx2);background:color-mix(in srgb,var(--ap-tx) 6%,transparent);box-shadow:inset 0 0 0 .5px var(--ap-ln);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.ap-crs:not(.is-open) .ap-more{display:none}
+.ap-crs .ap-xall{flex-basis:auto;margin-top:2px;height:auto;padding:2px 0;border-radius:0;background:none;font:600 12px 'General Sans',Sora,sans-serif}
+/* Base aerodrome link */
+.ap-adl{display:inline-flex;align-items:center;gap:6px;min-width:0;text-decoration:none;color:var(--ap-tx);border-radius:8px;transition:opacity .15s}
+.ap-adl b{white-space:nowrap;color:var(--ap-link)}.ap-adl em{margin:0;color:var(--ap-tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap-adl svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--ap-tx3);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ap-adl:hover{opacity:.75}.ap-adl:hover em{text-decoration:underline}
+/* MT t1571: base aerodrome row in the aerodrome card style (.sub .icao + name), registration in the ATO card blue (.wx-sub .id, --tcv). Colours copied from main.html, no theme values changed. */
+.ap .ap-adl b{font-family:'Nippo',ui-monospace,monospace;font-weight:700;font-size:13px;line-height:18.85px;letter-spacing:.04em;color:#3A4AA8}
+html[data-pal=beige][data-theme=day] .ap .ap-adl b{color:#5B4E7A}
+html[data-theme=night] .ap .ap-adl b{color:#A9B3E8}
+html[data-theme=night][data-pal=purple] .ap .ap-adl b{color:#C4B8F2}
+.ap .ap-adl em{font:400 13px/18.85px -apple-system,BlinkMacSystemFont,'SF Pro Text',Inter,'Helvetica Neue',sans-serif;color:color-mix(in srgb,var(--ap-tx) 62%,transparent)}
+.ap .ap-reg .ap-id{font:600 12.5px/1.5 Sora,sans-serif;font-style:normal;letter-spacing:.04em;color:var(--tcv)!important;-webkit-text-fill-color:var(--tcv)!important}
+/* Night white hero (MT t1582/t1593, PR #241): Option B "Porcelain" floating card only. Midnight (pal=black) and Amethyst (pal=purple), ATO page only; day themes unchanged. No pure white at night. */
+html[data-theme=night] .ap .ap-hero{margin:12px 12px 0;border-radius:28px}/* MT t1627: top gap 12px = side gap 12px (was 8px, card looked slid up) */
+/* Night glass card (MT t1599): dark grey-blue glass that matches the runway diagram background (rwy.css .wmr.night --wmr-bg radial at 50% 0). Not light. Identical structure, lightness, shadows and gold in Midnight and Amethyst; only the tint differs. */
+html[data-theme=night][data-pal=black] .ap{--hg-a:#1A2036;--hg-b:#0A0D18;--hg-tx:#E8ECFF;--hg-sub:rgba(232,236,255,.6);--hg-ln:rgba(255,255,255,.09);--hg-hl:rgba(255,255,255,.10)}
+html[data-theme=night][data-pal=purple] .ap{--hg-a:#251A33;--hg-b:#0D0914;--hg-tx:#F3EAFF;--hg-sub:rgba(243,234,255,.6);--hg-ln:rgba(255,255,255,.09);--hg-hl:rgba(255,255,255,.10)}
+html[data-theme=night][data-pal] .ap .ap-hero{background:radial-gradient(120% 90% at 50% 0,var(--hg-a),var(--hg-b));-webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);color:var(--hg-tx)!important;-webkit-text-fill-color:currentColor;box-shadow:inset 0 1px 0 var(--hg-hl),inset 0 0 0 .5px var(--hg-ln),0 30px 60px -30px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.3)}
+html[data-theme=night][data-pal] .ap .ap-hero h1,html[data-theme=night][data-pal] .ap .ap-hero .ap-n{color:var(--hg-tx)!important;-webkit-text-fill-color:var(--hg-tx)!important}
+html[data-theme=night][data-pal] .ap .ap-hero .ap-regs,html[data-theme=night][data-pal] .ap .ap-hero .ap-mt,html[data-theme=night][data-pal] .ap .ap-hero .ap-r,html[data-theme=night][data-pal] .ap .ap-hero .ap-back{color:var(--hg-sub)!important;-webkit-text-fill-color:var(--hg-sub)!important}
+html[data-theme=night][data-pal] .ap .ap-hero .ap-k{color:rgba(184,154,94,.85)!important;-webkit-text-fill-color:rgba(184,154,94,.85)!important;letter-spacing:.2em}
+html[data-theme=night][data-pal] .ap .ap-hero .ap-st svg{fill:rgba(255,255,255,.12)}html[data-theme=night][data-pal] .ap .ap-hero .ap-st i.on svg{fill:#B89A5E}
+html[data-theme=night][data-pal] .ap .ap-hero h1{font-weight:600;letter-spacing:-.025em;padding-bottom:12px;margin-bottom:12px;background:linear-gradient(90deg,rgba(184,154,94,.7),rgba(184,154,94,0)) bottom left/56px 1px no-repeat}
+html[data-theme=night][data-pal] .ap .ap-hero .rv-btn:not(.ghost){color:var(--hg-tx)!important;-webkit-text-fill-color:var(--hg-tx)!important;--cc:var(--hg-tx);background:rgba(255,255,255,.07);box-shadow:inset 0 1px 0 var(--hg-hl),inset 0 0 0 .5px rgba(255,255,255,.14)}
+html[data-theme=night][data-pal] .ap .ap-hero .rv-btn.ghost{color:var(--hg-sub)!important;-webkit-text-fill-color:var(--hg-sub)!important;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 .5px var(--hg-ln)}
+
+/* Merged ATO: the NEXT (new) registration row is listed first and tagged Current (MT t1591) */
+.ap .ap-cur{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:600;line-height:1.5;letter-spacing:.04em;text-transform:uppercase;color:var(--tcv,#0019C9);box-shadow:inset 0 0 0 1px currentColor;font-style:normal}
+
+/* Write a review: back to the original placement beside the score (MT t1603). */
+/* Top card stars follow the 3-review minimum (same as the ratings box) */
+.ap .ap-r .ap-st.ap-hide i svg{fill:rgba(127,127,127,.22)!important}
+/* MT t1603: in-page back removed (top-bar 'ATOs' back closes the page); keep the hero spacing it used to give. */
+.ap-hero{padding-top:calc(40px + env(safe-area-inset-top))}
+/* Signed-in preview (?si=1, USERBASE example data) */
+.ap .ap-sec2{margin-top:24px}
+.ap .ap-exnote{margin:12px 8px 0;font-size:12px;line-height:16px;color:var(--ap-tx3)}
+/* Old 'Write a review' placement (right of the score) kept. Where the night card is too narrow (phone) it drops to the next line, still right-aligned, instead of running off the card. */
+.ap .ap-big{flex-wrap:wrap;row-gap:12px}
+.ap .ap-hero .ap-write{margin-left:auto;white-space:nowrap}
+/* Merged registrations: long ATO names no longer squeeze the validity date into a narrow column */
+.ap .ap-reg{flex-wrap:wrap;row-gap:2px}
+.ap .ap-reg>span{flex:1 1 auto;min-width:0}
+.ap .ap-reg>b{white-space:nowrap;margin-left:auto}
+/* Contact card first in the body (MT t1625): no extra top gap */
+.ap .ap-body>.ap-sec:first-child{margin-top:0}
+/* MT t1649: Midnight ATO page rebuilt from the day (Pearl) layout. Same full-width top card, sizes, spacing, shapes and buttons as Pearl; only the colours are Midnight (existing page tokens). Page background unchanged. Amethyst unchanged. */
+html[data-theme=night][data-pal=black] .ap .ap-hero{margin:0;border-radius:0 0 32px 32px;background:radial-gradient(120% 90% at 80% 0,var(--hg-a),var(--hg-b) 70%);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 -1px 0 var(--hg-ln)}
+html[data-theme=night][data-pal=black] .ap .ap-hero h1{letter-spacing:-.02em;padding-bottom:0;margin:16px 0 8px;background:none}
+html[data-theme=night][data-pal=black] .ap .ap-hero .ap-k{letter-spacing:.14em}
+/* MT t1652 (design/ato-amethyst-v1, variant A): Amethyst ATO page uses the Midnight/Pearl layout (full-width top card, same sizes, spacing, fonts and buttons). Amethyst card colours and page background unchanged; top card text colours match Midnight. */
+html[data-theme=night][data-pal=purple] .ap{--hg-tx:#E8ECFF;--hg-sub:rgba(232,236,255,.6)}
+html[data-theme=night][data-pal=purple] .ap .ap-hero{margin:0;border-radius:0 0 32px 32px;background:radial-gradient(120% 90% at 80% 0,var(--hg-a),var(--hg-b) 70%);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 -1px 0 var(--hg-ln)}
+html[data-theme=night][data-pal=purple] .ap .ap-hero h1{letter-spacing:-.02em;padding-bottom:0;margin:16px 0 8px;background:none}
+html[data-theme=night][data-pal=purple] .ap .ap-hero .ap-k{letter-spacing:.14em}

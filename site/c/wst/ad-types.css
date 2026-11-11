@@ -1,0 +1,318 @@
+/* Backlog 5 / MT #352 v15 */
+#list .card .ad-type{display:none!important}
+
+/* Fixed-width aerodrome name */
+#list .card .ch .t{
+  flex:0 0 var(--ad-name-w, 10.5rem)!important;
+  width:var(--ad-name-w, 10.5rem)!important;
+  max-width:var(--ad-name-w, 10.5rem)!important;
+  min-width:var(--ad-name-w, 10.5rem)!important;
+}
+/* v13: name area = fixed 2-line height; 1-line name vertically centred */
+#list .card .ch .t{
+  display:flex!important;
+  flex-direction:column;
+  align-items:stretch;
+  overflow:visible!important;
+}
+#list .card .ch h2,
+#list .card .ch h2:not(#z){
+  margin:0;
+  box-sizing:border-box;
+  height:calc(20px * 1.15 * 2);
+  min-height:calc(20px * 1.15 * 2);
+  max-height:calc(20px * 1.15 * 2);
+  display:flex!important;
+  align-items:center;
+  justify-content:flex-start;
+  overflow:hidden!important;
+  font:700 20px/1.15 Satoshi,-apple-system,sans-serif;
+  letter-spacing:-.02em;
+  white-space:normal!important;
+  -webkit-line-clamp:unset!important;
+  line-clamp:unset!important;
+  text-overflow:clip!important;
+}
+#list .card .ch h2 .nm{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  line-clamp:2!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  width:100%;
+  max-width:100%;
+  font:inherit;
+  letter-spacing:inherit;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:manual;
+  text-wrap:balance;
+}
+#list .card .wxrow{
+  display:grid!important;
+  grid-template-columns:var(--ad-temp-w, 4.75rem) minmax(0,1fr) 76px!important;
+  gap:16px;
+  align-items:center;
+}
+#list .card .wxrow .temp{width:var(--ad-temp-w, 4.75rem);max-width:var(--ad-temp-w, 4.75rem)}
+#list .card .wxrow .rwd{width:76px;height:76px;flex:none}
+/* v6: runway/helipad diagram visible again in wxrow — do NOT hide */
+
+#list .card .mtag{display:none!important}
+
+#list .card .wxd .wmtag{
+  display:inline!important;
+  margin:0 0 0 6px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  font:600 12.5px/1.2 -apple-system,sans-serif!important;
+  letter-spacing:0!important;
+  color:var(--tx3)!important;
+  vertical-align:baseline;
+}
+#list .card .wxd .wmtag::before{content:none!important;display:none!important}
+#list .card .temp .wmtag{display:none!important}
+
+/* Status pill layout only — never restyle the pill/beam */
+#list .card .ch{position:relative}
+#list .card .ch .t{order:1}
+#list .card .ch .badge{
+  order:2;
+  flex:none;
+  margin-left:auto;
+  align-self:center;
+}
+#list .card .ch .ad-corner{display:none!important} /* diagram lives in wxrow again */
+
+/* v14: glowing Military word + permission on ONE line (full width under ch) */
+#list .card .ch{
+  flex-wrap:wrap;
+}
+#list .card .ch .mil-row{
+  order:3;
+  flex:1 1 100%;
+  display:flex;
+  align-items:baseline; /* v15: permission shares Military baseline; do not move mil-word */
+  gap:8px;
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  margin:0;
+  padding:0;
+  flex-wrap:nowrap;
+  white-space:nowrap;
+  overflow:visible;
+}
+/* v14: plain glowing "Military" word — no pill chrome */
+#list .card .ch .mil-row .mil-word{
+  display:inline;
+  flex:none;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+  font:700 12px/1.2 -apple-system,sans-serif;
+  line-height:1.2;
+  letter-spacing:.02em;
+  color:#FF4D6A;
+  text-shadow:
+    0 0 6px rgba(225,29,72,.55),
+    0 0 14px rgba(225,29,72,.35);
+  white-space:nowrap;
+}
+/* Readable glow in all four themes */
+html[data-theme=night][data-pal=black] #list .card .ch .mil-row .mil-word{
+  color:#FF6B81;
+  text-shadow:0 0 7px rgba(255,80,100,.65),0 0 16px rgba(225,29,72,.4);
+}
+html[data-theme=night][data-pal=purple] #list .card .ch .mil-row .mil-word{
+  color:#FF7A92;
+  text-shadow:0 0 8px rgba(255,90,120,.7),0 0 18px rgba(225,29,72,.45);
+}
+html[data-theme=day][data-pal=white] #list .card .ch .mil-row .mil-word{
+  color:#C0102E;
+  text-shadow:0 0 5px rgba(192,16,46,.35),0 1px 0 rgba(255,255,255,.6);
+}
+html[data-theme=day][data-pal=beige] #list .card .ch .mil-row .mil-word{
+  color:#B40E28;
+  text-shadow:0 0 5px rgba(180,14,40,.3),0 1px 0 rgba(255,250,240,.7);
+}
+#list .card .ch .mil-row .mil-perm{
+  display:inline;
+  flex:none;
+  align-self:baseline;
+  margin:0;
+  padding:0;
+  border:0;
+  background:none;
+  font:500 12px/1.2 -apple-system,sans-serif; /* same size/line-height as mil-word for true baseline */
+  letter-spacing:-.01em;
+  color:var(--tx3);
+  white-space:nowrap;
+  text-wrap:nowrap;
+  vertical-align:baseline;
+}
+
+/*
+ * Military (#352 v11): default theme glass + STEADY status glow (no red corners).
+ * Red only: hazard-stripe ICAO (idea C) + glowing Military word + permission on one line.
+ */
+#list .card.ad-mil-pro{
+  position:relative;
+  border-radius:18px;
+  background:var(--gl)!important;
+  background-image:none!important;
+  color:var(--tx);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 var(--hl),
+    inset 0 0 0 .5px var(--ln),
+    var(--sh,0 10px 28px -12px rgba(0,0,0,.45))!important;
+}
+#list .card.ad-mil-pro::before{content:none!important;display:none!important}
+/* Status beam: STEADY (no breathe), colour from data-s / --c */
+#list .card.ad-mil-pro::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+  animation:none!important;
+  opacity:.72;
+  background:
+    radial-gradient(60px 60px at 0 0,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%),
+    radial-gradient(60px 60px at 100% 0,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%),
+    radial-gradient(60px 60px at 0 100%,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%),
+    radial-gradient(60px 60px at 100% 100%,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%)!important;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent),
+    inset 0 0 26px -6px var(--c)!important;
+}
+#list .card.ad-mil-pro[data-s=incomplete]::after,
+#list .card.ad-mil-pro[data-s=none]::after{opacity:.42}
+#list .card.ad-mil-pro .ch .badge{animation:none!important}
+#list .card.ad-mil-pro > *{position:relative;z-index:1}
+#list .card.ad-mil-pro .ch h2,
+#list .card.ad-mil-pro .why,
+#list .card.ad-mil-pro .wxd,
+#list .card.ad-mil-pro .temp{color:inherit}
+#list .card.ad-mil-pro .ch .sub{color:var(--tx2)!important;text-shadow:none!important}
+/* ICAO hazard stripe (idea C) — only red chrome besides Military word */
+#list .card.ad-mil-pro .ch .icao{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:3px 9px!important;
+  border-radius:4px!important;
+  background:repeating-linear-gradient(-45deg,#1a0508 0 6px,#7a0f1a 6px 12px)!important;
+  color:#FFE4E6!important;
+  font-weight:800!important;
+  letter-spacing:.08em!important;
+  box-shadow:inset 0 0 0 1.5px #E11D48, 0 0 16px rgba(225,29,72,.5)!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.6)!important;
+  -webkit-background-clip:border-box!important;
+  filter:none!important;
+}
+#list .card.ad-mil-pro .ch .mil-row .mil-perm{
+  color:var(--tx3);
+}
+html[data-theme=night] #list .card.ad-mil-pro .ch .mil-row .mil-perm{
+  color:color-mix(in srgb,#FFE4E6 55%,var(--tx3));
+}
+html[data-theme=day] #list .card.ad-mil-pro .ch .mil-row .mil-perm{
+  color:color-mix(in srgb,#7A1020 35%,var(--tx3));
+}
+html[data-theme=night] #list .card.ad-mil-pro{
+  background:var(--gl)!important;
+  background-image:none!important;
+  box-shadow:
+    inset 0 1px 0 var(--hl),
+    inset 0 0 0 .5px var(--ln),
+    var(--sh,0 10px 28px -12px rgba(0,0,0,.55))!important;
+}
+
+/* v14: ICAO·province — same vertical slot; flush LEFT with name / status text (no centre) */
+#list .card .ch .t .sub{
+  display:flex!important;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  width:max-content;
+  max-width:none;
+  margin:10px 0 0;
+  margin-inline:0!important;
+  box-sizing:border-box;
+  text-align:left;
+  flex:none;
+  overflow:visible!important;
+  position:static;
+  left:auto;
+  transform:none;
+}
+#list .card > .why{
+  margin-top:10px!important;
+}
+#list .card.ad-mil-pro .ch .mil-row{
+  margin-top:8px;
+}
+#list .card.ad-mil-pro > .why{
+  margin-top:10px!important;
+}
+#list .card.ad-mil-pro .ch .t .sub{
+  max-width:none;
+  overflow:visible!important;
+  position:static;
+  left:auto;
+  transform:none;
+  margin-inline:0!important;
+  justify-content:flex-start;
+  text-align:left;
+}
+
+/* FZL — one line; AGL+AMSL left, SAST+trend use right free space; no ellipsis */
+#list .card .wfzl2{
+  display:flex;align-items:center;gap:7px;height:30px;box-sizing:border-box;
+  margin:-8px 0 14px;padding:0 11px 0 9px;border-radius:15px;
+  background:var(--gl);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);
+  font:500 10.5px/1 -apple-system,sans-serif;letter-spacing:-.02em;color:var(--tx2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;min-width:0;
+}
+#list .card .wfzl2 svg{
+  width:15px;height:15px;flex:none;
+  filter:drop-shadow(0 0 3px rgba(220,230,245,.85)) drop-shadow(0 0 8px rgba(190,210,235,.55));
+}
+#list .card .wfzl2 b{color:var(--tx);font-weight:600}
+#list .card .wfzl2 .cd{flex:1 1 auto;min-width:0;overflow:visible;text-overflow:clip;white-space:nowrap}
+#list .card .wfzl2 .fz-amsl{font-weight:500;color:var(--tx3)}
+#list .card .wfzl2 .fz-meta{
+  margin-left:auto;padding-left:8px;flex:none;
+  display:inline-flex;align-items:center;gap:5px;
+  color:var(--tx3);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+#list .card .wfzl2 .fz-trend{font-size:12px;line-height:1;color:var(--tx2)}
+#list .card .wfzl2 .fz-warn{color:#FCA5A5;font-weight:600;letter-spacing:0}
+
+.wmf.wmf-aero .chips .c svg,
+.wmf.wmf-aero .chips .c .fv-heli-ico{display:none!important}
+
+@media (min-width:1280px){
+  #list .card .ch .t{--ad-name-w:14rem;flex-basis:14rem!important;width:14rem!important;max-width:14rem!important;min-width:14rem!important}
+}
+
+/* v13: INCOMPLETE pill — no status dot; word centred; size/colour/glow/shape unchanged */
+#list .card[data-s=incomplete] .ch .badge::before{
+  content:none!important;
+  display:none!important;
+  width:0!important;
+  height:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+#list .card[data-s=incomplete] .ch .badge{
+  gap:6px!important; /* MT t860u: small space between icon and INCOMPLETE (same 6px as the other verdict pills) */
+  justify-content:center!important;
+  text-align:center;
+}

@@ -1,0 +1,63 @@
+/* Local design proposal: Library-led headers. Theme tokens and fonts stay unchanged. */
+.ga-page-header.ga-page-header {
+  --ga-eyebrow:color-mix(in srgb,var(--tx) 84%,var(--acc) 16%);
+  color:var(--tx);text-align:left;font:400 15px/1.5 'Satoshi',sans-serif;
+  box-sizing:border-box;padding:84px 0 0;margin:0 0 22px;
+}
+.ga-page-header.ga-page-header .eyebrow {
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 11px/1 'JetBrains Mono',ui-monospace,monospace!important;
+  letter-spacing:.16em!important;text-transform:uppercase;color:var(--ga-eyebrow)!important;
+}
+.ga-page-header .eyebrow::before {content:"";width:18px;height:1px;background:currentColor;opacity:.7;flex:none}
+.ga-page-header.ga-page-header :is(h1,h2) {
+  margin:14px 0 8px!important;font:600 clamp(34px,5.4vw,56px)/1 'Clash Display',sans-serif!important;
+  letter-spacing:-.025em!important;color:var(--tx)!important;text-wrap:initial;
+}
+.ga-page-header.ga-page-header :is(p,.ga-lede) {
+  margin:0!important;max-width:560px!important;color:var(--tx2)!important;
+  font:400 15.5px/1.55 'Satoshi',sans-serif!important;letter-spacing:normal!important;
+}
+/* The Library keeps its existing outer 84px clearance and title spacing. */
+.ga-page-header.ga-library-header {padding:0}
+/* Directory counts remain in the existing filter component, not in the header. */
+html[data-theme] body :is(#ato,#dfe)>.wmvh.ga-page-header {padding:52px 16px 0;max-width:none;margin:0 0 22px}
+html.sv4 #wsp .intro.ga-page-header {padding:28px 0 0;margin-bottom:0}
+html body .hero.ga-calculator-header {max-width:1240px;padding:52px 16px 0;margin:0 auto 22px}
+@media(min-width:601px){html body .hero.ga-calculator-header{padding-left:22px;padding-right:22px}}
+
+/* Title shine: ATO and DFE big titles only. Not Library / Calculator / Status.
+   Sweep lives on the large h1; small Go Around eyebrow stays static. */
+:root {--ga-title-shine:#2454A6}
+html[data-theme="day"][data-pal="beige"] {--ga-title-shine:#925018}
+html[data-theme="night"] {--ga-title-base:color-mix(in srgb,var(--tx) 70%,var(--acc) 30%);--ga-title-shine:#FFFFFF}
+html[data-theme="night"][data-pal="purple"] {--ga-title-shine:#F1DFFF}
+html[data-theme] body :is(#ato,#dfe)>.wmvh.ga-page-header > h1 {
+  width:fit-content;max-width:100%;
+  background-image:linear-gradient(105deg,var(--ga-title-base,var(--tx)) 0%,var(--ga-title-base,var(--tx)) 44%,var(--ga-title-shine) 49%,var(--ga-title-shine) 51%,var(--ga-title-base,var(--tx)) 56%,var(--ga-title-base,var(--tx)) 100%)!important;
+  background-size:260% 100%!important;
+  background-position:100% 0;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  color:transparent!important;-webkit-text-fill-color:transparent;
+  animation:ga-title-sweep 5.5s linear infinite!important;
+  isolation:isolate;
+  -webkit-transform:translateZ(0);transform:translateZ(0);
+}
+@keyframes ga-title-sweep {
+  0% {background-position:100% 0}
+  27.2727%,100% {background-position:0% 0}
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-theme] body :is(#ato,#dfe)>.wmvh.ga-page-header > h1 {
+    animation:none!important;background:none!important;
+    color:var(--tx)!important;-webkit-text-fill-color:var(--tx);
+  }
+}
+
+/* Small Go Around eyebrow: never sweeps (Safari could paint title shine onto it). */
+html[data-theme] body :is(#ato,#dfe)>.wmvh.ga-page-header > .eyebrow {
+  position:relative;z-index:1;isolation:isolate;
+  animation:none!important;background:none!important;
+  -webkit-background-clip:border-box!important;background-clip:border-box!important;
+  -webkit-text-fill-color:var(--ga-eyebrow)!important;color:var(--ga-eyebrow)!important;
+}

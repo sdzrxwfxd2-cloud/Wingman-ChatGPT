@@ -1,0 +1,389 @@
+{
+ "_note": "EXAMPLE DATA ONLY (USERBASE). Fake sample reviews for previews until the reviews database exists. Not real pilots.",
+ "SACAA/1115/ATO": [
+  {
+   "id": "ex1",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 4,
+    "acft": 5,
+    "ground": 4,
+    "value": 4
+   },
+   "text": "Instructors are patient and the briefings are thorough. Aircraft were always ready on time.",
+   "licence": "PPL",
+   "votes": 14,
+   "created": 1791724815207,
+   "example": true
+  },
+  {
+   "id": "ex2",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 4,
+    "ground": 5,
+    "value": 3
+   },
+   "text": "Good ground school. Booking slots in summer can be tight, plan ahead.",
+   "licence": "CPL",
+   "votes": 9,
+   "created": 1789564815207,
+   "example": true
+  },
+  {
+   "id": "ex3",
+   "stars": 4,
+   "cats": {
+    "inst": 5,
+    "book": 3,
+    "acft": 4,
+    "ground": 4,
+    "value": 4
+   },
+   "text": "Solid training, fair prices for the Western Cape. Radio work at a busy field helped a lot.",
+   "licence": "PPL",
+   "votes": 6,
+   "created": 1787404815207,
+   "example": true
+  },
+  {
+   "id": "ex4",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 5,
+    "acft": 4,
+    "ground": 5,
+    "value": 4
+   },
+   "text": "Night rating done in three weeks. Friendly team.",
+   "licence": "Night",
+   "votes": 3,
+   "created": 1784812815207,
+   "example": true
+  },
+  {
+   "id": "ex5",
+   "stars": 3,
+   "cats": {
+    "inst": 4,
+    "book": 2,
+    "acft": 3,
+    "ground": 4,
+    "value": 3
+   },
+   "text": "Training is good but admin replies are slow.",
+   "licence": "PPL",
+   "votes": 1,
+   "created": 1782220815207,
+   "example": true
+  }
+ ],
+ "SACAA/1110/ATO": [
+  {
+   "id": "ex11",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 5,
+    "ground": 4,
+    "value": 3
+   },
+   "text": "Modern fleet and a structured CPL programme.",
+   "licence": "CPL",
+   "votes": 11,
+   "created": 1792156815207,
+   "example": true
+  },
+  {
+   "id": "ex12",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 4,
+    "acft": 5,
+    "ground": 5,
+    "value": 4
+   },
+   "text": "Great instructors, very professional at Lanseria.",
+   "licence": "PPL",
+   "votes": 8,
+   "created": 1789996815207,
+   "example": true
+  },
+  {
+   "id": "ex13",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 3,
+    "acft": 4,
+    "ground": 4,
+    "value": 4
+   },
+   "text": "Busy airspace, which is good practice. Booking app works well.",
+   "licence": "IR",
+   "votes": 5,
+   "created": 1786540815207,
+   "example": true
+  }
+ ],
+ "SACAA/1637/ATO": [
+  {
+   "id": "ex14",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 4,
+    "ground": 4,
+    "value": 4
+   },
+   "text": "Grand Central base is handy for circuits.",
+   "licence": "PPL",
+   "votes": 2,
+   "created": 1788268815207,
+   "example": true
+  }
+ ],
+ "SACAA/1160/ATO": [
+  {
+   "id": "ex101",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 5,
+    "acft": 5,
+    "ground": 4,
+    "value": 5
+   },
+   "text": "Big school with every course you can think of. Type ratings were well run and the sim slots were easy to book.",
+   "licence": "ATPL",
+   "votes": 12,
+   "created": 1711462400000,
+   "example": true
+  },
+  {
+   "id": "ex102",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 4,
+    "ground": 4,
+    "value": 5
+   },
+   "text": "Very structured, almost airline style. Can feel impersonal but the standard is high.",
+   "licence": "CPL",
+   "votes": 9,
+   "created": 1710684800000,
+   "example": true
+  },
+  {
+   "id": "ex103",
+   "stars": 4,
+   "cats": {
+    "inst": 5,
+    "book": 4,
+    "acft": 3,
+    "ground": 3,
+    "value": 5
+   },
+   "text": "Great facilities. Admin takes a while to answer emails.",
+   "licence": "IR",
+   "votes": 6,
+   "created": 1709907200000,
+   "example": true
+  },
+  {
+   "id": "ex104",
+   "stars": 5,
+   "cats": {
+    "inst": 4,
+    "book": 5,
+    "acft": 5,
+    "ground": 5,
+    "value": 5
+   },
+   "text": "Instructor rating done here, good mentoring from senior instructors.",
+   "licence": "Instructor",
+   "votes": 3,
+   "created": 1709129600000,
+   "example": true
+  },
+  {
+   "id": "ex105",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 3,
+    "acft": 3,
+    "ground": 4,
+    "value": 4
+   },
+   "text": "Pricey but you get what you pay for.",
+   "licence": "MEA",
+   "votes": 0,
+   "created": 1708352000000,
+   "example": true
+  }
+ ],
+ "SACAA/1627/ATO": [
+  {
+   "id": "ex106",
+   "stars": 4,
+   "cats": {
+    "inst": 5,
+    "book": 3,
+    "acft": 5,
+    "ground": 3,
+    "value": 4
+   },
+   "text": "Merged school, same people as before. Training records moved over without problems.",
+   "licence": "CPL",
+   "votes": 12,
+   "created": 1707574400000,
+   "example": true
+  },
+  {
+   "id": "ex107",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 5,
+    "acft": 5,
+    "ground": 5,
+    "value": 5
+   },
+   "text": "Excellent ground school for the ATPL subjects.",
+   "licence": "ATPL",
+   "votes": 9,
+   "created": 1706796800000,
+   "example": true
+  }
+ ],
+ "SACAA/1626/ATO": [
+  {
+   "id": "ex108",
+   "stars": 3,
+   "cats": {
+    "inst": 3,
+    "book": 2,
+    "acft": 4,
+    "ground": 3,
+    "value": 4
+   },
+   "text": "Good fleet after the merge, booking system is still being sorted out.",
+   "licence": "PPL",
+   "votes": 12,
+   "created": 1706019200000,
+   "example": true
+  }
+ ],
+ "SACAA/1141/ATO": [
+  {
+   "id": "ex109",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 5,
+    "ground": 5,
+    "value": 3
+   },
+   "text": "Great facilities. Admin takes a while to answer emails.",
+   "licence": "IR",
+   "votes": 12,
+   "created": 1705241600000,
+   "example": true
+  }
+ ],
+ "SACAA/1659/ATO": [
+  {
+   "id": "ex110",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 5,
+    "acft": 5,
+    "ground": 5,
+    "value": 5
+   },
+   "text": "Professional crew resource management course, practical and well paced.",
+   "licence": "CRM",
+   "votes": 12,
+   "created": 1704464000000,
+   "example": true
+  },
+  {
+   "id": "ex111",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 4,
+    "acft": 5,
+    "ground": 4,
+    "value": 5
+   },
+   "text": "Very structured, almost airline style. Can feel impersonal but the standard is high.",
+   "licence": "CPL",
+   "votes": 9,
+   "created": 1703686400000,
+   "example": true
+  }
+ ],
+ "SACAA/1132/ATO": [
+  {
+   "id": "ex112",
+   "stars": 5,
+   "cats": {
+    "inst": 5,
+    "book": 5,
+    "acft": 5,
+    "ground": 5,
+    "value": 5
+   },
+   "text": "Helicopter PPL done in two months. Robinson fleet well maintained.",
+   "licence": "PPL (H)",
+   "votes": 12,
+   "created": 1702908800000,
+   "example": true
+  },
+  {
+   "id": "ex113",
+   "stars": 4,
+   "cats": {
+    "inst": 3,
+    "book": 4,
+    "acft": 3,
+    "ground": 5,
+    "value": 4
+   },
+   "text": "Busy airport means great radio practice. Hover work was patient and clear.",
+   "licence": "PPL (H)",
+   "votes": 9,
+   "created": 1702131200000,
+   "example": true
+  },
+  {
+   "id": "ex114",
+   "stars": 4,
+   "cats": {
+    "inst": 4,
+    "book": 3,
+    "acft": 4,
+    "ground": 4,
+    "value": 3
+   },
+   "text": "Turbine conversion was expensive but very thorough.",
+   "licence": "CPL (H)",
+   "votes": 6,
+   "created": 1701353600000,
+   "example": true
+  }
+ ]
+}

@@ -1,0 +1,170 @@
+/* Status page v4 (MT t1997/t1998, 5 Nov 2026). Design: go-around-design DESIGN.md. Off: ?statusv4=0.
+   Theme values untouched; only uses existing vars. No position:fixed, no inner scroll. */
+html.sv4{--v4b:#6B78FF;--v4M:'JetBrains Mono',ui-monospace,monospace;--v4L:'General Sans',Satoshi,-apple-system,sans-serif;--v4on:rgba(255,255,255,.16);--v4onS:inset 0 .5px 0 rgba(255,255,255,.18),0 1px 2px rgba(0,0,0,.35),0 3px 8px -2px rgba(0,0,0,.4);--v4go:#22C55E;--v4cau:#FF8A00;--v4ng:#F80F3B}
+html.sv4[data-theme=day]{--v4b:#0019C9;--v4on:rgba(255,255,255,.96);--v4onS:0 1px 2px rgba(0,0,0,.10),0 3px 8px -2px rgba(0,0,0,.14)}
+html.sv4 #wsp>:not(.v4){display:none!important}
+html.sv4 #wsp .v4{max-width:440px;margin:0 auto;padding:16px 0 8px;color:var(--tx)}
+html.sv4 .v4 .eyebrow{font:500 11px var(--v4M);letter-spacing:.18em;text-transform:uppercase;color:var(--tx3)}
+html.sv4 .v4 h1{font:600 46px/1 'Clash Display',Satoshi,sans-serif;letter-spacing:-.015em;margin:10px 0 12px}
+html.sv4 .v4 .lede{color:var(--tx2);font:400 14.5px/1.45 Satoshi,-apple-system,sans-serif;max-width:34ch;margin:0}
+html.sv4 .v4 .box{margin-top:30px;background:var(--gl);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln),var(--sh);border-radius:28px;padding:6px 20px}
+html.sv4 .v4 .sec{margin:0;padding:20px 0;border-top:.5px solid var(--ln)}html.sv4 .v4 .col>.sec:first-child{border-top:0}
+html.sv4 .v4 .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+/* .hd .no removed with section numbers (MT t2197) */
+html.sv4 .v4 .hd h2{margin:0;font:600 12px var(--v4L);letter-spacing:.16em;text-transform:uppercase;color:var(--tx2)}
+html.sv4 .v4 .fn{font:400 12.5px/1.5 Satoshi,-apple-system,sans-serif;color:var(--tx2);margin:10px 0 0}
+/* condition pill glass toggles; selected = neutral white */
+html.sv4 .v4 .seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+html.sv4 .v4 .seg button{flex:1;height:38px;border:0;border-radius:999px;background:transparent;font:600 14px var(--v4L);color:var(--tx2);letter-spacing:.02em;cursor:pointer;transition:transform .25s,color .3s,background .3s}
+html.sv4 .v4 .seg button:active,html.sv4 .v4 .pl:active{transform:scale(.94)}
+html.sv4 .v4 .seg button[aria-checked=true]{background:var(--v4on);color:var(--tx);box-shadow:var(--v4onS)}
+html.sv4 .v4 .pls{display:flex;gap:10px}
+html.sv4 .v4 .pl{flex:1;height:44px;display:flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:999px;font:600 14px var(--v4L);color:var(--tx2);cursor:pointer;background:var(--gl2);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--tx3),0 8px 24px -14px rgba(0,0,0,.35);transition:transform .25s,color .3s}
+html.sv4 .v4 .pl i{width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--tx3)}
+html.sv4 .v4 .pl[aria-checked=true]{color:var(--tx);background:linear-gradient(color-mix(in srgb,var(--cc) 20%,transparent),color-mix(in srgb,var(--cc) 20%,transparent)),var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--cc),0 0 16px -4px color-mix(in srgb,var(--cc) 55%,transparent)}
+html.sv4 .v4 .pl[aria-checked=true] i{background:var(--cc);box-shadow:0 0 8px var(--cc)}
+html.sv4 .v4 .pl.ir{--cc:var(--v4ng)}html.sv4 .v4 .pl.nt{--cc:var(--v4b)}
+/* licence strip */
+html.sv4 .v4 .lim4{display:grid;grid-template-columns:repeat(4,1fr);border-radius:18px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln)}
+html.sv4 .v4 .lim4 div{padding:12px 8px 11px 11px;border-left:.5px solid var(--ln)}html.sv4 .v4 .lim4 div:first-child{border:0}
+html.sv4 .v4 .lim4 small{display:block;font:600 10px var(--v4L);letter-spacing:.12em;text-transform:uppercase;color:var(--tx3)}
+html.sv4 .v4 .lim4 b{display:block;font:600 15px var(--v4M);letter-spacing:-.02em;margin-top:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+html.sv4 .v4 .lim4 b u{text-decoration:none;font-size:10.5px;color:var(--tx3);margin-left:2px;font-weight:500}
+/* ATPL note (MT t2133): neat two lines from 360 px up. Body Satoshi 500 13px/1.4 (DESIGN.md: Satoshi body), balanced wrap;
+   the ATPL kicker uses the same label style as the X-wind / Gust / Ceiling / Vis labels it replaces (General Sans 600 10px .12em caps). */
+html.sv4 .v4 .atpl{padding:12px 14px 13px;border-radius:18px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);font:500 13px/1.4 Satoshi,-apple-system,sans-serif;text-wrap:balance}
+html.sv4 .v4 .atpl:before{content:'ATPL';display:block;font:600 10px var(--v4L);letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:5px}
+/* aircraft: existing .wsp-ac + status-v2 grow-out picker (absolute inside this section) */
+html.sv4.sv2 #wsp .v4 .wsp-ac{width:100%;min-height:52px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:16px!important;background:var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln)!important;font:600 15.5px var(--v4L)!important;color:var(--tx)}
+html.sv4.sv2 #wsp .v4 .wsp-ac .v{margin-left:auto;color:var(--tx3);font:500 13px var(--v4M)}
+html.sv4.sv2 #wsp .v4 .wsp-ac .v::after{content:none}
+html.sv4.sv2 #wsp .v4 .sv2-ac>.wsp-ac{background:transparent!important;box-shadow:none!important}
+/* my minimums: existing editable rows from wm-status.js */
+html.sv4.sv2 #wsp .v4 .limcard{margin:0!important;padding:0!important;background:var(--gl2)!important;border-radius:18px!important;box-shadow:inset 0 0 0 .5px var(--ln)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;overflow:hidden}
+html.sv4.sv2 #wsp .v4 .limcard::before{content:none}
+html.sv4.sv2 #wsp .v4 .limcard>h5,html.sv4.sv2 #wsp .v4 .limcard>.wdis{display:none!important}
+html.sv4.sv2 #wsp .v4 .limcard .lim{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;min-height:0;padding:12px 10px 12px 14px;border-top:.5px solid var(--ln);border-bottom:0}
+html.sv4.sv2 #wsp .v4 .limcard .lim:first-of-type{border-top:0}
+html.sv4.sv2 #wsp .v4 .limcard .lim .ll{flex:1;display:flex;flex-direction:column;gap:2px;font:600 14.5px var(--v4L);color:var(--tx)}
+html.sv4.sv2 #wsp .v4 .limcard .otag{padding:0!important;background:none!important;box-shadow:none!important;border-radius:0!important;font:500 10.5px var(--v4M)!important;letter-spacing:.04em;text-transform:uppercase;color:var(--tx3)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.sv4.sv2 #wsp .v4 .limcard .otag.you{color:var(--v4go)!important}
+html.sv4.sv2 #wsp .v4 .limcard .lim.amber{background:linear-gradient(90deg,color-mix(in srgb,var(--v4cau) 10%,transparent),transparent 70%)}
+html.sv4.sv2 #wsp .v4 .limcard .lim.amber .otag{color:var(--v4cau)!important}
+html.sv4.sv2 #wsp .v4 .limcard .stp{display:grid!important;grid-template-columns:auto auto 33px 28px;align-items:center;column-gap:0}html.sv4.sv2 #wsp .v4 .limcard .stp b{order:1}html.sv4.sv2 #wsp .v4 .limcard .stp small{order:2;margin:0 12px 0 3px}html.sv4.sv2 #wsp .v4 .limcard .stp button[data-d="-1"]{order:3;justify-self:start}html.sv4.sv2 #wsp .v4 .limcard .stp button[data-d="1"]{order:4}
+html.sv4.sv2 #wsp .v4 .limcard .stp b{font:600 19px var(--v4M)!important;letter-spacing:-.02em;text-align:right!important;min-width:44px;font-variant-numeric:tabular-nums}
+html.sv4.sv2 #wsp .v4 .limcard .lim.amber .stp b{color:var(--v4cau)}
+html.sv4.sv2 #wsp .v4 .limcard .stp small{font:500 11px var(--v4M);color:var(--tx3)}
+html.sv4.sv2 #wsp .v4 .limcard .stp button{width:28px!important;height:28px!important;border-radius:50%!important;border:0;background:var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--tx3)!important;color:var(--tx2)!important}
+html.sv4.sv2 #wsp .v4 .limcard .stp button{display:grid!important;place-items:center;padding:0!important;font:500 16px/1 var(--v4M)!important}html.sv4.sv2 #wsp .v4 .limcard .stp button::before,html.sv4.sv2 #wsp .v4 .limcard .stp button::after{display:none!important;content:none!important}
+html.sv4.sv2 #wsp .v4 .limcard .msg{flex-basis:100%;font:500 11.5px/1.35 Satoshi,-apple-system,sans-serif;margin-top:3px}
+html.sv4.sv2 #wsp .v4 .limcard .wrst{display:none!important;display:block;margin:0;width:100%;height:44px;border-radius:0!important;border-top:.5px solid var(--ln)!important;background:transparent!important;box-shadow:none!important;font:600 13px var(--v4L);color:var(--tx2)}
+/* count: existing .sw (ICAO | All) restyled as the neutral seg; old live status bar verbatim */
+html.sv4.sv2 #wsp .v4 .sw{display:flex!important;gap:4px;height:46px!important;padding:4px!important;border-radius:999px!important;background:var(--gl2)!important;box-shadow:inset 0 0 0 .5px var(--ln)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.sv4.sv2 #wsp .v4 .sw>i{display:none}
+html.sv4.sv2 #wsp .v4 .sw button{flex:1;height:38px!important;border:0;border-radius:999px!important;background:transparent;font:600 14px var(--v4L)!important;letter-spacing:.02em;color:var(--tx2)!important}
+html.sv4.sv2 #wsp .v4 .sw button.on{background:var(--v4on)!important;color:var(--tx)!important;box-shadow:var(--v4onS)}
+html.sv4.sv2 #wsp .v4 .sw button:last-child{order:-1}
+html.sv4 #wsp .v4 .v4bar[hidden]{display:none!important}
+/* count, exactly as the mockup: three numbers with a coloured rule, then a proportional bar */
+html.sv4 .v4 .cnt{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px}
+html.sv4 .v4 .cnt>div{padding:2px 0 0 12px;border-left:1px solid var(--c);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .25s}
+html.sv4 .v4 .cnt>div:active{transform:scale(.96)}
+html.sv4 .v4 .cnt b{display:block;font:600 34px/1 var(--v4M);letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:var(--tx)}
+html.sv4 .v4 .cnt span{display:block;font:600 10.5px var(--v4L);letter-spacing:.14em;color:var(--c);margin-top:7px}
+html.sv4 .v4 .bar4{display:flex;gap:3px;height:4px;margin-top:16px}html.sv4 .v4 .bar4 i{flex:1;border-radius:2px;background:var(--c)}
+html.sv4 .v4 .why{margin-top:14px;display:grid;gap:6px;font:400 12.5px Satoshi,-apple-system,sans-serif;color:var(--tx2)}
+html.sv4 .v4 .why p{margin:0;display:flex;gap:8px;align-items:baseline}html.sv4 .v4 .why p:before{content:'';width:6px;height:6px;border-radius:50%;background:var(--c);flex:none;transform:translateY(-1px)}
+html.sv4 .v4 .disc{margin:22px 4px 0;font:400 11.5px/1.5 Satoshi,-apple-system,sans-serif;color:var(--tx3)}
+@media(min-width:760px){html.sv4 #wsp{max-width:none}html.sv4 #wsp .v4{max-width:760px}html.sv4 .v4 h1{font-size:60px}
+ html.sv4 .v4 .box{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;padding:10px 26px}html.sv4 .v4 .col{min-width:0}html.sv4 .v4 .col+.col{border-left:.5px solid var(--ln);padding-left:28px}}
+@media(min-width:1200px){html.sv4 #wsp .v4{max-width:1180px;display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start;padding-top:40px}
+ html.sv4 .v4 h1{font-size:76px}html.sv4 .v4 .box{margin-top:0;grid-template-columns:1fr 1.1fr;column-gap:36px;padding:14px 34px;border-radius:32px}html.sv4 .v4 .col+.col{padding-left:36px}html.sv4 .v4 .lim4 b{font-size:17px}html.sv4 .v4 .cnt b{font-size:44px}}
+/* aircraft picker (MT t2014): the live .wsp-ac sheet (.wsh, existing fixed sheet) dressed exactly as the v4 mockup sheet, all themes */
+html.sv4.sv2 .wsh,html.sv4.sv2 .wbk{display:block!important}
+html.sv4 body .wsh.wsh.wsh.wsh{top:calc(var(--wvt,0px) + var(--wvh,100dvh) / 2)!important;bottom:auto!important;left:50%!important;right:auto!important;width:calc(100vw - 16px)!important;max-height:calc(var(--wvh,100dvh) - 16px)!important;overflow:auto;border-radius:30px!important;padding:8px 18px 18px!important;background:color-mix(in srgb,color-mix(in srgb,var(--tx) 11%,var(--bg)) 90%,transparent)!important;-webkit-backdrop-filter:blur(30px) saturate(180%)!important;backdrop-filter:blur(30px) saturate(180%)!important;box-shadow:inset 0 .5px 0 var(--hl),inset 0 0 0 .5px var(--ln),0 24px 48px -18px rgba(0,0,0,.6)!important;transform:translate(-50%,-50%) scale(.96)!important;opacity:0;pointer-events:none;transition:opacity .32s cubic-bezier(.2,.8,.2,1),transform .32s cubic-bezier(.2,.8,.2,1)!important}
+/* MT t2163: picker sits in the middle of the visible page (between the top bar and the pill), centred at every width,
+   using the existing --wvt/--wvh band from #wm-acpick-inview; style D look unchanged */
+html.sv4 body .wsh.wsh.wsh.wsh.on{transform:translate(-50%,-50%)!important;opacity:1;pointer-events:auto}
+html.sv4 body .wbk.wbk{background:rgba(0,0,0,.45);-webkit-backdrop-filter:none;backdrop-filter:none}
+html.sv4 .wsh .grab{display:block!important;width:36px;height:5px;border-radius:3px;background:var(--tx3);opacity:1;margin:0 auto 12px}
+html.sv4 .wsh .hd{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
+html.sv4 body .wsh h3{margin:0;font:600 22px/1.2 'Clash Display',Satoshi,sans-serif!important;letter-spacing:0!important}
+html.sv4 .wsh .hd .x{display:inline-block!important;min-width:0;min-height:0;padding:8px 16px;border:0!important;outline:0!important;border-radius:99px;background:var(--v4on);box-shadow:var(--v4onS);color:var(--tx);font:600 14px var(--v4L);cursor:pointer}
+/* picker D (MT t2044): tile grid; name, big bold crosswind, 'Max crosswind', POH/AFM reference */
+html.sv4 body .wsh .grp{display:grid!important;grid-template-columns:1fr 1fr;align-items:stretch;gap:8px;background:none!important;box-shadow:none!important;border-radius:0;padding:0!important;margin:4px 0 0!important}
+html.sv4 body .wsh .row{display:block!important;min-height:0!important;padding:0!important;border:0!important;border-radius:18px!important;overflow:hidden;background:var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);transition:transform .25s,background .3s}
+html.sv4 body .wsh .row:active{transform:scale(.97)}
+html.sv4 body .wsh .row:has(.opt[aria-checked=true]){background:var(--v4on)!important;box-shadow:var(--v4onS),inset 0 0 0 1px var(--tx)}
+html.sv4 body .wsh .opt{display:block!important;width:100%;min-height:0!important;padding:12px 12px 11px!important;text-align:left!important;height:100%;background:none;border:0;color:var(--tx)!important;cursor:pointer}
+html.sv4 body .wsh .opt span{display:flex!important;flex-direction:column;align-items:flex-start!important;text-align:left!important;padding:0!important;gap:0}
+html.sv4 body .wsh .opt em{font-style:normal;display:block}
+html.sv4 body .wsh .opt .tn{font:600 13.5px/1.25 var(--v4L)!important;color:var(--tx)}
+html.sv4 body .wsh .opt .tx{font:700 26px/1 var(--v4M)!important;letter-spacing:-.04em;margin:8px 0 3px;color:var(--tx);font-variant-numeric:tabular-nums}
+html.sv4 body .wsh .opt .tx i{font:600 11px var(--v4M);font-style:normal;color:var(--tx3);margin-left:3px;letter-spacing:0}
+html.sv4 body .wsh .opt .tl{font:600 9.5px var(--v4L)!important;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+html.sv4 body .wsh .opt .ts{align-self:stretch;position:relative;padding-left:16px!important;font:500 11px/1.4 Satoshi,-apple-system,sans-serif!important;font-style:italic!important;letter-spacing:.01em;color:var(--tx2);margin-top:8px;padding-top:7px;border-top:.5px solid var(--ln)}
+html.sv4 body .wsh .opt .ts::before{content:'';position:absolute;left:0;top:9px;width:11px;height:11px;background:var(--tx3);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z'/%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z'/%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5'/%3E%3C/svg%3E") center/contain no-repeat}
+html.sv4 body .wsh .ck{display:none!important}
+html.sv4 .wsh .note{font:400 12.5px/1.5 Satoshi,-apple-system,sans-serif;color:var(--tx2);margin:10px 0 0}
+@media(min-width:760px){html.sv4 body .wsh.wsh.wsh.wsh{width:600px!important}html.sv4 body .wsh .grp{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:759.98px){html.sv4 #wsp .v4{margin:0 -2px}}
+
+/* My minimums Reset (MT 5 Nov): styled like the ATO/DFE filter's reset (.wmf-ft button.wmf-rs: 500 14px Satoshi, muted, no fill) */
+html.sv4 .v4 .hd .v4rs{margin:-9px -8px -9px auto;align-self:baseline;flex:none;padding:9px 8px;line-height:1;border:0;border-radius:999px;background:transparent;box-shadow:none;font:500 14px Satoshi,-apple-system,sans-serif;color:var(--tx2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .25s,color .3s,opacity .3s}
+html.sv4 .v4 .hd .v4rs:active{transform:scale(.94);color:var(--tx)}
+html.sv4 .v4 .hd .v4rs[aria-disabled=true]{opacity:.55}
+/* Depart / Land phase switch (MT 5 Nov, preview, UI only) — liquid glass (same recipe as .mcf-ap / fv3 .c.on), neutral sliding thumb */
+html.sv4 .v4 .v4ph{margin:0 0 14px}
+html.sv4 .v4 .phr{display:flex;align-items:center;gap:8px}
+html.sv4 .v4 .ph{position:relative;display:flex;flex:1;min-width:0;max-width:220px;padding:4px;border-radius:999px;background:var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--tx3),0 8px 24px -14px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6)}
+html.sv4 .v4 .ph>i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--v4on);box-shadow:var(--v4onS);transition:transform .45s cubic-bezier(.3,1.35,.5,1)}
+html.sv4 .v4 .ph[data-v=land]>i{transform:translateX(100%)}
+html.sv4 .v4 .ph button{position:relative;flex:1;height:38px;border:0;border-radius:999px;background:transparent;font:600 14px var(--v4L);letter-spacing:.02em;color:var(--tx2);cursor:pointer;transition:color .3s,transform .25s;-webkit-tap-highlight-color:transparent}
+html.sv4 .v4 .ph button[aria-checked=true]{color:var(--tx)}
+/* MT t2186/t2187: day themes (Pearl, Beige) — colours only, same size, glass recipe and motion. The white thumb vanished on the
+   pale track, so day gets a recessed ink-tinted track (7% --tx), a firmer 1px ring (22% --tx) and a solid thumb in the
+   existing page accent (--acc, #0019C9 on Pearl and Beige) with white text (MT t2194). Dark themes (Midnight, Amethyst) unchanged. Uses existing theme vars only; no theme values changed. */
+html.sv4[data-theme=day] .v4 .ph{background:linear-gradient(color-mix(in srgb,var(--tx) 7%,transparent),color-mix(in srgb,var(--tx) 7%,transparent)),var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px color-mix(in srgb,var(--tx) 22%,transparent),0 8px 24px -14px rgba(0,0,0,.35)}
+html.sv4[data-theme=day] .v4 .ph>i{background:var(--v4dT);box-shadow:var(--v4dS)}
+html.sv4[data-theme=day] .v4 .ph button[aria-checked=true]{color:var(--v4dX)}
+html.sv4 .v4 .ph button:active,html.sv4 .v4 .arv:active,html.sv4 .v4 .arm button:active{transform:scale(.94)}
+html.sv4 .v4 .arv{display:inline-flex;align-items:center;gap:6px;flex:none;height:38px;padding:0 12px 0 14px;border:0;border-radius:999px;background:var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);color:var(--tx);cursor:pointer;transition:transform .25s;-webkit-tap-highlight-color:transparent}
+html.sv4 .v4 .arv[hidden],html.sv4 .v4 .arm[hidden],html.sv4 .v4 .mdl[hidden]{display:none}
+html.sv4 .v4 .arv small{font:600 10px var(--v4L);letter-spacing:.12em;text-transform:uppercase;color:var(--tx3)}
+html.sv4 .v4 .arv em{font:500 13px var(--v4M);font-style:normal}
+html.sv4 .v4 .arv svg{width:10px;height:6px;color:var(--tx3);transition:transform .3s}
+html.sv4 .v4 .arv[aria-expanded=true] svg{transform:rotate(180deg)}
+html.sv4 .v4 .arm{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+html.sv4 .v4 .arm button,html.sv4 .v4 .arm .pk{height:32px;padding:0 12px;border:0;border-radius:999px;background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);font:500 13px var(--v4M);color:var(--tx2);cursor:pointer;transition:transform .25s,color .3s,background .3s}
+html.sv4 .v4 .arm button[aria-checked=true]{background:var(--v4on);box-shadow:var(--v4onS);color:var(--tx)}
+html.sv4 .v4 .arm .pk{position:relative;display:inline-flex;align-items:center;font:600 13px var(--v4L);overflow:hidden}
+html.sv4 .v4 .arm .pk input{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:0;cursor:pointer}
+html.sv4 .v4 .mdl{margin:8px 0 0;font:500 11.5px/1.4 var(--v4L);letter-spacing:.02em;color:var(--v4cau)}
+html.sv4 .v4 .phn{margin-top:8px}
+/* MT t2186/t2187: every two/three-way toggle on the Status page uses the Depart/Land switch design and motion (Status page only).
+   Pilot level (.seg.v4lv), Flight rules (.seg.v4r) and Count scope (.sw All | ICAO only) get the .ph track (condition pill glass,
+   1px --tx3 ring), a sliding thumb (::before, --v4on / --v4onS, day: accent --acc with white text) that springs .45s
+   cubic-bezier(.3,1.35,.5,1), label colour .3s, press scale(.94) .25s. The thumb position comes from :has() on the checked
+   button, so no JS and no engine change. Transform-only motion; heights unchanged (38px buttons, 4px padding = 46px). */
+html.sv4 .v4 .seg,html.sv4.sv2 #wsp .v4 .sw{--n:2;--ix:0;position:relative;gap:0!important;padding:4px!important;background:var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px var(--tx3),0 8px 24px -14px rgba(0,0,0,.35)!important;-webkit-backdrop-filter:blur(18px) saturate(1.6)!important;backdrop-filter:blur(18px) saturate(1.6)!important}
+html.sv4 .v4 .seg.v4lv{--n:3}
+html.sv4 .v4 .seg::before,html.sv4.sv2 #wsp .v4 .sw::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / var(--n));border-radius:999px;background:var(--v4on);box-shadow:var(--v4onS);transform:translateX(calc(var(--ix) * 100%));transition:transform .45s cubic-bezier(.3,1.35,.5,1),opacity .3s;pointer-events:none}
+html.sv4 .v4 .seg:has(>button:nth-of-type(2)[aria-checked=true]){--ix:1}html.sv4 .v4 .seg:has(>button:nth-of-type(3)[aria-checked=true]){--ix:2}
+html.sv4 .v4 .seg:not(:has(>button[aria-checked=true]))::before,html.sv4.sv2 #wsp .v4 .sw:not(:has(>button.on))::before{opacity:0}
+html.sv4.sv2 #wsp .v4 .sw:has(>button.on[data-v=icao]){--ix:1}
+html.sv4 .v4 .seg button,html.sv4 .v4 .seg button[aria-checked=true],html.sv4.sv2 #wsp .v4 .sw button,html.sv4.sv2 #wsp .v4 .sw button.on{position:relative;z-index:1;background:transparent!important;box-shadow:none!important;transition:color .3s,transform .25s;-webkit-tap-highlight-color:transparent}
+html.sv4.sv2 #wsp .v4 .sw button:active{transform:scale(.94)}
+/* day themes: same colours as the Depart/Land switch */
+html.sv4[data-theme=day] .v4 .seg,html.sv4.sv2[data-theme=day] #wsp .v4 .sw{background:linear-gradient(color-mix(in srgb,var(--tx) 7%,transparent),color-mix(in srgb,var(--tx) 7%,transparent)),var(--gl2)!important;box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px color-mix(in srgb,var(--tx) 22%,transparent),0 8px 24px -14px rgba(0,0,0,.35)!important}
+html.sv4[data-theme=day] .v4 .seg::before,html.sv4.sv2[data-theme=day] #wsp .v4 .sw::before{background:var(--v4dT);box-shadow:var(--v4dS)}
+html.sv4[data-theme=day] .v4 .seg button[aria-checked=true],html.sv4.sv2[data-theme=day] #wsp .v4 .sw button.on{color:var(--v4dX)!important}
+@media(prefers-reduced-motion:reduce){html.sv4 .v4 .seg::before,html.sv4.sv2 #wsp .v4 .sw::before,html.sv4 .v4 .ph>i{transition:none}}
+
+/* MT t2195: day-theme selected thumb fits the theme (the solid blue accent was too strong). Every Status toggle reads these vars.
+   Variant A (live on this branch): soft tint of the theme's own colours, dark text, subtle shadow.
+     Pearl: 12% --acc into white = soft grey-blue, ring 18% --acc.  Beige: 55% --bg2 into white = light warm tint, ring 14% --tx.
+   Variant B (ready): neutral white surface with a thin accent outline (1px, 45% --acc).
+   Switch to B: add class "tgb" to <html> (or change the two A selectors below to B). Dark themes unchanged. Existing vars only. */
+html.sv4[data-theme=day]{--v4dX:var(--tx);--v4dT:color-mix(in srgb,var(--acc) 12%,#fff);--v4dS:inset 0 0 0 1px color-mix(in srgb,var(--acc) 18%,transparent),0 1px 2px rgba(0,0,0,.08),0 3px 8px -3px rgba(0,0,0,.14)}
+html.sv4[data-theme=day][data-pal=beige]{--v4dT:color-mix(in srgb,var(--bg2) 55%,#fff);--v4dS:inset 0 0 0 1px color-mix(in srgb,var(--tx) 14%,transparent),0 1px 2px rgba(70,50,20,.10),0 3px 8px -3px rgba(70,50,20,.18)}
+html.sv4.tgb[data-theme=day],html.sv4.tgb[data-theme=day][data-pal=beige]{--v4dT:rgba(255,255,255,.96);--v4dS:inset 0 0 0 1px color-mix(in srgb,var(--acc) 45%,transparent),0 1px 2px rgba(0,0,0,.08),0 3px 8px -3px rgba(0,0,0,.12)}

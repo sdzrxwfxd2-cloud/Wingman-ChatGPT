@@ -1,0 +1,134 @@
+/* wm-shell.css — DEMO shared shell. Blocks copied unchanged from the approved demo (ids kept as comments). */
+@import url("fonts/wm-fonts.css");
+@import url("fonts/wm-fonts.css");
+/* combo More panel */.ic .s{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ic .f,.ic .win,.ic .bcn,.ic .led{fill:currentColor}.ic .bloom,.ic .beam{display:none}
+/* More panel = live .sheet.glass, tint ~38% lighter, moderate blur, bright rim kept */
+.sheet.mp:not(#z){background:color-mix(in srgb,var(--gl) 62%,transparent);-webkit-backdrop-filter:blur(18px) saturate(190%);backdrop-filter:blur(18px) saturate(190%);
+ box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .75px color-mix(in srgb,#fff 55%,var(--ln)),var(--sh);width:260px!important}
+.mp .mrow{display:flex;align-items:center;gap:14px;height:44px;padding:0 10px;border-radius:14px;color:var(--tx);font:600 15px/1 -apple-system,sans-serif;text-decoration:none;text-shadow:0 0 8px color-mix(in srgb,var(--bg) 60%,transparent)}
+.mp .mrow svg{width:22px;height:22px;stroke:none;fill:none;color:var(--tx2)}.mp .mrow.hi{background:var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln)}
+.mp hr{border:0;height:.5px;background:var(--ln);margin:8px 6px 14px}.mp h6{text-shadow:0 0 8px color-mix(in srgb,var(--bg) 60%,transparent)}
+.icb.srch svg,.icb.more svg{fill:none;stroke:none}
+.limcard{margin:14px 0;padding:16px}.limcard h5{margin:0 0 14px;font:600 17px/1 -apple-system,sans-serif;color:var(--tx)}
+.limcard h6{margin:16px 0 8px;font:600 11px/1 -apple-system,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}.limcard h6:first-of-type{margin-top:0}
+.limcard .cnote{margin:10px 0 0;font-size:11.5px;line-height:1.4;color:var(--tx3)}
+.mtag{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:8px;font:600 10px/1 -apple-system,sans-serif;letter-spacing:.04em;color:var(--tx2);background:var(--gl2);box-shadow:inset 0 0 0 .5px var(--ln);vertical-align:middle}
+/* #wm-more-fix */
+.wmtn-midnight{background-image:linear-gradient(100deg,#E6EEFF 0%,#E6EEFF 100%)}
+/* #wm-more-bg */
+html[data-theme=day][data-pal=white] .sheet.mp:not(#z):not(#y){background:rgba(250,251,255,.4957)!important;-webkit-backdrop-filter:blur(30px) saturate(190%)!important;backdrop-filter:blur(30px) saturate(190%)!important;box-shadow:#fff 0 .5px 0 0 inset,rgba(20,30,70,.10) 0 0 0 .5px inset,rgba(20,30,70,.06) 0 2px 6px 0,rgba(20,30,70,.16) 0 28px 56px -18px!important}html[data-theme=day][data-pal=beige] .sheet.mp:not(#z):not(#y){background:rgba(252,245,233,.5427)!important;-webkit-backdrop-filter:blur(30px) saturate(190%)!important;backdrop-filter:blur(30px) saturate(190%)!important;box-shadow:#fff 0 .5px 0 0 inset,rgba(90,70,35,.10) 0 0 0 .5px inset,rgba(80,60,25,.06) 0 2px 6px 0,rgba(80,60,25,.16) 0 28px 56px -18px!important}html[data-theme=night][data-pal=black] .sheet.mp:not(#z):not(#y){background:rgba(30,32,40,.4173)!important;-webkit-backdrop-filter:blur(30px) saturate(190%)!important;backdrop-filter:blur(30px) saturate(190%)!important;box-shadow:rgba(255,255,255,.34) 0 .5px 0 0 inset,rgba(255,255,255,.10) 0 0 0 .5px inset,rgba(0,0,0,.35) 0 2px 6px 0,rgba(0,0,0,.65) 0 28px 56px -18px!important}html[data-theme=night][data-pal=purple] .sheet.mp:not(#z):not(#y){background:rgba(46,26,84,.4016)!important;-webkit-backdrop-filter:blur(30px) saturate(190%)!important;backdrop-filter:blur(30px) saturate(190%)!important;box-shadow:rgba(235,220,255,.38) 0 .5px 0 0 inset,rgba(220,200,255,.12) 0 0 0 .5px inset,rgba(5,0,20,.40) 0 2px 6px 0,rgba(5,0,20,.70) 0 28px 56px -18px!important}.sheet.mp:not(#z):not(#y)::before{background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,0) 35%)!important}
+/* #wm-topbar */
+.topbar .tbtn .wrf:not(#z){width:38px;height:38px;border-radius:19px}body:not(.fs-tuck):not(.fs-nobar) .topbar .tbtn .fs-ib:not(#z){margin-left:-8px!important}.wrf svg path{transition:opacity .25s ease}.wrf.wmok svg{animation:none}
+/* #wm-pill-size — width is set from the visible slot count (wm-shell js). Fallback until that runs. */
+#wmC.wcdock{left:50%;right:auto;width:min(358px,calc(100vw - 32px));max-width:calc(100vw - 32px);transform:translate3d(-50%,0,0)}
+@media (min-width:600px){#wmC.wcdock{left:50%;right:auto;width:min(358px,calc(100vw - 32px));transform:translate3d(-50%,0,0)}}
+/* #wm-pill-c */
+
+.wcdock{position:fixed;left:50%;right:auto;bottom:22px;z-index:50;max-width:calc(100vw - 32px);transform:translate3d(-50%,0,0)}
+.wcpill{position:relative;height:64px;border-radius:999px;contain:layout paint;isolation:isolate;
+ background:var(--pill);
+ -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+ box-shadow:
+  inset 0 0 0 .5px var(--hair),
+  inset 0 .5px 0 var(--rimTop),
+  inset 0 -.5px 0 var(--rimBot),
+  inset 0 -10px 18px -14px rgba(0,0,0,.18),
+  0 1px 2px var(--sh1),0 8px 18px -8px var(--sh1),0 24px 48px -18px var(--sh2)}
+.wcpill:has(.wcglass){background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+.wcglass{position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;transform-origin:50% 50%;will-change:transform;
+ background:var(--pill);
+ -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%); /* = Settings card .fs-gl */
+ box-shadow:
+  inset 0 0 0 .5px var(--hair),                 /* hairline */
+  inset 0 .5px 0 var(--rimTop),                 /* top light (design 8 bright rim) */
+  inset 0 -.5px 0 var(--rimBot),
+  inset 0 -10px 18px -14px rgba(0,0,0,.18),     /* subtle inner shadow */
+  0 1px 2px var(--sh1),0 8px 18px -8px var(--sh1),0 24px 48px -18px var(--sh2)}
+#wmC.moving .wcglass{-webkit-backdrop-filter:blur(12px) saturate(140%);backdrop-filter:blur(12px) saturate(140%)}
+.wcpill::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:6; /* soft glare */
+ background:linear-gradient(115deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 22%,rgba(255,255,255,0) 76%,rgba(255,255,255,.07) 100%)}
+.wcpill::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.5px;pointer-events:none;z-index:7; /* 0.5px rim, top-lit */
+ background:linear-gradient(180deg,var(--rimTop),rgba(255,255,255,0) 45%,var(--rimBot));
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+/* bubble: 3-piece so radius never distorts; all motion = transform. will-change stays on (no layer teardown). */
+.wckb{position:absolute;top:6px;left:0;height:52px;width:0;z-index:1;transform:translate3d(var(--x,0px),0,0);transition:transform var(--dur) var(--ease);will-change:transform}
+.wckbs{position:absolute;inset:0;transform-origin:var(--o,50%) 50%;will-change:transform}
+@keyframes wcst{0%{transform:none}38%{transform:scale(1.07,.95)}100%{transform:none}}
+.wckb .wcl,.wckb .wcr,.wckb .wcm{position:absolute;top:0;height:52px;background:linear-gradient(180deg,var(--kb1),var(--kb2));will-change:transform}
+.wckb .wcl{left:0;width:26px;border-radius:26px 0 0 26px;box-shadow:inset .5px .5px 0 var(--kbrim),inset 0 -.5px 0 var(--kbhair),inset .5px 0 0 var(--kbhair)}
+.wckb .wcr{left:0;width:26px;border-radius:0 26px 26px 0;transform:translate3d(var(--rx,0px),0,0);transition:transform var(--dur) var(--ease);box-shadow:inset -.5px .5px 0 var(--kbrim),inset 0 -.5px 0 var(--kbhair),inset -.5px 0 0 var(--kbhair)}
+.wckb .wcm{left:26px;width:100px;transform-origin:0 50%;transform:scaleX(var(--ms,0));transition:transform var(--dur) var(--ease);box-shadow:inset 0 .5px 0 var(--kbrim),inset 0 -.5px 0 var(--kbhair)}
+.wckb .wcsh{position:absolute;top:0;left:0;height:52px;width:100px;transform-origin:0 50%;transform:scaleX(var(--ss,0));transition:transform var(--dur) var(--ease);border-radius:26px;box-shadow:0 6px 14px -8px var(--sh2),0 0 18px -4px var(--glow);opacity:.9;z-index:-1;will-change:transform}
+.wctab{position:absolute;top:0;left:0;height:64px;display:flex;align-items:center;justify-content:center;color:var(--silver);text-decoration:none;z-index:3;
+ transform:translate3d(var(--wctx,0px),0,0);transition:transform var(--dur) var(--ease),color 260ms ease;-webkit-tap-highlight-color:transparent}
+.wctab svg{width:22px;height:22px;flex:0 0 22px;overflow:visible}
+.wctab span{position:absolute;left:var(--lx);top:50%;transform:translate3d(0,-50%,0);opacity:0;white-space:nowrap;font:600 14.5px/1 Inter;letter-spacing:-.005em;color:inherit;pointer-events:none}
+.wctab.on{color:var(--acc)}
+
+#wmC .wclabs{position:absolute;inset:0;z-index:4;pointer-events:none}#wmC .wcL{position:absolute;left:0;top:50%;transform:translate3d(0,-50%,0);opacity:0;white-space:nowrap;font:700 14.5px/1 'Nunito',-apple-system,system-ui,sans-serif;letter-spacing:-.005em;color:var(--acc);text-shadow:0 0 10px var(--glow);transition:opacity var(--fd,110ms) ease-out}#wmC .wcL.on{opacity:1}#wmC .wctab .wcgi{position:absolute;left:0;top:50%;width:22px;height:22px;margin:-11px 0 0;z-index:-1;overflow:visible;pointer-events:none;opacity:0;transform:translate3d(-1200px,0,0);filter:drop-shadow(1200px 0 5px var(--glow));transition:opacity var(--fd,100ms) ease-out}#wmC .wctab.on .wcgi{opacity:1}#wmC.moving .wcL,#wmC.moving .wcgi{will-change:opacity}
+.wctab svg .s{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.wctab svg .f,.wctab svg .win,.wctab svg .bcn,.wctab svg .led,.wctab svg .sunc,.wctab svg .moonc,.wctab svg .mstar{fill:currentColor}
+.wctab svg .win{opacity:.85}.wctab svg .bloom,.wctab svg .beam{display:none}
+.wctab svg .sunc{stroke:currentColor;stroke-width:1.4;vector-effect:non-scaling-stroke}
+.wctab svg .cld{fill:color-mix(in srgb,currentColor 14%,transparent);stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+
+
+@media (prefers-reduced-motion:reduce){.wcdock{--dur:1ms}}
+/* travel: no shadow/filter interpolation (that repaints the blur every frame) */
+#wmC.moving .wctab,#wmC.moving .wctab span,#wmC.moving .wctab svg{transition-property:transform,opacity}
+
+
+.wckbs::after{content:"";position:absolute;inset:0;border-radius:26px;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.35),rgba(255,255,255,0) 30%,rgba(255,255,255,0) 72%,rgba(255,255,255,.18))}html[data-theme=day][data-pal=white] #wmC{--bg:#F2F3F6;--card:rgba(255,255,255,.82);--tx:#14161B;--tx2:#5E6472;--ln:rgba(20,22,27,.08);
+ --silver:#868C99;--acc:#0019C9;--glow:rgba(0,25,201,.28);
+ --pill:rgba(250,251,255,.62);--rimTop:rgba(255,255,255,1);--rimBot:rgba(255,255,255,.55);--hair:rgba(20,30,70,.10);
+ --sh1:rgba(20,30,70,.06);--sh2:rgba(20,30,70,.16);--kb1:rgba(255,255,255,.92);--kb2:rgba(236,240,255,.78);--kbrim:rgba(255,255,255,1);--kbhair:rgba(0,25,201,.10);--acc:#0019C9;--glow:rgba(0,25,201,.22);--kb1:rgba(255,255,255,.14);--kb2:rgba(255,255,255,.04);--kbrim:#FFFFFF;--kbhair:rgba(255,255,255,.7)}html[data-theme=day][data-pal=white] #wmC .wcgi{filter:drop-shadow(1200px 0 3px rgba(0,25,201,.30))}html[data-theme=day][data-pal=white] #wmC .wcL{text-shadow:0 0 6px rgba(0,25,201,.28)}html[data-theme=day][data-pal=beige] #wmC{--bg:#F4EEE3;--card:rgba(253,247,234,.92);--tx:#1C1814;--tx2:#8A8378;--ln:rgba(60,45,20,.08);
+ --silver:#6B655C;--acc:#1C1814;--glow:rgba(150,110,45,.16);--pill:rgba(252,245,233,.68);--rimTop:#FFFFFF;--rimBot:rgba(255,250,240,.6);--hair:rgba(90,70,35,.10);
+ --sh1:rgba(80,60,25,.06);--sh2:rgba(80,60,25,.16);--kb1:#FFFFFF;--kb2:#FFFEFC;--kbrim:#FFFFFF;--kbhair:rgba(90,70,35,.08);--acc:#0019C9;--glow:rgba(0,25,201,.22);--kb1:rgba(255,255,255,.14);--kb2:rgba(255,255,255,.04);--kbrim:#FFFFFF;--kbhair:rgba(255,255,255,.7)}html[data-theme=night][data-pal=black] #wmC{--bg:#07090F;--card:rgba(255,255,255,.055);--tx:#F2F3F7;--tx2:#9096A6;--ln:rgba(255,255,255,.08);
+ --silver:#A3A8B4;--acc:#7D93FF;--glow:rgba(110,135,255,.55);
+ --pill:rgba(30,32,40,.52);--rimTop:rgba(255,255,255,.34);--rimBot:rgba(255,255,255,.08);--hair:rgba(255,255,255,.10);
+ --sh1:rgba(0,0,0,.35);--sh2:rgba(0,0,0,.65);--kb1:rgba(255,255,255,.16);--kb2:rgba(255,255,255,.06);--kbrim:rgba(255,255,255,.42);--kbhair:rgba(255,255,255,.10);--acc:#E6EEFF;--glow:rgba(230,238,255,.22);--kb1:rgba(255,255,255,.10);--kb2:rgba(255,255,255,.02);--kbrim:rgba(255,255,255,.85);--kbhair:rgba(255,255,255,.35)}html[data-theme=night][data-pal=black] #wmC .wcgi{filter:drop-shadow(1200px 0 3px rgba(230,238,255,.30))}html[data-theme=night][data-pal=black] #wmC .wcL{text-shadow:0 0 6px rgba(230,238,255,.28)}html[data-theme=night][data-pal=purple] #wmC{--bg:#140A26;--card:rgba(220,200,255,.07);--tx:#F3ECFF;--tx2:#A99BC8;--ln:rgba(220,200,255,.10);
+ --silver:#B3AAC6;--acc:#E6DEF5;--glow:rgba(230,222,245,.16);--pill:rgba(46,26,84,.5);--rimTop:rgba(235,220,255,.38);--rimBot:rgba(235,220,255,.08);--hair:rgba(220,200,255,.12);
+ --sh1:rgba(5,0,20,.4);--sh2:rgba(5,0,20,.7);--kb1:rgba(230,210,255,.18);--kb2:rgba(200,160,255,.06);--kbrim:rgba(240,225,255,.45);--kbhair:rgba(220,200,255,.12);--acc:#E6DEF5;--glow:rgba(230,222,245,.16);--kb1:rgba(255,255,255,.10);--kb2:rgba(255,255,255,.02);--kbrim:rgba(255,255,255,.85);--kbhair:rgba(255,255,255,.35)}html[data-theme=night][data-pal=purple] #wmC .wcgi{filter:drop-shadow(1200px 0 2px rgba(230,222,245,.22))}html[data-theme=night][data-pal=purple] #wmC .wcL{text-shadow:0 0 8px rgba(230,222,245,.16)}#wmC{--ease:cubic-bezier(.2,.8,.2,1);--dur:320ms;font-family:Inter,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;z-index:9000}#wmC *{box-sizing:border-box}#wmC .wx .wsun,#wmC .wx .wmoon{transform-box:view-box;transform-origin:9px 9px}html[data-theme=night] #wmC .wx .wsun{animation:wmSunOut .45s cubic-bezier(.32,.72,0,1) both}html[data-theme=night] #wmC .wx .wmoon{animation:wmMoonIn .45s cubic-bezier(.32,.72,0,1) both}html[data-theme=day] #wmC .wx .wsun{animation:wmSunIn .45s cubic-bezier(.32,.72,0,1) both}html[data-theme=day] #wmC .wx .wmoon{animation:wmMoonOut .45s cubic-bezier(.32,.72,0,1) both}@keyframes wmSunOut{from{opacity:1;transform:none}to{opacity:0;transform:rotate(45deg) scale(.6)}}@keyframes wmSunIn{from{opacity:0;transform:rotate(45deg) scale(.6)}to{opacity:1;transform:none}}@keyframes wmMoonIn{from{opacity:0;transform:rotate(-30deg) scale(.6)}to{opacity:1;transform:none}}@keyframes wmMoonOut{from{opacity:1;transform:none}to{opacity:0;transform:rotate(-30deg) scale(.6)}}@media (prefers-reduced-motion:reduce){#wmC .wx .wsun,#wmC .wx .wmoon{animation-duration:1ms!important}}.wmpill-dock{display:none!important}
+/* #wm-pill-x */
+#wmC .wcx{opacity:0;transition:transform var(--dur) var(--ease),opacity 240ms ease,color 260ms ease}#wmC .wcx:not(.in){transform:translate3d(var(--wctx,0px),0,0) scale(.6);pointer-events:none}#wmC .wcx.in{opacity:1}#wmC .wctab svg .avih path{fill:#fff;stroke:#fff;stroke-width:1.4;stroke-linejoin:round}
+/* #wm-more-sel */
+#tb-theme.icb.more:not(#z):not(#y){transition:background-color .3s ease,box-shadow .3s ease,color .3s ease}#tb-theme.icb.more.wmsel:not(#z):not(#y){background:var(--gl2);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 .5px var(--ln);color:var(--wmsel)}#tb-theme.icb.more.wmsel:not(#z):not(#y) svg *{transition:color .3s ease}html[data-theme=day]{--wmsel:#0019C9}html[data-theme=night][data-pal=black]{--wmsel:#E6EEFF}html[data-theme=night][data-pal=purple]{--wmsel:#E6DEF5}.sheet.mp:not(#z):not(#y) h6{font:700 17px/1.2 Satoshi,-apple-system,sans-serif;letter-spacing:-.02em;text-transform:none;color:var(--tx);padding-left:10px;margin:14px 0 10px;text-shadow:none}.sheet.mp:not(#z):not(#y) hr+h6{margin-top:0}html[data-theme=day][data-pal=white] .sheet.mp:not(#z):not(#y) h6{color:#1D1D1F}
+/* page chrome replaced by shell */ html.wmshell .wmpill-dock,html.wmshell .wmpill,html.wmshell nav.tabbar{display:none!important}html.wmshell p.foot,html.wmshell footer{display:none!important}
+.icb.wmback svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* 28 Oct 21:5x SAST (MT approved): top-bar icons (search, refresh, grid) use the pill's non-active icon colour in NIGHT themes only (21:58 correction: day themes untouched). Icon colour only. */
+html[data-theme=night] .topbar .tbtn>.icb:not(#z):not(#y):not(#x),html[data-theme=night] .topbar .tbtn>.wrf:not(#z):not(#y):not(#x),html[data-theme=night] .topbar .tbtn>.icb:not(#z):not(#y):not(#x) svg,html[data-theme=night] .topbar .tbtn>.wrf:not(#z):not(#y):not(#x) svg{color:#A3A8B4!important;filter:none!important}
+html[data-theme=night][data-pal=purple] .topbar .tbtn>.icb:not(#z):not(#y):not(#x),html[data-theme=night][data-pal=purple] .topbar .tbtn>.wrf:not(#z):not(#y):not(#x),html[data-theme=night][data-pal=purple] .topbar .tbtn>.icb:not(#z):not(#y):not(#x) svg,html[data-theme=night][data-pal=purple] .topbar .tbtn>.wrf:not(#z):not(#y):not(#x) svg{color:#B3AAC6!important;filter:none!important}
+html[data-theme=night] .topbar .tbtn>.icb:not(#z):not(#y):not(#x) svg [stroke]:not([stroke=none]),html[data-theme=night] .topbar .tbtn>.icb.fs-ib:not(#z):not(#y):not(#x) svg,html[data-theme=night] .topbar .tbtn>.wrf:not(#z):not(#y):not(#x) svg{stroke:currentColor!important}
+
+/* fix_2312: More panel icons = pill icon colour, night themes only */
+/* 29oct (MT approved theme work): no glow on More page-list icons, night themes only; colour stays = top bar / unselected pill */
+html[data-theme=night][data-pal=black] .sheet.mp .mrow svg{color:rgb(163,168,180)!important;filter:none!important}
+html[data-theme=night][data-pal=purple] .sheet.mp .mrow svg{color:rgb(179,170,198)!important;filter:none!important}
+
+/* 29oct item 12: pill label font = old 22 Oct live pill font (Nunito 600), self-hosted. Font only. */
+@font-face{font-family:'Nunito';font-weight:600;font-style:normal;font-display:block;src:url(fonts/nunito-600.woff2) format('woff2')}
+#wmC .wctab span,#wm-wide-pill span,#wm-wide-pill a,#wm-wide-pill button{font-family:'Nunito',-apple-system,system-ui,sans-serif!important}
+@font-face{font-family:'Nunito';font-weight:700;font-style:normal;font-display:block;src:url(fonts/nunito-700.woff2) format('woff2')}
+#wmC .wctab.on span,#wm-wide-pill .on span{font-weight:700!important}
+
+/* 29oct item 14: night icons (More, Settings, top bar) = unselected pill colour */
+html[data-theme=night][data-pal=black] .sheet svg:not(#z){color:rgb(163,168,180)!important}
+html[data-theme=night][data-pal=purple] .sheet svg:not(#z){color:rgb(179,170,198)!important}
+
+/* 29oct: Appearance sun = aerodrome-card sun orange, all themes; replaces blue glow */
+.sheet.mp .sw[data-k=theme] button[data-v=day] .wmdn:not(#z){color:#F5A524!important;filter:drop-shadow(0 0 3px rgba(245,165,36,.45))!important}
+/* 29oct: Appearance sun/moon share one centring box so the sun never shifts vs the moon.
+   Button = flex centre (no reliance on button line-height/baseline or margin:auto);
+   icon = fixed 18x18 block, own GPU layer (translateZ) so the glow filter can't re-snap it
+   to a different pixel row when theme/palette or the on-pill changes. No transform transition. */
+.sheet.mp .sw[data-k=theme] button[data-v]:not(#z){display:flex!important;align-items:center!important;justify-content:center!important;line-height:0!important}
+.sheet.mp .sw[data-k=theme] button[data-v] .wmdn:not(#z){flex:0 0 18px;width:18px!important;height:18px!important;margin:0!important;overflow:visible;transform:translateZ(0)!important;backface-visibility:hidden;transition:color .4s cubic-bezier(.22,.8,.2,1),filter .4s cubic-bezier(.22,.8,.2,1)!important}
+/* 29oct: More menu page labels = Nunito 700 (uses existing @font-face, wm-shell.css:112) */
+.sheet.mp .mrow:not(#z){font-family:'Nunito',-apple-system,sans-serif!important;font-weight:700!important}
+
+/* Hide the Netlify site badge (iframe #nl-badge-frame that Netlify injects on the public site). MT, 30 Oct 2026. */
+#nl-badge-frame{display:none!important}
+
+/* 30oct: pilot icon - no sunglasses at night (Midnight + Amethyst) */
+html[data-theme=night] svg g.avi,html[data-theme=night] svg g.avih,html[data-theme=night] svg path[d="M9.3 10.15H14.7"]{display:none!important}

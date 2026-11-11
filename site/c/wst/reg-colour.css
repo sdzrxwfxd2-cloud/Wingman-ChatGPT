@@ -1,0 +1,71 @@
+/* fix/ato-dfe-reg-colour-live-10nov
+   Based on production https://go-around-aero.pages.dev
+   (deploy e1808172, git c755fbf0), updated 2026-11-10 for MT t1099u.
+
+   Beige and Day stay on the selected-pill accent (--tcv / --gt), no glow.
+
+   Amethyst (night + purple): pale metallic lavender-silver #E4DEEA.
+   Midnight (night + black): the same idea in cool blue-silver #D0D7E6.
+
+   A solid tone is used (not gradient text) so the code stays crisp at
+   the 12–13px Nippo size. Variant A (default): a slim, soft glow —
+   not the old pink or gold halo, and not neon. Variant B: the same
+   metal colour, no glow. Add ?regglow=0 to preview B
+   (html[data-regglow="0"]).
+
+   No animation. transform/filter are not used.
+*/
+
+/* Shared targets. Beige / Day / default: accent, no glow. */
+html:not(#q):not(#r):not(#s):not(#t) body section#ato .grid>.c .id,
+html:not(#q):not(#r):not(#s):not(#t) body section#dfe .grid>.c .id,
+html:not(#q):not(#r):not(#s):not(#t) body .wx-sub .id,
+html:not(#q):not(#r):not(#s):not(#t) body .wq-id,
+html:not(#q):not(#r):not(#s):not(#t) body .ap .ap-reg .ap-id {
+  color: var(--tcv) !important;
+  -webkit-text-fill-color: var(--tcv) !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Amethyst — metallic lavender-silver #E4DEEA.
+   Slim glow (A): 5px silver-lavender at 48%, plus a 1px white edge. */
+html[data-theme=night][data-pal=purple]:not(#q):not(#r):not(#s):not(#t) body section#ato .grid>.c .id,
+html[data-theme=night][data-pal=purple]:not(#q):not(#r):not(#s):not(#t) body section#dfe .grid>.c .id,
+html[data-theme=night][data-pal=purple]:not(#q):not(#r):not(#s):not(#t) body .wx-sub .id,
+html[data-theme=night][data-pal=purple]:not(#q):not(#r):not(#s):not(#t) body .wq-id,
+html[data-theme=night][data-pal=purple]:not(#q):not(#r):not(#s):not(#t) body .ap .ap-reg .ap-id {
+  color: #E4DEEA !important;
+  -webkit-text-fill-color: #E4DEEA !important;
+  text-shadow: 0 0 5px rgba(220, 212, 232, .48), 0 0 1px rgba(255, 255, 255, .30) !important;
+  filter: none !important;
+}
+
+html[data-theme=night][data-pal=purple][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body section#ato .grid>.c .id,
+html[data-theme=night][data-pal=purple][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body section#dfe .grid>.c .id,
+html[data-theme=night][data-pal=purple][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .wx-sub .id,
+html[data-theme=night][data-pal=purple][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .wq-id,
+html[data-theme=night][data-pal=purple][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .ap .ap-reg .ap-id {
+  text-shadow: none !important;
+}
+
+/* Midnight — cool blue-silver #D0D7E6.
+   Slim glow (A): 5px cool silver-blue at 44%, plus a 1px white edge. */
+html[data-theme=night][data-pal=black]:not(#q):not(#r):not(#s):not(#t) body section#ato .grid>.c .id,
+html[data-theme=night][data-pal=black]:not(#q):not(#r):not(#s):not(#t) body section#dfe .grid>.c .id,
+html[data-theme=night][data-pal=black]:not(#q):not(#r):not(#s):not(#t) body .wx-sub .id,
+html[data-theme=night][data-pal=black]:not(#q):not(#r):not(#s):not(#t) body .wq-id,
+html[data-theme=night][data-pal=black]:not(#q):not(#r):not(#s):not(#t) body .ap .ap-reg .ap-id {
+  color: #D0D7E6 !important;
+  -webkit-text-fill-color: #D0D7E6 !important;
+  text-shadow: 0 0 5px rgba(184, 202, 228, .44), 0 0 1px rgba(255, 255, 255, .26) !important;
+  filter: none !important;
+}
+
+html[data-theme=night][data-pal=black][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body section#ato .grid>.c .id,
+html[data-theme=night][data-pal=black][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body section#dfe .grid>.c .id,
+html[data-theme=night][data-pal=black][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .wx-sub .id,
+html[data-theme=night][data-pal=black][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .wq-id,
+html[data-theme=night][data-pal=black][data-regglow="0"]:not(#q):not(#r):not(#s):not(#t) body .ap .ap-reg .ap-id {
+  text-shadow: none !important;
+}

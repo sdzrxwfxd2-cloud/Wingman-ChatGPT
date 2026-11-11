@@ -1,0 +1,112 @@
+<!doctype html><html lang="en" data-theme="day" data-pal="white"><head><script>if(self!==top){window.WMEMB=1;document.documentElement.classList.add("emb")}</script><meta charset="utf-8"><script src="/wm-model.js?v=a22fd95d59"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Go Around · Aviator Calculator</title>
+<script>(function(){var H=document.documentElement,t=localStorage.getItem('wm-theme')||'night';t=(t==='light'||t==='day')?'day':'night';H.dataset.theme=t;var pn=localStorage.getItem('wm-pal')==='purple'?'purple':'black',pd=localStorage.getItem('wm-pal-day');pd=(pd==='beige'||pd==='warm')?pd:'white';H.dataset.pal=t==='day'?pd:pn})()</script>
+
+<link rel="stylesheet" href="../fonts/wm-fonts.css?v=630c9d0277">
+
+<link rel="stylesheet" href="assets/v3.css?v=0624a96cff">
+<link rel="stylesheet" href="assets/more.css?v=1a4bc9a6ba">
+<link rel="stylesheet" href="assets/more-old-look.css?v=2bfd4698ae"><link rel="stylesheet" href="assets/liquid-glass.css?v=d5eb89b9c6">
+<link rel="stylesheet" href="fs/fs.css?v=1792589389">
+<style id="wm-sheetx">/* formula sheet: X centred on the title's first line (20px pad + 23px line / 2 - 15px) and inset to the same 22px content edge */#sheet .x{top:16.5px;right:22px;width:30px;height:30px}#sheet h4{margin-right:44px}#sheet .x{padding:0;margin:0;line-height:0;-webkit-appearance:none;appearance:none;box-sizing:border-box}#sheet .x svg{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;display:block;overflow:visible;pointer-events:none}</style><style id="wm-scrimbd">/* formula sheet backdrop: soft dim + light blur over the visible page, fades with the sheet; one blur layer, hidden (no blur cost) when closed */.scrim{--sd:.26;background:rgba(0,0,0,var(--sd));-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s;-webkit-tap-highlight-color:transparent}.scrim.on{visibility:visible;transition:opacity .3s ease,visibility 0s}html[data-theme=day][data-pal=beige] .scrim{--sd:.28}html[data-theme=night] .scrim{--sd:.34}html.emb .scrim{inset:auto;left:0;right:0;top:var(--embst,0px);height:var(--embsh,100%)}</style>
+<link rel="stylesheet" href="../wm-glass.css?v=8150980665">
+<link rel="stylesheet" href="../ga-page-header.css?v=e56d9bf2a4">
+</head><body>
+<header class="top glass">
+  <a class="brand" href="../iphone_combo/main_demo.html"><img src="../../logo-mark.png" alt="" loading="lazy" decoding="async"><span>Go Around</span></a>
+  <h1>Aviator Calculator</h1>
+  <div class="tools"><button class="rbtn" id="thmBtn" aria-label="Theme" aria-haspopup="menu"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/></svg></button><div class="pop glass" id="thmPop" role="menu"></div></div>
+</header>
+<section class="hero ga-page-header ga-calculator-header"><div class="eyebrow">Go Around</div><h2>Aviator Calculator</h2><p>Density altitude: pick an aerodrome, choose live weather or type your own, and see how high your aircraft really thinks it is.</p></section>
+<main class="dapage">
+  <section class="glass dacard" id="daCard">
+    <div class="dahead"><span class="lbl2">Density altitude</span><button class="inote" id="daInfo" aria-label="Formula and sources">i</button></div>
+    <div class="dabig"><b id="daVal">—</b><em id="daUnit">ft</em></div>
+    <div class="dasub" id="daSub"></div>
+    <div class="dastats">
+      <div><span>Pressure altitude</span><b id="paVal">—</b></div>
+      <div><span>ISA deviation</span><b id="devVal">—</b></div>
+      <div><span>ISA temp at PA</span><b id="isaVal">—</b></div>
+    </div>
+    <div class="srcline" id="srcLine"></div>
+  </section>
+  <section class="glass dactl">
+    <label class="srch"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg><input id="adq" placeholder="Search aerodrome, name or ICAO" autocomplete="off" spellcheck="false"><div class="dd glass" id="adlist" role="listbox"></div></label>
+    <div class="adinfo" id="adInfo"></div>
+    <div class="seg" id="modeSeg"><i></i><button data-v="auto">Auto</button><button data-v="manual">Manual</button></div>
+    <div id="autoBox" class="pane">
+      <div class="sublbl">Weather source</div>
+      <div class="seg" id="srcSeg"><i></i><button data-v="metar">METAR</button><button data-v="model">Model</button></div>
+      <div class="sublbl">Time</div>
+      <div class="seg" id="timeSeg"><i></i><button data-v="now">Now</button><button data-v="pick">Choose time</button></div>
+      <label class="fld" id="timeFld" hidden><span>Time (SAST)</span><input id="wtime" type="datetime-local"></label>
+      <div class="note" id="wxNote"></div><pre class="raw" id="raw" hidden></pre>
+    </div>
+    <div id="manBox" class="pane flds" hidden>
+      <label class="fld"><span id="lOat">OAT °C</span><input id="mOat" type="number" inputmode="decimal" step="any" value="25"></label>
+      <label class="fld"><span id="lQnh">QNH hPa</span><input id="mQnh" type="number" inputmode="decimal" step="any" value="1013"></label>
+      <label class="fld"><span id="lElev">Elevation ft</span><input id="mElev" type="number" inputmode="decimal" step="any" value="5558"></label>
+      <label class="fld"><span id="lRh">Relative humidity (optional) %</span><input id="mRh" type="number" inputmode="decimal" step="any" min="0" max="100" placeholder="Optional"></label>
+    </div>
+    <div class="sublbl">Units</div>
+    <div class="units"><div class="seg sm" data-u="alt"><i></i><button data-v="0">ft</button><button data-v="1">m</button></div><div class="seg sm" data-u="temp"><i></i><button data-v="0">°C</button><button data-v="1">°F</button></div><div class="seg sm" data-u="press"><i></i><button data-v="0">hPa</button><button data-v="1">inHg</button></div></div>
+  </section>
+</main>
+<!-- Part 2: "More calculators" (rendered by assets/more.js) -->
+<section class="mc" id="mc" aria-labelledby="mcTitle"></section>
+<p class="foot">Demo only · planning aid, always confirm with your POH and the current AIP.</p>
+<div class="scrim" id="scrim"></div>
+<div class="sheet glass" id="sheet" role="dialog" aria-modal="true"><button class="rbtn x" id="sheetX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></button><h4 id="shT"></h4><div class="lbl">Formula</div><pre id="shF"></pre><div class="lbl">Source</div><p id="shS"></p></div>
+<script src="assets/calc.js?v=b2ffd61b0a"></script><script src="assets/ta.js"></script><script src="assets/aerodromes.js?v=072a11f268"></script><script src="assets/v3.js?v=d6b4f587b6"></script><script src="assets/more.js?v=5c74ef03c3"></script><script src="assets/da.js?v=51d1c3dc02"></script>
+<i id="list" hidden></i><!-- marks the list page for the shared search (fs.js), same as main_demo -->
+<!--WMFS--><script id="wm-search2">window.WMSEARCH2=1;if(window.WMEMB)window.__fsPull={embedded:1};else['fs-data','fs'].forEach(function(n){var e=document.createElement('script');e.src='fs/'+n+'.js'+(n=='fs-data'?'?v=f6e9c91533':'');e.async=false;document.body.appendChild(e)})</script><!--/WMFS-->
+<!-- pull-down search: copied verbatim from iphone_combo/pulldown_fix_patch.py -->
+<script id="wm-pull2-js">(function(){
+function go(){return;/*pull removed 29oct*/const W=window.WMFS;if(!W||window.__fsPull||W.bar())return;if(!(W.page==='main'||W.page==='ad'))return;
+ const TH=70,RM=matchMedia('(prefers-reduced-motion:reduce)').matches,TERMS=['FACT','Night rating','Cape Town','an examiner','FAGG','an ATO'],K='fs-pullhint';
+ const LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+ if(!document.getElementById('fspullcss'))document.head.append(Object.assign(document.createElement('style'),{id:'fspullcss',textContent:`.fs-pull{position:fixed;left:0;right:0;top:calc(70px + env(safe-area-inset-top));z-index:45;display:flex;justify-content:center;pointer-events:none;--p:0;opacity:var(--p);transform:translateY(calc(var(--p) * 18px - 18px)) scale(calc(.85 + var(--p) * .15))}
+.fs-pull span{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:18px;font:600 13px 'Sora',sans-serif;color:var(--tx2)}
+.fs-pull svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.fs-pull.ready span{color:var(--tx);box-shadow:inset 0 1px 0 var(--hl),inset 0 0 0 1px color-mix(in srgb,var(--fsa,#6B78FF) 55%,transparent)}
+html.fs-attop,html.fs-attop body{overscroll-behavior-y:contain}
+body.fs-ease .fs-pullmain{transition:transform .42s cubic-bezier(.2,.9,.25,1.15)!important}
+@media(prefers-reduced-motion:reduce){.fs-pullmain{transform:none!important}}
+.fs-pull span{position:relative}
+.fs-pull span::before,.fs-pull span::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:conic-gradient(from var(--fs-ang),var(--g1),var(--g2),var(--g3),transparent 62%,var(--g1));animation:fs-spin 9s linear infinite;opacity:var(--gi,0);transition:opacity .6s cubic-bezier(.2,.8,.2,1);will-change:opacity}
+.fs-pull span::before{inset:0;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;z-index:1}
+.fs-pull span::after{inset:-3px;padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:blur(3px);z-index:-1;opacity:calc(var(--gi,0) * .6)}
+.fs-pull.ready span::before{animation-duration:3s;opacity:1}.fs-pull.ready span{--gi:1!important}
+html[data-theme=night] .fs-pull span::before{background:conic-gradient(from var(--fs-ang),transparent 0deg,var(--acc2) 10deg,var(--sheen) 18deg,var(--acc2) 26deg,transparent 40deg,transparent 360deg),linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.06) 30%,transparent 50%),linear-gradient(180deg,var(--k3),var(--k1) 45%,var(--k2));opacity:var(--gi,0)}
+html[data-theme=night] .fs-pull span::after{display:none!important}
+body.fs-ease .fs-pull span{transition:height .42s cubic-bezier(.2,.9,.25,1.15)!important}
+@media(prefers-reduced-motion:reduce){.fs-pull span::before,.fs-pull span::after{animation:none!important;--fs-ang:200deg}.fs-pull span{height:36px!important}}
+.fs-pull b.wph{font:500 16px/1 'Sora',-apple-system,sans-serif;color:var(--tx3);white-space:nowrap}.fs-pull b.wph i{font-style:normal;display:inline-block;color:var(--tx2);font-weight:600;transition:opacity .38s cubic-bezier(.2,.8,.2,1),transform .45s cubic-bezier(.2,.8,.2,1),filter .38s}.fs-pull b.wph i.out{opacity:0;transform:translateY(-7px);filter:blur(2px)}.fs-pull b.wph i.pre{opacity:0;transform:translateY(7px);transition:none}`}));
+ const pull=document.createElement('div');pull.className='fs-pull';pull.setAttribute('aria-hidden','true');pull.innerHTML='<span class="fs-gl"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><b class="wph">Search <i>'+TERMS[0]+'</i></b></span>';document.body.append(pull);
+ const main=document.querySelector('main');main&&main.classList.add('fs-pullmain');
+ const atTop=()=>document.documentElement.classList.toggle('fs-attop',scrollY<=0);atTop();addEventListener('scroll',atTop,{passive:true});
+ const set=d=>{const arm=d>=TH;document.body.classList.toggle('fs-pulling',d>0);if(main&&!RM)main.style.transform=d?`translateY(${Math.min(d,140)*.5}px)`:'';
+  pull.style.setProperty('--p',Math.min(d/TH,1));pull.classList.toggle('ready',arm);{const sp=pull.querySelector('span');if(!RM)sp.style.height=d?(36+Math.min(d,140)*.1)+'px':'';sp.style.setProperty('--gi',d?(.3+Math.min(d/TH,1)*.7).toFixed(2):'')}if(d>0&&!cyc&&!RM)cyc=setInterval(nextT,2500);if(!d&&cyc){clearInterval(cyc);cyc=0;setTimeout(()=>{if(!cyc){ti=0;it.className='';it.textContent=TERMS[0]}},450)}};
+ let cyc=0,ti=0;const it=pull.querySelector('.wph i');function nextT(){if(document.hidden)return;it.classList.add('out');setTimeout(()=>{ti=(ti+1)%TERMS.length;it.textContent=TERMS[ti];it.classList.remove('out');it.classList.add('pre');it.offsetWidth;it.classList.remove('pre')},380)}
+ const release=d=>{document.body.classList.add('fs-ease');set(0);setTimeout(()=>document.body.classList.remove('fs-ease'),420);if(d>=TH){LS.s(K,'1');W.open('','ad')}};
+ let y0=null,dy=0;
+ addEventListener('touchstart',e=>{y0=(scrollY<=0&&!W.isOpen()&&e.touches.length===1&&!e.target.closest('input,textarea,.fs-spot,.sheet,.wflt'))?e.touches[0].clientY:null;dy=0},{passive:true});
+ addEventListener('touchmove',e=>{if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);if(scrollY>0){dy=0;y0=null}set(dy)},{passive:true});
+ addEventListener('touchend',()=>{if(y0!=null)release(dy);y0=null;dy=0});addEventListener('touchcancel',()=>{if(y0!=null)set(0);y0=null;dy=0});
+ window.__fsPull={set,release,kind:'ad2'}}
+if(window.WMFS)setTimeout(go,0);else document.addEventListener('wmfs:ready',()=>setTimeout(go,0),{once:true});
+})()</script>
+<script id="wm-emb-js">(function(){if(!window.WMEMB)return;var f=frameElement,P=parent;
+/* centre the formula sheet on the VISIBLE page: walk up every frame to the top window (the calculator sits two iframes deep and each iframe is as tall as its content, so parent.innerHeight was the whole page height) */
+function c(){try{var w=window,y=0,T;while(w!==w.top&&w.frameElement){y+=w.frameElement.getBoundingClientRect().top;w=w.parent}T=w;var v=T.visualViewport,h=v?v.height:T.innerHeight,o=v?v.offsetTop:0,d=T.document,tb=d.querySelector('header.topbar,.topbar'),t0=0,b0=h;if(tb){var tr=tb.getBoundingClientRect();if(tr.bottom>0&&tr.bottom<h/3)t0=tr.bottom}var dk=d.querySelector('.wcdock');if(dk){var dr=dk.getBoundingClientRect();if(dr.height&&dr.top>h*2/3&&dr.top<h)b0=dr.top}var mid=o+(t0+b0)/2-y,avail=b0-t0-32;document.documentElement.style.setProperty('--embc',mid+'px');document.documentElement.style.setProperty('--embst',(o-y)+'px');document.documentElement.style.setProperty('--embsh',h+'px');sh.style.maxHeight=Math.max(240,Math.min(avail,h*.8))+'px'}catch(e){}}
+var sh=document.getElementById('sheet');new MutationObserver(c).observe(sh,{attributes:true,attributeFilter:['class']});c();var rq=0;function cs(){if(!sh.classList.contains('on')||rq)return;rq=requestAnimationFrame(function(){rq=0;c()})}try{var Tw=top;Tw.addEventListener('scroll',cs,{passive:true});Tw.addEventListener('resize',cs);if(Tw.visualViewport){Tw.visualViewport.addEventListener('resize',cs);Tw.visualViewport.addEventListener('scroll',cs)}}catch(e){}
+function sz(){try{/* The root scrollHeight is at least the old iframe viewport, so it can grow but never shrink. Measure the content body instead. */var b=document.body;var h=Math.ceil(b.getBoundingClientRect().height);if(Math.abs((parseInt(f.style.height,10)||0)-h)>1)f.style.height=h+'px'}catch(e){}}new ResizeObserver(sz).observe(document.body);addEventListener('load',sz);
+function th(){try{var p=P.document.documentElement,d=document.documentElement;['data-theme','data-pal'].forEach(function(a){var v=p.getAttribute(a);if(v&&d.getAttribute(a)!==v)d.setAttribute(a,v)})}catch(e){}}th();try{new P.MutationObserver(th).observe(P.document.documentElement,{attributes:true})}catch(e){}
+
+/* forward pull-down gestures to the frame's own pull-down search (touches inside an iframe never reach the parent) */
+var y0=null,dy=0;function FP(){return P.__fsPull&&P.__fsPull.set?P.__fsPull:null}
+addEventListener('touchstart',function(e){var W=P.WMFS;y0=(FP()&&P.scrollY<=0&&!(W&&W.isOpen())&&e.touches.length===1&&!e.target.closest('input,textarea,select,.sheet,.dd'))?e.touches[0].clientY:null;dy=0},{passive:true});
+addEventListener('touchmove',function(e){if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);if(P.scrollY>0){dy=0;y0=null}FP().set(dy)},{passive:true});
+addEventListener('touchend',function(){if(y0!=null)FP().release(dy);y0=null;dy=0});addEventListener('touchcancel',function(){if(y0!=null)FP().set(0);y0=null;dy=0});
+})()</script></body></html>

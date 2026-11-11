@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" data-theme="night" data-pal="purple">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Go Around · Dashboard</title>
+<link rel="icon" href="/favicon-32.png">
+<script>(function(){try{var L=localStorage,H=document.documentElement,q=new URLSearchParams(location.search).get('theme');
+var m={midnight:['night','black'],black:['night','black'],amethyst:['night','purple'],purple:['night','purple'],white:['day','white'],beige:['day','beige']};
+var t=m[q]||m[L.getItem('wm-dash-theme')]||null;
+if(!t){var th=L.getItem('wm-theme')==='day'?'day':'night';t=th==='day'?['day',L.getItem('wm-pal-day')==='beige'?'beige':'white']:['night',L.getItem('wm-pal')==='purple'?'purple':'black']}
+H.dataset.theme=t[0];H.dataset.pal=t[1]}catch(e){}})();</script>
+<link rel="stylesheet" href="dashboard.css?v=5b267f64f3">
+</head>
+<body>
+<header class="top glass">
+  <a class="back" href="/index.html" aria-label="Back to the site">‹</a>
+  <div class="ttl"><h1>Dashboard</h1><p id="sub">Go Around · private · checking…</p></div>
+  <div class="thm" role="group" aria-label="Theme">
+    <button data-t="midnight" title="Midnight" aria-label="Midnight"></button><button data-t="amethyst" title="Amethyst" aria-label="Amethyst"></button><button data-t="white" title="White" aria-label="White"></button><button data-t="beige" title="Beige" aria-label="Beige"></button>
+  </div>
+  <button id="re" class="btn" title="Check again" aria-label="Check again">↻</button>
+</header>
+<div id="alert" class="alert" hidden></div>
+<main id="grid">
+  <section class="card glass wide" id="s-status"><h2><i class="dot"></i>Status bar<small id="st-meta"></small></h2>
+    <div class="prog" id="prog"><i></i></div>
+    <div id="sv2bar"><nav class="tiles" id="tiles" aria-label="Aerodrome status">
+      <button class="tile glass" data-s="go" aria-expanded="false"><span class="n">–</span><span class="k"><span class="d"></span>DEPART</span></button>
+      <button class="tile glass" data-s="caution" aria-expanded="false"><span class="n">–</span><span class="k"><span class="d"></span>CAUTION</span></button>
+      <button class="tile glass" data-s="nogo" aria-expanded="false"><span class="n">–</span><span class="k"><span class="d"></span>NO DEPART</span></button>
+      <button class="tile glass" data-s="none" aria-expanded="false"><span class="n">–</span><span class="k"><span class="d"></span>INCOMPLETE</span></button>
+    </nav></div>
+    <div id="sv2list" aria-live="polite"><p class="m">Loading the aerodrome page in the background… Tap a box to see which aerodromes and why.</p></div>
+    <p class="m" id="st-foot"></p>
+  </section>
+  <section class="card glass wide" id="s-wx"><h2><i class="dot"></i>Weather check<small id="wx-meta"></small></h2><div class="body">
+    <div class="big" id="wx-kpi"></div>
+    <div class="seg" id="wx-seg"><button class="on" data-f="problems">Problems</button><button data-f="stale">Stale / not updated</button><button data-f="all">All</button></div>
+    <input id="q" placeholder="Search ICAO or name" autocomplete="off" aria-label="Search aerodromes">
+    <div class="wl" id="wx-list"><p class="m">Waiting for the aerodrome page…</p></div>
+    <p><button class="btn ghost" id="wx-more" hidden></button></p>
+    <p class="m" id="wx-foot"></p></div></section>
+  <section class="card glass" id="s-health"><h2><i class="dot"></i>Uptime &amp; site health</h2><div class="body">Checking…</div></section>
+  <section class="card glass" id="s-vis"><h2><i class="dot"></i>Visitors &amp; devices</h2><div class="body">Loading…</div></section>
+  <section class="card glass" id="s-err"><h2><i class="dot"></i>Errors</h2><div class="body">Loading…</div></section>
+</main>
+<p class="foot">Private admin page · same password as the site · not linked from the site · guidance only, the pilot in command decides.</p>
+<iframe id="mainf" title="Aerodromes (hidden, for live results)" aria-hidden="true" tabindex="-1"></iframe>
+<script src="dashboard-core.js?v=fd2553dae2"></script>
+<script src="dashboard.js?v=b68255a8e8"></script>
+</body>
+</html>

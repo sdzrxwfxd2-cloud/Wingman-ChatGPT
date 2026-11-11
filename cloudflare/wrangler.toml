@@ -1,0 +1,17 @@
+# Cloudflare Pages copy of Go Around: static site from ../../site + Pages Functions in ./functions (cloudflare/README.md).
+# Secrets (never in the repo): SITE_PASSWORD, ADMIN_DASH_SECRET.
+# Optional later: CF_ANALYTICS_TOKEN (read-only Cloudflare Analytics).
+name = "go-around-aero"
+pages_build_output_dir = "../site"
+compatibility_date = "2026-11-04"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "WX"
+id = "912c064767eb444191012c1fa4392ccf"
+
+# Dedicated visitor-log namespace (not the weather WX store). Preview/stopgap until D1 can be created.
+# D1 is preferred (100,000 writes/day vs KV's shared 1,000 writes/day). The token in use could not create D1.
+[[kv_namespaces]]
+binding = "VISITORS_KV"
+id = "43fa3eaaf3b94e1680ab90008dc045b8"

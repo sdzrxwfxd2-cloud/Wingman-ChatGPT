@@ -1,0 +1,19 @@
+PASS RH 0 == dry exactly (5558,1020,25) 7840.82
+PASS RH blank/NaN == dry exactly (5558) 
+PASS RH 0 == dry exactly (0,1013.25,15) 0
+PASS RH blank/NaN == dry exactly (0) 
+PASS RH 0 == dry exactly (0,1013.25,30) 1800
+PASS RH blank/NaN == dry exactly (0) 
+PASS RH 0 == dry exactly (8000,1000,-5) 8012.900000000001
+PASS RH blank/NaN == dry exactly (8000) 
+PASS RH100 30C SL raise in realistic band 300-700 ft 537.7 ft
+PASS Vapour pressure 30C sat = 42.43 hPa ±0.3 (WMO table 42.47) 42.43
+PASS Vapour pressure 20C sat = 23.37 hPa ±0.2 23.38
+PASS Humid density 30C RH100 = 1.146 ±0.002 kg/m3 1.1459
+PASS Dry density 30C = 1.1644 ±0.0005 (ideal gas) 1.1644
+PASS ISA density 1.225 -> DA 0 ft 
+PASS ICAO density at 5000 ft 1.0556 -> 5000 ±15 ft 4998
+PASS Monotonic in RH 268.0
+PASS RH clamps above 100 
+
+17 passed, 0 failed
