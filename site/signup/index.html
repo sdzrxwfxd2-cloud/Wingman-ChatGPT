@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" data-theme="day" data-pal="white">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Go Around · Sign in</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="stylesheet" href="../fonts/wm-fonts.css">
+<script>
+(function(){var H=document.documentElement,Q=new URLSearchParams(location.search);
+  /* SU-MT-23 / live: Pearl (day) or Midnight (night) only */
+  var map={pearl:['day','white'],midnight:['night','black'],
+    day:['day','white'],night:['night','black'],
+    white:['day','white'],black:['night','black']};
+  var key=Q.get('t')||Q.get('theme')||Q.get('pal')||'';
+  if(key&&map[key]){H.dataset.theme=map[key][0];H.dataset.pal=map[key][1];return}
+  var t=Q.get('theme')||localStorage.getItem('wm-theme')||'day';
+  t=(t==='light'||t==='day')?'day':'night';
+  H.dataset.theme=t;
+  H.dataset.pal=t==='day'?'white':'black';
+})();
+</script>
+<link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<header class="top">
+  <img src="assets/ga-logo-solid-112.png" width="36" height="36" alt="">
+</header>
+<main id="root" class="stage" aria-live="polite"></main>
+<script src="signup.js"></script>
+</body>
+</html>
